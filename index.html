@@ -2,7 +2,8 @@
 <html lang="sw">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HII META TAG NIMEIBORESHA ILI KUZUIA ZOOMING NA KUJAZA KIOO -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AI Music App</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -18,9 +19,11 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
 
-        body { background-color: var(--bg-color); color: var(--text-main); padding-bottom: 90px; }
+        /* Nimeondoa max-width ili ijae asilimia 100 ya simu */
+        body { background-color: var(--bg-color); color: var(--text-main); padding-bottom: 90px; width: 100vw; overflow-x: hidden; }
 
-        .app-container { max-width: 480px; margin: 0 auto; padding: 15px; }
+        /* Nimebadilisha max-width kutoka 480px kuwa 100% kwa simu */
+        .app-container { width: 100%; max-width: 600px; margin: 0 auto; padding: 15px; }
 
         .page-section { display: none; animation: fadeIn 0.3s ease-in-out; }
         .page-section.active-page { display: block; }
@@ -61,7 +64,7 @@
 
         .categories-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 25px; }
         .category-card { background: var(--surface-color); border-radius: 12px; height: 70px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 8px; position: relative; overflow: hidden; }
-        .category-card span { font-size: 10px; font-weight: 500; z-index: 2; }
+        .category-card span { font-size: 10px; font-weight: 500; z-index: 2; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
 
         .empty-state-box { background: var(--surface-color); border: 1px dashed var(--border-color); border-radius: 20px; padding: 35px 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 25px; }
         .empty-state-icon { width: 60px; height: 60px; background: rgba(138, 43, 226, 0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--accent-purple); font-size: 24px; border: 1px solid rgba(138, 43, 226, 0.2); }
@@ -99,13 +102,14 @@
         .music-card.playing { border-color: rgba(138, 43, 226, 0.6); }
         
         .mc-thumb { width: 80px; height: 80px; border-radius: 12px; object-fit: cover; background: #ff4500; flex-shrink: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; font-weight: bold; font-size: 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .mc-info-area { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+        .mc-info-area { flex: 1; display: flex; flex-direction: column; gap: 10px; overflow: hidden; } /* Nimeongeza overflow hidden kuzuia text kupitiliza */
         .mc-header-row { display: flex; justify-content: space-between; align-items: flex-start; }
-        .mc-title-area h4 { font-size: 16px; margin-bottom: 2px; font-weight: 600; color: white; }
-        .mc-title-area p { font-size: 11px; color: var(--text-muted); }
+        .mc-title-area { flex: 1; min-width: 0; } /* Nimeongeza hii */
+        .mc-title-area h4 { font-size: 16px; margin-bottom: 2px; font-weight: 600; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } /* Nimeongeza kuzuia title ndefu */
+        .mc-title-area p { font-size: 11px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } /* Nimeongeza kuzuia p ndefu */
         
-        .mc-top-actions { display: flex; gap: 15px; color: var(--text-muted); font-size: 16px; align-items: center; }
-        .mc-top-actions i { cursor: pointer; transition: 0.2s; }
+        .mc-top-actions { display: flex; gap: 15px; color: var(--text-muted); font-size: 16px; align-items: center; flex-shrink: 0; margin-left: 10px; }
+        .mc-top-actions i { cursor: pointer; transition: 0.2s; padding: 5px; } /* Nimeongeza padding kwa ajili ya kugusa vizuri */
         .mc-top-actions i.fa-heart.liked { color: #ff007f; }
         
         .mc-player-row { display: flex; align-items: center; gap: 12px; }
@@ -113,12 +117,12 @@
         .mc-time { font-size: 11px; color: var(--text-muted); }
         .mc-waveform { flex: 1; height: 24px; background: repeating-linear-gradient(90deg, var(--accent-purple) 0px, var(--accent-purple) 2px, transparent 2px, transparent 5px); opacity: 0.8; border-radius: 2px; }
         
-        .mc-download-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; border: 1px solid rgba(74, 144, 226, 0.4); border-radius: 10px; padding: 8px 14px; color: #4a90e2; font-size: 11px; font-weight: 500; background: transparent; cursor: pointer; flex-shrink: 0; }
+        .mc-download-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; border: 1px solid rgba(74, 144, 226, 0.4); border-radius: 10px; padding: 8px 10px; color: #4a90e2; font-size: 10px; font-weight: 500; background: transparent; cursor: pointer; flex-shrink: 0; }
         .mc-download-btn i { font-size: 14px; }
 
         .music-card.generating { border-style: dashed; border-color: var(--accent-purple); background: rgba(138, 43, 226, 0.03); }
         .generating-content { display: flex; align-items: center; gap: 15px; width: 100%; }
-        .spinner-box { width: 50px; height: 50px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--accent-purple); animation: spin 1s linear infinite; }
+        .spinner-box { width: 50px; height: 50px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--accent-purple); animation: spin 1s linear infinite; flex-shrink: 0; }
         @keyframes spin { to { transform: rotate(360deg); } }
         
         .badge-mpya { background: #ff3b30; color: white; font-size: 9px; padding: 2px 6px; border-radius: 6px; font-weight: bold; display: inline-block; margin-bottom: 4px; }
@@ -131,7 +135,7 @@
         .topup-banner { background: linear-gradient(135deg, rgba(26,28,41,1) 0%, rgba(42,24,68,1) 100%); border-radius: 16px; padding: 15px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; }
         .topup-banner-text h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
         .topup-banner-text p { font-size: 11px; color: var(--text-muted); line-height: 1.3; }
-        .topup-banner-img { font-size: 32px; color: #ffd700; }
+        .topup-banner-img { font-size: 32px; color: #ffd700; flex-shrink: 0; margin-left: 10px; }
 
         .credits-select-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
         
@@ -140,15 +144,15 @@
         
         .coc-left { display: flex; align-items: center; gap: 12px; }
         .coc-icon { font-size: 28px; color: #ffd700; }
-        .coc-info h4 { font-size: 14px; font-weight: 700; color: white; margin-bottom: 2px; display: flex; align-items: center; gap: 8px; }
+        .coc-info h4 { font-size: 14px; font-weight: 700; color: white; margin-bottom: 2px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .coc-info p { font-size: 11px; color: var(--text-muted); }
 
         .coc-right { display: flex; align-items: center; gap: 10px; }
-        .badge-tag { font-size: 9px; padding: 3px 8px; border-radius: 10px; font-weight: bold; }
+        .badge-tag { font-size: 9px; padding: 3px 8px; border-radius: 10px; font-weight: bold; white-space: nowrap; }
         .badge-tag.purple { background: var(--accent-purple); color: white; }
         .badge-tag.green { background: #00e676; color: black; }
 
-        .radio-circle { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border-color); display: flex; justify-content: center; align-items: center; }
+        .radio-circle { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border-color); display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
         .credit-option-card.selected .radio-circle { border-color: var(--accent-purple); }
         .credit-option-card.selected .radio-circle::after { content: ''; width: 10px; height: 10px; background: var(--accent-purple); border-radius: 50%; }
 
@@ -213,7 +217,7 @@
         .action-sheet-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px); display: flex; justify-content: flex-end; flex-direction: column; z-index: 1000; opacity: 0; pointer-events: none; transition: 0.3s ease; }
         .action-sheet-overlay.show { opacity: 1; pointer-events: auto; }
         
-        .action-sheet-content { background: #161925; border-top: 1px solid var(--border-color); border-radius: 24px 24px 0 0; padding: 25px 20px; width: 100%; max-width: 480px; margin: 0 auto; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.1, 0.9, 0.2, 1); }
+        .action-sheet-content { background: #161925; border-top: 1px solid var(--border-color); border-radius: 24px 24px 0 0; padding: 25px 20px; width: 100%; max-width: 600px; margin: 0 auto; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.1, 0.9, 0.2, 1); }
         .action-sheet-overlay.show .action-sheet-content { transform: translateY(0); }
         
         .action-sheet-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); }
@@ -223,7 +227,7 @@
         
         .action-option { display: flex; align-items: center; gap: 15px; padding: 14px 15px; background: rgba(255, 255, 255, 0.03); border-radius: 12px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; font-size: 14px; font-weight: 500; color: white; border: 1px solid rgba(255,255,255,0.03); }
         .action-option:hover { background: rgba(138, 43, 226, 0.15); border-color: rgba(138, 43, 226, 0.3); }
-        .action-option i { font-size: 16px; width: 20px; color: var(--accent-purple); }
+        .action-option i { font-size: 16px; width: 20px; color: var(--accent-purple); text-align: center; }
         .action-option.credit-opt i { color: #ffd700; }
         .action-option.delete-opt i { color: #ff3b30; }
         .action-option.delete-opt:hover { background: rgba(255, 59, 48, 0.15); border-color: rgba(255, 59, 48, 0.3); }
@@ -238,20 +242,27 @@
         .music-tab.active { background: var(--accent-purple); color: white; border-color: var(--accent-purple); box-shadow: 0 4px 10px rgba(138, 43, 226, 0.3); }
 
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(11, 12, 16, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 0 20px 0; border-top: 1px solid var(--border-color); z-index: 100; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 5px; color: var(--text-muted); font-size: 10px; cursor: pointer; background: none; border: none; outline: none; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 5px; color: var(--text-muted); font-size: 10px; cursor: pointer; background: none; border: none; outline: none; width: 33%; }
         .nav-item.active { color: var(--accent-purple); }
         .nav-item i { font-size: 18px; }
 
-        /* ----- TOAST NOTIFICATION CSS ----- */
+        /* ----- TOAST NOTIFICATION CSS BORESHA ----- */
         .toast-notification {
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px);
             background: rgba(0, 230, 118, 0.95); color: #000; padding: 12px 20px;
-            border-radius: 30px; font-size: 13px; font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 2000;
+            border-radius: 30px; font-size: 14px; font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 9999; /* Z-index kubwa sana ihakikishe inaonekana juu kabisa */
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0;
             display: flex; align-items: center; gap: 8px; border: 1px solid rgba(255,255,255,0.2);
+            white-space: nowrap; pointer-events: none;
         }
         .toast-notification.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        
+        /* Media Query kwa Simu Ndogo sana */
+        @media (max-width: 360px) {
+            .categories-grid { grid-template-columns: repeat(2, 1fr); }
+            .pricing-grid-view { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -681,7 +692,7 @@
     let activeSheetSongId = null;
     let activeSheetSongTitle = '';
     let isVoiceCloningUnlocked = false; 
-    let currentCredits = 5; // Nimeongeza ukianza uwe na tano kufidia iliyopotea
+    let currentCredits = 5; 
     let mySongs = []; 
 
     // Audio Player System
@@ -698,20 +709,27 @@
     };
 
     function loadData() {
-        const savedCredits = localStorage.getItem('aiMusicCredits');
-        if (savedCredits !== null) currentCredits = parseInt(savedCredits);
-        else currentCredits = 5; // Default credits imepanda
+        try {
+            const savedCredits = localStorage.getItem('aiMusicCredits');
+            if (savedCredits !== null) currentCredits = parseInt(savedCredits);
+            else currentCredits = 5;
 
-        const savedVoice = localStorage.getItem('aiMusicVoiceUnlocked');
-        if (savedVoice === 'true') {
-            isVoiceCloningUnlocked = true;
-            unlockVoiceUI();
-        }
+            const savedVoice = localStorage.getItem('aiMusicVoiceUnlocked');
+            if (savedVoice === 'true') {
+                isVoiceCloningUnlocked = true;
+                unlockVoiceUI();
+            }
 
-        const savedSongs = localStorage.getItem('aiMusicSongs');
-        if (savedSongs !== null) {
-            mySongs = JSON.parse(savedSongs);
-        } else {
+            const savedSongs = localStorage.getItem('aiMusicSongs');
+            if (savedSongs !== null) {
+                mySongs = JSON.parse(savedSongs);
+            } else {
+                mySongs = [{
+                    id: 'song-1', title: 'Mapenzi ya Milele', genre: 'Bongo Flava', voice: 'Mwanamke', isFav: false, time: '3:28'
+                }];
+            }
+        } catch(e) {
+            currentCredits = 5;
             mySongs = [{
                 id: 'song-1', title: 'Mapenzi ya Milele', genre: 'Bongo Flava', voice: 'Mwanamke', isFav: false, time: '3:28'
             }];
@@ -722,9 +740,13 @@
     }
 
     function saveData() {
-        localStorage.setItem('aiMusicCredits', currentCredits);
-        localStorage.setItem('aiMusicVoiceUnlocked', isVoiceCloningUnlocked);
-        localStorage.setItem('aiMusicSongs', JSON.stringify(mySongs));
+        try {
+            localStorage.setItem('aiMusicCredits', currentCredits);
+            localStorage.setItem('aiMusicVoiceUnlocked', isVoiceCloningUnlocked);
+            localStorage.setItem('aiMusicSongs', JSON.stringify(mySongs));
+        } catch(e) {
+            console.log("Local storage error", e);
+        }
     }
 
     function unlockVoiceUI() {
@@ -950,7 +972,6 @@
                 loadingCard.remove();
             }
             
-            // HII MANTIKI SASA IPO NJE, HAITASHINDIKANA HATA KAMA UKIBADILISHA TAB!
             const newSong = { id: songId, title: songTitle, genre: genre, voice: voiceType, isFav: false, time: '3:15' };
             mySongs.unshift(newSong);
             saveData();
@@ -996,7 +1017,6 @@
         const recentContainer = document.getElementById('recent-songs-container');
         const allContainer = document.getElementById('all-songs-container');
         
-        // Tunza kadi inayo-load kabla ya kusafisha ili isipotee ukirefresh list
         let loadingHTML = '';
         const generatingCard = recentContainer.querySelector('.generating');
         if(generatingCard) {
@@ -1006,7 +1026,6 @@
         recentContainer.innerHTML = '';
         allContainer.innerHTML = '';
 
-        // Rudisha loading card ikiwa ipo
         if(loadingHTML) {
             recentContainer.innerHTML = loadingHTML;
         }
@@ -1016,13 +1035,11 @@
             return;
         }
 
-        // Render Top 3 for Recent
         const recentSongs = mySongs.slice(0, 3);
         recentSongs.forEach((song, index) => {
             recentContainer.innerHTML += createSongHTML(song, index === 0 && !loadingHTML); 
         });
 
-        // Render All for Music Page
         mySongs.forEach(song => {
             allContainer.innerHTML += createSongHTML(song, false);
         });
@@ -1152,7 +1169,6 @@
             saveData(); 
         }
 
-        // Tunabadilisha icon na kuificha moja kwa moja bila ku-refresh ukurasa wote mzima ili music isikate.
         document.querySelectorAll(`[data-song-id="${songId}"]`).forEach(card => {
             card.setAttribute('data-is-fav', isLiked ? 'true' : 'false');
             const icon = card.querySelector('.fav-icon');
