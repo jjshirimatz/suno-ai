@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sw">
+<html lang="sw" id="html-root">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -233,41 +233,42 @@
 
 <div class="app-container">
     
+    <!-- HOME PAGE -->
     <div id="home-page" class="page-section active-page">
         <header>
             <div class="logo-area">
                 <i class="fa-solid fa-wave-square logo-icon"></i>
                 <div class="logo-text">
                     <h1>AI Music</h1>
-                    <p>Tengeneza Nyimbo kwa AI</p>
+                    <p data-i18n="subtitle">Tengeneza Nyimbo kwa AI</p>
                 </div>
             </div>
             <div class="header-actions">
                 <div class="credits-badge">
                     <i class="fa-solid fa-coins coin-icon"></i>
                     <div class="credits-info">
-                        <p>Credits</p>
+                        <p data-i18n="credits_label">Credits</p>
                         <h4 id="user-credits-display">5</h4>
                     </div>
                 </div>
-                <button class="btn-add-credits" onclick="switchPage('topup-page')">+ Ongeza</button>
+                <button class="btn-add-credits" onclick="switchPage('topup-page')" data-i18n="add_btn">+ Ongeza</button>
                 <div class="menu-icon-btn" onclick="openSettingsMenu()"><i class="fa-solid fa-bars"></i></div>
             </div>
         </header>
 
         <div class="hero-banner">
             <div class="hero-content">
-                <h2 class="hero-title">Tengeneza<br>Nyimbo Zako<br><span class="text-cyan">kwa AI</span></h2>
-                <p class="hero-desc">Andika mashairi yako, chagua aina ya muziki au rekodi sauti yako na upate wimbo kamili.</p>
+                <h2 class="hero-title" data-i18n="hero_title">Tengeneza<br>Nyimbo Zako<br><span class="text-cyan">kwa AI</span></h2>
+                <p class="hero-desc" data-i18n="hero_desc">Andika mashairi yako, chagua aina ya muziki au rekodi sauti yako na upate wimbo kamili.</p>
             </div>
             <button class="btn-primary" onclick="switchPage('create-page')">
-                <i class="fa-solid fa-wand-magic-sparkles"></i> TENGENEZA WIMBO MPYA <i class="fa-solid fa-arrow-right"></i>
+                <i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="create_new_song_btn">TENGENEZA WIMBO MPYA</span> <i class="fa-solid fa-arrow-right"></i>
             </button>
         </div>
 
         <div class="section-header">
-            <h3 class="section-title">Aina za Muziki</h3>
-            <a href="#" class="view-all">Tazama Zote <i class="fa-solid fa-arrow-right"></i></a>
+            <h3 class="section-title" data-i18n="genres_title">Aina za Muziki</h3>
+            <a href="#" class="view-all"><span data-i18n="view_all">Tazama Zote</span> <i class="fa-solid fa-arrow-right"></i></a>
         </div>
         
         <div class="categories-grid">
@@ -286,32 +287,33 @@
         </div>
 
         <div class="section-header">
-            <h3 class="section-title">Nyimbo Zangu Hivi Karibuni</h3>
-            <a onclick="switchPage('music-page')" class="view-all">Tazama Zote <i class="fa-solid fa-arrow-right"></i></a>
+            <h3 class="section-title" data-i18n="recent_songs_title">Nyimbo Zangu Hivi Karibuni</h3>
+            <a onclick="switchPage('music-page')" class="view-all"><span data-i18n="view_all">Tazama Zote</span> <i class="fa-solid fa-arrow-right"></i></a>
         </div>
 
         <div class="music-list-detailed" id="recent-songs-container" style="margin-bottom: 35px;">
         </div>
     </div>
 
+    <!-- CREATE PAGE -->
     <div id="create-page" class="page-section">
         <div class="page-header-back">
             <div class="back-btn" onclick="switchPage('home-page')"><i class="fa-solid fa-arrow-left"></i></div>
-            <h2 class="section-title">Tengeneza Wimbo</h2>
+            <h2 class="section-title" data-i18n="create_song_title">Tengeneza Wimbo</h2>
         </div>
 
         <div class="input-group">
-            <label class="input-label">Andika Jina la Wimbo <span class="required-star">*</span></label>
-            <input type="text" id="song-title-input" class="input-box" placeholder="Mfano: Nitakupenda Milele">
+            <label class="input-label"><span data-i18n="song_title_label">Andika Jina la Wimbo</span> <span class="required-star">*</span></label>
+            <input type="text" id="song-title-input" class="input-box" placeholder="Mfano: Nitakupenda Milele" data-i18n-placeholder="song_title_placeholder">
         </div>
 
         <div class="input-group">
-            <label class="input-label">Andika Mashairi au Prompt (Maelezo) <span class="required-star">*</span></label>
-            <textarea id="song-prompt-input" class="textarea-box" placeholder="Mfano: Nataka wimbo wa Bongo Flava unaoelezea mapenzi...&#10;[Verse 1]&#10;Moyo wangu..."></textarea>
+            <label class="input-label"><span data-i18n="song_prompt_label">Andika Mashairi au Prompt (Maelezo)</span> <span class="required-star">*</span></label>
+            <textarea id="song-prompt-input" class="textarea-box" placeholder="Mfano: Nataka wimbo wa Bongo Flava..."></textarea>
         </div>
 
         <div class="input-group">
-            <label class="input-label">Chagua Aina ya Muziki (Genre)</label>
+            <label class="input-label" data-i18n="genre_label">Chagua Aina ya Muziki (Genre)</label>
             <div class="genre-tags">
                 <div class="genre-tag active" data-genre="Bongo Flava">Bongo Flava</div>
                 <div class="genre-tag" data-genre="Mduara">Mduara</div>
@@ -322,78 +324,80 @@
         </div>
 
         <div class="input-group">
-            <label class="input-label">Chagua Aina ya Sauti (Vocal Style)</label>
+            <label class="input-label" data-i18n="vocal_label">Chagua Aina ya Sauti (Vocal Style)</label>
             <div class="genre-tags">
-                <div class="voice-tag genre-tag active" data-voice="Mwanamke">Sauti ya Mwanamke</div>
-                <div class="voice-tag genre-tag" data-voice="Mwanaume">Sauti ya Mwanaume</div>
+                <div class="voice-tag genre-tag active" data-voice="Mwanamke" data-i18n="voice_female">Sauti ya Mwanamke</div>
+                <div class="voice-tag genre-tag" data-voice="Mwanaume" data-i18n="voice_male">Sauti ya Mwanaume</div>
             </div>
         </div>
 
         <div class="input-group">
-            <label class="input-label">Sauti Yako (Voice Cloning) - Pro Feature</label>
+            <label class="input-label" data-i18n="voice_cloning_label">Sauti Yako (Voice Cloning) - Pro Feature</label>
             <div class="voice-upload-box locked" id="voice-cloning-box" onclick="handleVoiceCloningClick()">
                 <i class="fa-solid fa-lock voice-icon" id="voice-cloning-icon"></i>
-                <span class="voice-text" id="voice-cloning-text">Inapatikana kwa walionunua kifurushi cha Tsh 10,000 pekee</span>
-                <div class="lock-badge" id="voice-lock-badge"><i class="fa-solid fa-crown"></i> Imefungwa (Locked)</div>
+                <span class="voice-text" id="voice-cloning-text" data-i18n="voice_cloning_desc">Inapatikana kwa walionunua kifurushi cha Tsh 10,000 pekee</span>
+                <div class="lock-badge" id="voice-lock-badge"><i class="fa-solid fa-crown"></i> <span data-i18n="locked_badge">Imefungwa (Locked)</span></div>
             </div>
         </div>
 
         <button class="btn-primary" style="margin-top: 40px;" onclick="checkCreditsAndGenerate()">
-            <i class="fa-solid fa-wand-magic-sparkles"></i> TENGENEZA SASA
-            <span style="background: rgba(0,0,0,0.3); padding: 6px 12px; border-radius: 12px; font-size: 15px;">-1 Credit</span>
+            <i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="generate_btn">TENGENEZA SASA</span>
+            <span style="background: rgba(0,0,0,0.3); padding: 6px 12px; border-radius: 12px; font-size: 15px;" data-i18n="credit_cost">-1 Credit</span>
         </button>
     </div>
 
+    <!-- MY MUSIC PAGE -->
     <div id="music-page" class="page-section">
         <header>
             <div class="logo-area">
                 <i class="fa-solid fa-wave-square logo-icon"></i>
                 <div class="logo-text">
                     <h1>AI Music</h1>
-                    <p>Tengeneza Nyimbo kwa AI</p>
+                    <p data-i18n="subtitle">Tengeneza Nyimbo kwa AI</p>
                 </div>
             </div>
             <div class="header-actions">
                 <div class="credits-badge">
                     <i class="fa-solid fa-coins coin-icon"></i>
                     <div class="credits-info">
-                        <p>Credits</p>
+                        <p data-i18n="credits_label">Credits</p>
                         <h4 id="user-credits-display-2">5</h4>
                     </div>
                 </div>
-                <button class="btn-add-credits" onclick="switchPage('topup-page')">+ Ongeza</button>
+                <button class="btn-add-credits" onclick="switchPage('topup-page')" data-i18n="add_btn">+ Ongeza</button>
                 <div class="menu-icon-btn" onclick="openSettingsMenu()"><i class="fa-solid fa-bars"></i></div>
             </div>
         </header>
 
         <div class="page-header-text">
-            <h2>Nyimbo Zangu</h2>
-            <p>Hapa ni orodha ya nyimbo zako ulizotengeneza</p>
+            <h2 data-i18n="my_songs_title">Nyimbo Zangu</h2>
+            <p data-i18n="my_songs_desc">Hapa ni orodha ya nyimbo zako ulizotengeneza</p>
         </div>
 
         <div class="music-tabs">
-            <div class="music-tab active" onclick="switchTab('all', this)"><i class="fa-solid fa-music"></i> Zote</div>
-            <div class="music-tab" onclick="switchTab('favorites', this)"><i class="fa-regular fa-heart"></i> Vipendwa</div>
+            <div class="music-tab active" onclick="switchTab('all', this)"><i class="fa-solid fa-music"></i> <span data-i18n="tab_all">Zote</span></div>
+            <div class="music-tab" onclick="switchTab('favorites', this)"><i class="fa-regular fa-heart"></i> <span data-i18n="tab_fav">Vipendwa</span></div>
         </div>
 
         <div class="music-list-detailed" id="all-songs-container">
         </div>
     </div>
 
+    <!-- TOPUP PAGE -->
     <div id="topup-page" class="page-section">
         <header>
             <div class="logo-area">
                 <i class="fa-solid fa-wave-square logo-icon"></i>
                 <div class="logo-text">
                     <h1>AI Music</h1>
-                    <p>Nunua Credits</p>
+                    <p data-i18n="buy_credits_sub">Nunua Credits</p>
                 </div>
             </div>
             <div class="header-actions">
                 <div class="credits-badge">
                     <i class="fa-solid fa-coins coin-icon"></i>
                     <div class="credits-info">
-                        <p>Zilizobaki</p>
+                        <p data-i18n="remaining_credits">Zilizobaki</p>
                         <h4 id="topup-page-credits">5</h4>
                     </div>
                 </div>
@@ -403,21 +407,21 @@
 
         <div class="topup-banner">
             <div class="topup-banner-text">
-                <h3>Tengeneza Nyimbo Zaidi</h3>
-                <p>Nunua credits na uendelee kufanya ubunifu wako bila kikomo.</p>
+                <h3 data-i18n="topup_banner_title">Tengeneza Nyimbo Zaidi</h3>
+                <p data-i18n="topup_banner_desc">Nunua credits na uendelee kufanya ubunifu wako bila kikomo.</p>
             </div>
             <div class="topup-banner-img"><i class="fa-solid fa-coins"></i></div>
         </div>
 
-        <p class="section-title" style="margin-bottom: 20px;">Chagua Kifurushi cha Credits</p>
+        <p class="section-title" style="margin-bottom: 20px;" data-i18n="select_package_title">Chagua Kifurushi cha Credits</p>
 
         <div class="credits-select-list">
             <div class="credit-option-card selected" id="opt-2000" onclick="selectCreditOption(2000, 5, 'Tsh 2,000', true)">
                 <div class="coc-left">
                     <div class="coc-icon"><i class="fa-solid fa-coins"></i></div>
                     <div class="coc-info">
-                        <h4>5 Credits <span class="badge-tag purple">Inapendekezwa</span></h4>
-                        <p>Tengeneza nyimbo 5 kamili</p>
+                        <h4>5 Credits <span class="badge-tag purple" data-i18n="badge_recommended">Inapendekezwa</span></h4>
+                        <p data-i18n="pack_1_desc">Tengeneza nyimbo 5 kamili</p>
                     </div>
                 </div>
                 <div class="coc-right">
@@ -431,7 +435,7 @@
                     <div class="coc-icon"><i class="fa-solid fa-coins"></i></div>
                     <div class="coc-info">
                         <h4>15 Credits <span class="badge-tag green">Save 17%</span></h4>
-                        <p>Tengeneza nyimbo 15 kamili</p>
+                        <p data-i18n="pack_2_desc">Tengeneza nyimbo 15 kamili</p>
                     </div>
                 </div>
                 <div class="coc-right">
@@ -445,7 +449,7 @@
                     <div class="coc-icon"><i class="fa-solid fa-coins"></i></div>
                     <div class="coc-info">
                         <h4>30 Credits <span class="badge-tag green">Save 33%</span></h4>
-                        <p>Tengeneza nyimbo 30 + Sauti Yako</p>
+                        <p data-i18n="pack_3_desc">Tengeneza nyimbo 30 + Sauti Yako</p>
                     </div>
                 </div>
                 <div class="coc-right">
@@ -455,9 +459,9 @@
             </div>
         </div>
 
-        <p class="section-title" style="margin-bottom: 15px;">Kamilisha malipo</p>
+        <p class="section-title" style="margin-bottom: 15px;" data-i18n="complete_payment">Kamilisha malipo</p>
         <button class="btn-primary" id="checkout-pay-btn" onclick="executeSelectedPayment()" style="margin-bottom: 25px;">
-            <i class="fa-solid fa-lock"></i> Lipa Tsh 2,000
+            <i class="fa-solid fa-lock"></i> <span data-i18n="pay_btn_prefix">Lipa</span> Tsh 2,000
         </button>
     </div>
 
@@ -472,7 +476,7 @@
         <h3 id="popup-title-text">Taarifa Muhimu</h3>
         <p id="popup-message-text" class="center-text">Ujumbe hapa...</p>
         <div class="popup-btn-group" id="popup-btn-group-container">
-            <button class="popup-btn" id="popup-action-btn" onclick="closeModernPopup()">Sawa</button>
+            <button class="popup-btn" id="popup-action-btn" onclick="closeModernPopup()" data-i18n="ok_btn">Sawa</button>
         </div>
     </div>
 </div>
@@ -482,11 +486,11 @@
         <div class="popup-icon-box warning">
             <i class="fa-solid fa-trash-can"></i>
         </div>
-        <h3>Futa Wimbo</h3>
+        <h3 data-i18n="delete_song_title">Futa Wimbo</h3>
         <p id="confirm-message-text" class="center-text">Una uhakika unataka kufuta wimbo huu?</p>
         <div class="popup-btn-group">
-            <button class="popup-btn secondary" onclick="closeConfirmPopup()">Ghairi</button>
-            <button class="popup-btn danger" id="confirm-action-btn">Ndiyo, Futa</button>
+            <button class="popup-btn secondary" onclick="closeConfirmPopup()" data-i18n="cancel_btn">Ghairi</button>
+            <button class="popup-btn danger" id="confirm-action-btn" data-i18n="yes_delete_btn">Ndiyo, Futa</button>
         </div>
     </div>
 </div>
@@ -501,10 +505,10 @@
             </div>
         </div>
         <div class="action-option" onclick="shareCurrentSong()">
-            <i class="fa-solid fa-share-nodes"></i> Shiriki Wimbo (Share)
+            <i class="fa-solid fa-share-nodes"></i> <span data-i18n="action_share">Shiriki Wimbo (Share)</span>
         </div>
         <div class="action-option delete-opt" onclick="confirmDeleteSong()">
-            <i class="fa-solid fa-trash-can"></i> Futa Wimbo (Delete)
+            <i class="fa-solid fa-trash-can"></i> <span data-i18n="action_delete">Futa Wimbo (Delete)</span>
         </div>
     </div>
 </div>
@@ -514,40 +518,214 @@
         <div class="action-sheet-header">
             <div class="action-sheet-thumb" style="background: linear-gradient(135deg, #00f2fe, #8a2be2);"><i class="fa-solid fa-gear"></i></div>
             <div class="action-sheet-title">
-                <h4>Menu Kuu & Mipangilio</h4>
+                <h4 data-i18n="settings_title">Menu Kuu & Mipangilio</h4>
                 <p>AI Music App v2.0</p>
             </div>
         </div>
+        
+        <!-- KIPENGELE CHA KUBADILISHA LUGHA -->
+        <div class="action-option" onclick="toggleLanguage()" style="background: rgba(138,43,226,0.15); border-color: rgba(138,43,226,0.3);">
+            <i class="fa-solid fa-globe" style="color: var(--accent-cyan);"></i> 
+            <span id="lang-menu-text">Lugha: Kiswahili (Badili kwenda English)</span>
+        </div>
+
         <div class="action-option credit-opt" onclick="openMenuInfo('buy-credit')">
-            <i class="fa-solid fa-coins"></i> Nunua Credit (Top Up)
+            <i class="fa-solid fa-coins"></i> <span data-i18n="menu_topup">Nunua Credit (Top Up)</span>
         </div>
         <div class="action-option" onclick="openMenuInfo('support')">
-            <i class="fa-brands fa-whatsapp"></i> Huduma kwa Wateja (WhatsApp)
+            <i class="fa-brands fa-whatsapp"></i> <span data-i18n="menu_support">Huduma kwa Wateja (WhatsApp)</span>
         </div>
         <div class="action-option logout-opt" onclick="openMenuInfo('logout')">
-            <i class="fa-solid fa-right-from-bracket"></i> Logout (Toka)
+            <i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="menu_logout">Logout (Toka)</span>
         </div>
     </div>
 </div>
 
+<!-- BOTTOM NAV -->
 <nav class="bottom-nav" id="main-bottom-nav">
     <button class="nav-item active" id="nav-home" onclick="switchPage('home-page')">
         <i class="fa-solid fa-house"></i>
-        <span>Nyumbani</span>
+        <span data-i18n="nav_home">Nyumbani</span>
     </button>
     <button class="nav-item" id="nav-create" onclick="switchPage('create-page')">
         <i class="fa-solid fa-wand-magic-sparkles"></i>
-        <span>Tengeneza</span>
+        <span data-i18n="nav_create">Tengeneza</span>
     </button>
     <button class="nav-item" id="nav-music" onclick="switchPage('music-page')">
         <i class="fa-solid fa-music"></i>
-        <span>Nyimbo Zangu</span>
+        <span data-i18n="nav_my_songs">Nyimbo Zangu</span>
     </button>
 </nav>
 
 <script>
     // ==========================================
-    // KUZUIA DOUBLE-TAP ZOOM ILI SCROLL ISUMBULIWE
+    // MULTI-LANGUAGE SYSTEM (SW & EN)
+    // ==========================================
+    let currentLang = 'sw';
+
+    const translations = {
+        sw: {
+            subtitle: "Tengeneza Nyimbo kwa AI",
+            credits_label: "Credits",
+            add_btn: "+ Ongeza",
+            hero_title: "Tengeneza<br>Nyimbo Zako<br><span class=\"text-cyan\">kwa AI</span>",
+            hero_desc: "Andika mashairi yako, chagua aina ya muziki au rekodi sauti yako na upate wimbo kamili.",
+            create_new_song_btn: "TENGENEZA WIMBO MPYA",
+            genres_title: "Aina za Muziki",
+            view_all: "Tazama Zote",
+            recent_songs_title: "Nyimbo Zangu Hivi Karibuni",
+            create_song_title: "Tengeneza Wimbo",
+            song_title_label: "Andika Jina la Wimbo",
+            song_title_placeholder: "Mfano: Nitakupenda Milele",
+            song_prompt_label: "Andika Mashairi au Prompt (Maelezo)",
+            genre_label: "Chagua Aina ya Muziki (Genre)",
+            vocal_label: "Chagua Aina ya Sauti (Vocal Style)",
+            voice_female: "Sauti ya Mwanamke",
+            voice_male: "Sauti ya Mwanaume",
+            voice_cloning_label: "Sauti Yako (Voice Cloning) - Pro Feature",
+            voice_cloning_desc: "Inapatikana kwa walionunua kifurushi cha Tsh 10,000 pekee",
+            locked_badge: "Imefungwa (Locked)",
+            unlocked_badge: "Imefunguliwa (Unlocked)",
+            voice_unlocked_desc: "Gusa kurekodi au kupakia sauti yako",
+            generate_btn: "TENGENEZA SASA",
+            credit_cost: "-1 Credit",
+            my_songs_title: "Nyimbo Zangu",
+            my_songs_desc: "Hapa ni orodha ya nyimbo zako ulizotengeneza",
+            tab_all: "Zote",
+            tab_fav: "Vipendwa",
+            buy_credits_sub: "Nunua Credits",
+            remaining_credits: "Zilizobaki",
+            topup_banner_title: "Tengeneza Nyimbo Zaidi",
+            topup_banner_desc: "Nunua credits na uendelee kufanya ubunifu wako bila kikomo.",
+            select_package_title: "Chagua Kifurushi cha Credits",
+            badge_recommended: "Inapendekezwa",
+            pack_1_desc: "Tengeneza nyimbo 5 kamili",
+            pack_2_desc: "Tengeneza nyimbo 15 kamili",
+            pack_3_desc: "Tengeneza nyimbo 30 + Sauti Yako",
+            complete_payment: "Kamilisha malipo",
+            pay_btn_prefix: "Lipa",
+            ok_btn: "Sawa",
+            cancel_btn: "Ghairi",
+            delete_song_title: "Futa Wimbo",
+            yes_delete_btn: "Ndiyo, Futa",
+            action_share: "Shiriki Wimbo (Share)",
+            action_delete: "Futa Wimbo (Delete)",
+            settings_title: "Menu Kuu & Mipangilio",
+            menu_topup: "Nunua Credit (Top Up)",
+            menu_support: "Huduma kwa Wateja (WhatsApp)",
+            menu_logout: "Logout (Toka)",
+            nav_home: "Nyumbani",
+            nav_create: "Tengeneza",
+            nav_my_songs: "Nyimbo Zangu",
+            toast_success: "Wimbo wako umekamilika na umehifadhiwa!",
+            toast_deleted: "Wimbo umefutwa kikamilifu.",
+            empty_home_title: "Haujaweka Nyimbo Hata Moja",
+            empty_home_desc: "Gusa kitufe cha 'Tengeneza Wimbo Mpya' hapo juu ili uanze.",
+            empty_music_title: "Hauna Nyimbo Zilizohifadhiwa",
+            empty_music_desc: "Nyimbo zako zote zitaonekana hapa."
+        },
+        en: {
+            subtitle: "Generate Songs with AI",
+            credits_label: "Credits",
+            add_btn: "+ Top Up",
+            hero_title: "Create<br>Your Songs<br><span class=\"text-cyan\">with AI</span>",
+            hero_desc: "Write your lyrics, select a music genre or record your voice to get a complete song.",
+            create_new_song_btn: "CREATE NEW SONG",
+            genres_title: "Music Genres",
+            view_all: "View All",
+            recent_songs_title: "Recent Songs",
+            create_song_title: "Create Song",
+            song_title_label: "Enter Song Title",
+            song_title_placeholder: "Example: Forever Mine",
+            song_prompt_label: "Write Lyrics or Prompt (Description)",
+            genre_label: "Select Music Genre",
+            vocal_label: "Select Vocal Style",
+            voice_female: "Female Voice",
+            voice_male: "Male Voice",
+            voice_cloning_label: "Voice Cloning - Pro Feature",
+            voice_cloning_desc: "Available only for the Tsh 10,000 package buyers",
+            locked_badge: "Locked",
+            unlocked_badge: "Unlocked",
+            voice_unlocked_desc: "Tap to record or upload your voice",
+            generate_btn: "GENERATE NOW",
+            credit_cost: "-1 Credit",
+            my_songs_title: "My Songs",
+            my_songs_desc: "Here is the list of your generated songs",
+            tab_all: "All",
+            tab_fav: "Favorites",
+            buy_credits_sub: "Buy Credits",
+            remaining_credits: "Remaining",
+            topup_banner_title: "Generate More Songs",
+            topup_banner_desc: "Buy credits and continue your endless creativity.",
+            select_package_title: "Select Credit Package",
+            badge_recommended: "Recommended",
+            pack_1_desc: "Generate 5 full songs",
+            pack_2_desc: "Generate 15 full songs",
+            pack_3_desc: "Generate 30 songs + Voice Cloning",
+            complete_payment: "Complete Payment",
+            pay_btn_prefix: "Pay",
+            ok_btn: "OK",
+            cancel_btn: "Cancel",
+            delete_song_title: "Delete Song",
+            yes_delete_btn: "Yes, Delete",
+            action_share: "Share Song",
+            action_delete: "Delete Song",
+            settings_title: "Main Menu & Settings",
+            menu_topup: "Buy Credits (Top Up)",
+            menu_support: "Customer Support (WhatsApp)",
+            menu_logout: "Logout",
+            nav_home: "Home",
+            nav_create: "Create",
+            nav_my_songs: "My Songs",
+            toast_success: "Your song is ready and saved!",
+            toast_deleted: "Song deleted successfully.",
+            empty_home_title: "No Songs Created Yet",
+            empty_home_desc: "Tap the 'Create New Song' button above to start.",
+            empty_music_title: "No Saved Songs",
+            empty_music_desc: "All your generated songs will appear here."
+        }
+    };
+
+    function changeLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('aiMusicLang', lang);
+        document.getElementById('html-root').setAttribute('lang', lang);
+
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[lang][key]) {
+                el.innerHTML = translations[lang][key];
+            }
+        });
+
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            const key = el.getAttribute('data-i18n-placeholder');
+            if (translations[lang][key]) {
+                el.setAttribute('placeholder', translations[lang][key]);
+            }
+        });
+
+        const langText = lang === 'sw' ? 'Lugha: Kiswahili (Change to English)' : 'Language: English (Badili kwenda Kiswahili)';
+        document.getElementById('lang-menu-text').innerText = langText;
+
+        if(isVoiceCloningUnlocked) {
+            unlockVoiceUI();
+        }
+        renderSongs();
+    }
+
+    function toggleLanguage() {
+        closeSettingsMenu();
+        if(currentLang === 'sw') {
+            changeLanguage('en');
+        } else {
+            changeLanguage('sw');
+        }
+    }
+
+
+    // ==========================================
+    // APP LOGIC & FUNCTIONS
     // ==========================================
     let lastTouchEnd = 0;
     document.addEventListener('touchend', function (event) {
@@ -557,7 +735,6 @@
         }
         lastTouchEnd = now;
     }, { passive: false });
-
 
     let activeSheetSongId = null;
     let activeSheetSongTitle = '';
@@ -573,6 +750,12 @@
     });
 
     window.onload = function() {
+        const savedLang = localStorage.getItem('aiMusicLang');
+        if(savedLang) {
+            changeLanguage(savedLang);
+        } else {
+            changeLanguage('sw');
+        }
         loadData();
     };
 
@@ -625,10 +808,10 @@
         if(box) {
             box.classList.remove('locked');
             icon.className = 'fa-solid fa-microphone-lines voice-icon';
-            text.innerText = "Gusa kurekodi au kupakia sauti yako";
+            text.innerText = translations[currentLang].voice_unlocked_desc;
             badge.style.background = "rgba(0, 200, 83, 0.15)";
             badge.style.color = "#00e676";
-            badge.innerHTML = '<i class="fa-solid fa-check"></i> Imefunguliwa (Unlocked)';
+            badge.innerHTML = `<i class="fa-solid fa-check"></i> <span>${translations[currentLang].unlocked_badge}</span>`;
         }
     }
 
@@ -658,18 +841,20 @@
         let cardElement = document.getElementById('opt-' + priceNum);
         if(cardElement) cardElement.classList.add('selected');
 
-        document.getElementById('checkout-pay-btn').innerHTML = `<i class="fa-solid fa-lock"></i> Lipa ${priceStr}`;
+        const payPrefix = translations[currentLang].pay_btn_prefix;
+        document.getElementById('checkout-pay-btn').innerHTML = `<i class="fa-solid fa-lock"></i> ${payPrefix} ${priceStr}`;
     }
 
     function executeSelectedPayment() {
         currentCredits += selectedCreditsCount;
+        const successTitle = currentLang === 'sw' ? 'Malipo Yametiki!' : 'Payment Successful!';
         
         if (selectedUnlockVoice) {
             isVoiceCloningUnlocked = true;
             unlockVoiceUI();
-            showModernPopup("Malipo Yametiki!", `Hongera! Umefanikiwa kununua Credits ${selectedCreditsCount} na Voice Cloning imefunguka.`, "success", () => { switchPage('home-page'); });
+            showModernPopup(successTitle, currentLang === 'sw' ? `Hongera! Umefanikiwa kununua Credits ${selectedCreditsCount} na Voice Cloning imefunguka.` : `Congrats! Successfully bought ${selectedCreditsCount} credits and unlocked Voice Cloning.`, "success", () => { switchPage('home-page'); });
         } else {
-            showModernPopup("Malipo Yametiki!", `Umefanikiwa kununua kifurushi cha ${selectedPriceString} na kupata Credits ${selectedCreditsCount}.`, "success", () => { switchPage('home-page'); });
+            showModernPopup(successTitle, currentLang === 'sw' ? `Umefanikiwa kununua kifurushi cha ${selectedPriceString} na kupata Credits ${selectedCreditsCount}.` : `Successfully purchased package for ${selectedPriceString} and got ${selectedCreditsCount} credits.`, "success", () => { switchPage('home-page'); });
         }
         
         updateCreditsDisplay();
@@ -720,17 +905,17 @@
         if(type === 'buy-credit') {
             switchPage('topup-page');
         } else if(type === 'support') {
-            showModernPopup("Huduma kwa Wateja", "WhatsApp: +255 700 000 000\nTunajibu masaa 24.", "info");
+            showModernPopup(currentLang === 'sw' ? "Huduma kwa Wateja" : "Customer Support", "WhatsApp: +255 700 000 000\n24/7 Support.", "info");
         } else if(type === 'logout') {
-            showModernPopup("Toka kwenye Akaunti", "Je, unataka kutoka kwenye akaunti yako?", "warning", () => { alert("Umetoka."); });
+            showModernPopup(currentLang === 'sw' ? "Toka kwenye Akaunti" : "Logout Account", currentLang === 'sw' ? "Je, unataka kutoka kwenye akaunti yako?" : "Do you want to logout?", "warning", () => { alert(currentLang === 'sw' ? "Umetoka." : "Logged out."); });
         }
     }
 
     function handleVoiceCloningClick() {
         if (!isVoiceCloningUnlocked) {
-            showModernPopup("Kipengele cha VIP", "Kipengele hiki kinapatikana kwa walionunua kifurushi cha Tsh 10,000 pekee.", "gold", () => { switchPage('topup-page'); });
+            showModernPopup(currentLang === 'sw' ? "Kipengele cha VIP" : "VIP Feature", currentLang === 'sw' ? "Kipengele hiki kinapatikana kwa walionunua kifurushi cha Tsh 10,000 pekee." : "This feature is available only for the Tsh 10,000 package buyers.", "gold", () => { switchPage('topup-page'); });
         } else {
-            showModernPopup("Voice Cloning", "Gusa kurekodi sauti yako.", "success");
+            showModernPopup("Voice Cloning", currentLang === 'sw' ? "Gusa kurekodi sauti yako." : "Tap to record your voice.", "success");
         }
     }
 
@@ -743,18 +928,19 @@
         titleInput.classList.remove('input-error');
         promptInput.classList.remove('input-error');
 
+        const warningTitle = currentLang === 'sw' ? "Taarifa Muhimu" : "Important Notice";
         if(!titleVal && !promptVal) {
             titleInput.classList.add('input-error');
             promptInput.classList.add('input-error');
-            showModernPopup("Taarifa Muhimu", "Tafadhali jaza jina na mashairi ya wimbo.", "warning");
+            showModernPopup(warningTitle, currentLang === 'sw' ? "Tafadhali jaza jina na mashairi ya wimbo." : "Please fill in the song title and lyrics.", "warning");
             return;
         } else if(!titleVal) {
             titleInput.classList.add('input-error');
-            showModernPopup("Taarifa Muhimu", "Andika jina la wimbo.", "warning");
+            showModernPopup(warningTitle, currentLang === 'sw' ? "Andika jina la wimbo." : "Enter the song title.", "warning");
             return;
         } else if(!promptVal) {
             promptInput.classList.add('input-error');
-            showModernPopup("Taarifa Muhimu", "Andika mashairi au prompt.", "warning");
+            showModernPopup(warningTitle, currentLang === 'sw' ? "Andika mashairi au prompt." : "Enter lyrics or prompt.", "warning");
             return;
         }
 
@@ -767,17 +953,19 @@
     }
 
     function showZeroCreditPopup() {
-        document.getElementById('popup-title-text').innerText = "Credit Zimekwisha";
-        document.getElementById('popup-message-text').innerText = "Credit zako zimekwisha, Nunua credit kuendelea.";
+        document.getElementById('popup-title-text').innerText = currentLang === 'sw' ? "Credit Zimekwisha" : "Out of Credits";
+        document.getElementById('popup-message-text').innerText = currentLang === 'sw' ? "Credit zako zimekwisha, Nunua credit kuendelea." : "Your credits are finished. Top up to continue.";
         
         const iconBox = document.getElementById('popup-icon-container');
         iconBox.className = 'popup-icon-box warning';
         document.getElementById('popup-icon-element').className = 'fa-solid fa-triangle-exclamation';
         
         const btnGroup = document.getElementById('popup-btn-group-container');
+        const closeText = currentLang === 'sw' ? "Funga" : "Close";
+        const buyText = currentLang === 'sw' ? "Nunua Credit" : "Buy Credits";
         btnGroup.innerHTML = `
-            <button class="popup-btn secondary" onclick="closeModernPopup()">Funga</button>
-            <button class="popup-btn gold-btn" onclick="closeModernPopup(); switchPage('topup-page');">Nunua Credit</button>
+            <button class="popup-btn secondary" onclick="closeModernPopup()">${closeText}</button>
+            <button class="popup-btn gold-btn" onclick="closeModernPopup(); switchPage('topup-page');">${buyText}</button>
         `;
         document.getElementById('custom-modern-popup').classList.add('show');
     }
@@ -803,16 +991,18 @@
 
         const recentContainer = document.getElementById('recent-songs-container');
         const loadingCardId = 'loading-card-' + Date.now();
+        const generatingText = currentLang === 'sw' ? 'Inatengenezwa' : 'Generating';
+        const generatingSub = currentLang === 'sw' ? 'Inatengeneza wimbo wako' : 'Creating your song';
         
         const loadingHTML = `
             <div class="music-card generating" id="${loadingCardId}">
                 <div class="generating-content">
                     <div class="spinner-box"></div>
                     <div style="flex:1;">
-                        <span class="badge-mpya" style="background:#ff3b30;">Inatengenezwa</span>
+                        <span class="badge-mpya" style="background:#ff3b30;">${generatingText}</span>
                         <h4 style="font-size: 24px; color: white; margin-bottom: 5px; font-weight:800;">${songTitle}</h4>
                         <p style="font-size: 16px; color: var(--text-muted); font-weight:600;" class="loading-dots">
-                            Inatengeneza wimbo wako<span>.</span><span>.</span><span>.</span>
+                            ${generatingSub}<span>.</span><span>.</span><span>.</span>
                         </p>
                     </div>
                 </div>
@@ -837,14 +1027,16 @@
             saveData();
             renderSongs();
             
-            showToast("Wimbo wako umekamilika na umehifadhiwa!"); 
+            showToast(translations[currentLang].toast_success); 
         }, 4000);
     }
 
     function createSongHTML(song, isNew = false) {
         const favClass = song.isFav ? 'fa-solid liked' : 'fa-regular';
-        const badgeHTML = isNew ? `<span class="badge-mpya badge-mpya-active">Mpya</span>` : '';
+        const badgeText = currentLang === 'sw' ? 'Mpya' : 'New';
+        const badgeHTML = isNew ? `<span class="badge-mpya badge-mpya-active">${badgeText}</span>` : '';
         const thumbText = song.title.substring(0, 5);
+        const downloadText = currentLang === 'sw' ? 'Download' : 'Download';
 
         return `
             <div class="music-card" data-song-id="${song.id}" data-song-name="${song.title}" data-is-fav="${song.isFav}">
@@ -866,7 +1058,7 @@
                         <span class="mc-time">0:00</span>
                         <div class="mc-waveform"></div>
                         <span class="mc-time">${song.time}</span>
-                        <button class="mc-download-btn"><i class="fa-solid fa-download"></i> Download</button>
+                        <button class="mc-download-btn"><i class="fa-solid fa-download"></i> ${downloadText}</button>
                     </div>
                 </div>
             </div>
@@ -905,7 +1097,7 @@
         });
         
         const activeTab = document.querySelector('.music-tab.active');
-        if(activeTab && activeTab.innerText.includes('Vipendwa')) {
+        if(activeTab && activeTab.innerText.includes(currentLang === 'sw' ? 'Vipendwa' : 'Favorites')) {
             switchTab('favorites', activeTab);
         }
     }
@@ -920,24 +1112,29 @@
         const btnGroup = document.getElementById('popup-btn-group-container');
         customPopupCallback = callback;
 
+        const cancelText = currentLang === 'sw' ? 'Ghairi' : 'Cancel';
+        const exitText = currentLang === 'sw' ? 'Ndiyo, Toka' : 'Yes, Exit';
+        const pay10kText = currentLang === 'sw' ? 'Lipa Tsh 10,000' : 'Pay Tsh 10,000';
+        const okText = translations[currentLang].ok_btn;
+
         if(type === 'warning') {
             iconBox.className = 'popup-icon-box warning';
             iconElem.className = 'fa-solid fa-triangle-exclamation';
             btnGroup.innerHTML = `
-                <button class="popup-btn secondary" onclick="closeModernPopup()">Ghairi</button>
-                <button class="popup-btn danger" onclick="executeWarningAction()">Ndiyo, Toka</button>
+                <button class="popup-btn secondary" onclick="closeModernPopup()">${cancelText}</button>
+                <button class="popup-btn danger" onclick="executeWarningAction()">${exitText}</button>
             `;
         } else if(type === 'gold') {
             iconBox.className = 'popup-icon-box gold';
             iconElem.className = 'fa-solid fa-crown';
             btnGroup.innerHTML = `
-                <button class="popup-btn secondary" onclick="closeModernPopup()">Funga</button>
-                <button class="popup-btn gold-btn" onclick="executeGoldAction()">Lipa Tsh 10,000</button>
+                <button class="popup-btn secondary" onclick="closeModernPopup()">${cancelText}</button>
+                <button class="popup-btn gold-btn" onclick="executeGoldAction()">${pay10kText}</button>
             `;
         } else {
             iconBox.className = 'popup-icon-box';
             iconElem.className = 'fa-solid fa-circle-check';
-            btnGroup.innerHTML = `<button class="popup-btn" onclick="closeModernPopup()">Sawa</button>`;
+            btnGroup.innerHTML = `<button class="popup-btn" onclick="closeModernPopup()">${okText}</button>`;
         }
         document.getElementById('custom-modern-popup').classList.add('show');
     }
@@ -975,12 +1172,14 @@
 
     function shareCurrentSong() {
         closeActionSheet();
-        showModernPopup("Imefanikiwa!", `Kiungo cha wimbo "${activeSheetSongTitle}" kimenakiliwa!`, "success");
+        const msg = currentLang === 'sw' ? `Kiungo cha wimbo "${activeSheetSongTitle}" kimenakiliwa!` : `Link for song "${activeSheetSongTitle}" copied!`;
+        showModernPopup(currentLang === 'sw' ? "Imefanikiwa!" : "Success!", msg, "success");
     }
 
     function confirmDeleteSong() {
         closeActionSheet();
-        document.getElementById('confirm-message-text').innerText = `Una uhakika unataka kufuta wimbo "${activeSheetSongTitle}"?`;
+        const msg = currentLang === 'sw' ? `Una uhakika unataka kufuta wimbo "${activeSheetSongTitle}"?` : `Are you sure you want to delete song "${activeSheetSongTitle}"?`;
+        document.getElementById('confirm-message-text').innerText = msg;
         document.getElementById('confirm-action-btn').onclick = function() { executeDeleteSong(); };
         document.getElementById('custom-confirm-popup').classList.add('show');
     }
@@ -994,7 +1193,7 @@
         mySongs = mySongs.filter(song => song.id !== activeSheetSongId);
         saveData();
         renderSongs();
-        showToast("Wimbo umefutwa kikamilifu.");
+        showToast(translations[currentLang].toast_deleted);
     }
 
     function checkEmptyStates() {
@@ -1003,8 +1202,8 @@
             recentContainer.innerHTML = `
                 <div class="empty-state-box" id="recent-empty-state">
                     <div class="empty-state-icon"><i class="fa-solid fa-music-slash"></i></div>
-                    <h4>Haujaweka Nyimbo Hata Moja</h4>
-                    <p>Gusa kitufe cha 'Tengeneza Wimbo Mpya' hapo juu ili uanze.</p>
+                    <h4>${translations[currentLang].empty_home_title}</h4>
+                    <p>${translations[currentLang].empty_home_desc}</p>
                 </div>
             `;
         }
@@ -1013,8 +1212,8 @@
             allContainer.innerHTML = `
                 <div class="empty-state-box" id="all-empty-state">
                     <div class="empty-state-icon"><i class="fa-solid fa-music-slash"></i></div>
-                    <h4>Hauna Nyimbo Zilizohifadhiwa</h4>
-                    <p>Nyimbo zako zote zitaonekana hapa.</p>
+                    <h4>${translations[currentLang].empty_music_title}</h4>
+                    <p>${translations[currentLang].empty_music_desc}</p>
                 </div>
             `;
         }
@@ -1042,7 +1241,7 @@
         });
 
         const activeTab = document.querySelector('.music-tab.active');
-        if(activeTab && activeTab.innerText.includes('Vipendwa')) {
+        if(activeTab && activeTab.innerText.includes(currentLang === 'sw' ? 'Vipendwa' : 'Favorites')) {
              switchTab('favorites', activeTab);
         }
     }
