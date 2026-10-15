@@ -110,10 +110,10 @@
         .mc-top-actions { display: flex; gap: 15px; color: var(--text-muted); font-size: 20px; align-items: center; flex-shrink: 0; margin-left: 8px; }
         .mc-top-actions i.fa-heart.liked { color: #ff007f; }
         .mc-player-row { display: flex; align-items: center; gap: 10px; }
-        .mc-play-btn { width: 40px; height: 40px; border-radius: 50%; background: var(--accent-purple); border: none; display: flex; justify-content: center; align-items: center; color: white; font-size: 16px; flex-shrink: 0; }
+        .mc-play-btn { width: 40px; height: 40px; border-radius: 50%; background: var(--accent-purple); border: none; display: flex; justify-content: center; align-items: center; color: white; font-size: 16px; flex-shrink: 0; cursor: pointer; }
         .mc-time { font-size: 12px; color: var(--text-muted); font-weight: 700; }
         .mc-waveform { flex: 1; height: 25px; background: repeating-linear-gradient(90deg, var(--accent-purple) 0px, var(--accent-purple) 3px, transparent 3px, transparent 6px); opacity: 0.8; }
-        .mc-download-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; border: 1px solid rgba(74, 144, 226, 0.4); border-radius: 10px; padding: 6px 10px; color: #4a90e2; font-size: 10px; font-weight: 800; background: transparent; flex-shrink: 0; }
+        .mc-download-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; border: 1px solid rgba(74, 144, 226, 0.4); border-radius: 10px; padding: 6px 10px; color: #4a90e2; font-size: 10px; font-weight: 800; background: transparent; flex-shrink: 0; cursor: pointer; }
         .mc-download-btn i { font-size: 16px; }
 
         .badge-mpya { background: #ff3b30; color: white; font-size: 10px; padding: 3px 8px; border-radius: 6px; font-weight: 900; display: inline-block; margin-bottom: 4px; text-transform: uppercase;}
@@ -135,7 +135,7 @@
         .textarea-box { width: 100%; height: 120px; background: #12141c; border: 2px solid rgba(138, 43, 226, 0.4); border-radius: 14px; padding: 15px; color: var(--text-main); font-size: 15px; resize: none; outline: none; line-height: 1.5; }
         .input-box:focus, .textarea-box:focus { border-color: var(--accent-cyan); background: #161822; }
 
-        /* GENRE NA VOCAL STYLES ZILIZOBORESHWA */
+        /* GENRE NA VOCAL STYLES */
         .genre-tags { display: flex; flex-wrap: wrap; gap: 12px; }
         .genre-tag { background: rgba(26, 28, 41, 0.8); border: 1px solid var(--border-color); padding: 12px 18px; border-radius: 14px; font-size: 14px; cursor: pointer; color: var(--text-muted); font-weight: 700; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
         .genre-tag i { font-size: 16px; opacity: 0.7; }
@@ -230,7 +230,7 @@
 </div>
 
 <!-- LANGUAGE SELECTION SCREEN -->
-<div id="language-page" class="page-section active-page">
+<div id="language-page" class="page-section">
     <div class="lang-hero-img"><i class="fa-solid fa-globe"></i></div>
     <div class="lang-title-area">
         <h2 class="lang-title">Select Language</h2>
@@ -268,7 +268,7 @@
                     <i class="fa-solid fa-coins coin-icon"></i>
                     <div class="credits-info"><p data-i18n="credits_label">Credits</p><h4 id="user-credits-display">5</h4></div>
                 </div>
-                <button class="btn-add-credits" onclick="switchPage('topup-page')" data-i18n="add_btn">+ Ongeza</button>
+                <button class="btn-add-credits" onclick="switchPage('topup-page', true)" data-i18n="add_btn">+ Ongeza</button>
                 <div class="menu-icon-btn" onclick="openSettingsMenu()"><i class="fa-solid fa-bars"></i></div>
             </div>
         </header>
@@ -276,7 +276,7 @@
         <div class="hero-banner">
             <h2 class="hero-title" data-i18n="hero_title">Tengeneza<br>Nyimbo Zako<br><span class="text-cyan">kwa AI</span></h2>
             <p class="hero-desc" data-i18n="hero_desc">Andika mashairi yako, chagua aina ya muziki au rekodi sauti yako na upate wimbo kamili.</p>
-            <button class="btn-primary" onclick="switchPage('create-page')">
+            <button class="btn-primary" onclick="switchPage('create-page', true)">
                 <i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="create_new_song_btn">TENGENEZA WIMBO MPYA</span> <i class="fa-solid fa-arrow-right"></i>
             </button>
         </div>
@@ -295,7 +295,7 @@
 
         <div class="section-header">
             <h3 class="section-title" data-i18n="recent_songs_title">Nyimbo Zangu Hivi Karibuni</h3>
-            <a onclick="switchPage('music-page')" class="view-all"><span data-i18n="view_all">Tazama Zote</span> <i class="fa-solid fa-arrow-right"></i></a>
+            <a onclick="switchPage('music-page', true)" class="view-all"><span data-i18n="view_all">Tazama Zote</span> <i class="fa-solid fa-arrow-right"></i></a>
         </div>
 
         <div class="music-list-detailed" id="recent-songs-container" style="margin-bottom: 20px;"></div>
@@ -304,7 +304,7 @@
     <!-- CREATE PAGE -->
     <div id="create-page" class="page-section">
         <div class="page-header-back">
-            <div class="back-btn" onclick="switchPage('home-page')"><i class="fa-solid fa-arrow-left"></i></div>
+            <div class="back-btn" onclick="switchPage('home-page', true)"><i class="fa-solid fa-arrow-left"></i></div>
             <h2 class="section-title" data-i18n="create_song_title">Tengeneza Wimbo</h2>
         </div>
 
@@ -365,7 +365,7 @@
             </div>
             <div class="header-actions">
                 <div class="credits-badge"><i class="fa-solid fa-coins coin-icon"></i><div class="credits-info"><p data-i18n="credits_label">Credits</p><h4 id="user-credits-display-2">5</h4></div></div>
-                <button class="btn-add-credits" onclick="switchPage('topup-page')" data-i18n="add_btn">+ Ongeza</button>
+                <button class="btn-add-credits" onclick="switchPage('topup-page', true)" data-i18n="add_btn">+ Ongeza</button>
                 <div class="menu-icon-btn" onclick="openSettingsMenu()"><i class="fa-solid fa-bars"></i></div>
             </div>
         </header>
@@ -392,7 +392,7 @@
             </div>
             <div class="header-actions">
                 <div class="credits-badge"><i class="fa-solid fa-coins coin-icon"></i><div class="credits-info"><p data-i18n="remaining_credits">Zilizobaki</p><h4 id="topup-page-credits">5</h4></div></div>
-                <div class="menu-icon-btn" onclick="switchPage('home-page')"><i class="fa-solid fa-xmark"></i></div>
+                <div class="menu-icon-btn" onclick="switchPage('home-page', true)"><i class="fa-solid fa-xmark"></i></div>
             </div>
         </header>
 
@@ -475,9 +475,9 @@
 </div>
 
 <nav class="bottom-nav" id="main-bottom-nav">
-    <button class="nav-item active" id="nav-home" onclick="switchPage('home-page')"><i class="fa-solid fa-house"></i><span data-i18n="nav_home">Nyumbani</span></button>
-    <button class="nav-item" id="nav-create" onclick="switchPage('create-page')"><i class="fa-solid fa-wand-magic-sparkles"></i><span data-i18n="nav_create">Tengeneza</span></button>
-    <button class="nav-item" id="nav-music" onclick="switchPage('music-page')"><i class="fa-solid fa-music"></i><span data-i18n="nav_my_songs">Zangu</span></button>
+    <button class="nav-item active" id="nav-home" onclick="switchPage('home-page', true)"><i class="fa-solid fa-house"></i><span data-i18n="nav_home">Nyumbani</span></button>
+    <button class="nav-item" id="nav-create" onclick="switchPage('create-page', true)"><i class="fa-solid fa-wand-magic-sparkles"></i><span data-i18n="nav_create">Tengeneza</span></button>
+    <button class="nav-item" id="nav-music" onclick="switchPage('music-page', true)"><i class="fa-solid fa-music"></i><span data-i18n="nav_my_songs">Zangu</span></button>
 </nav>
 
 <script>
@@ -621,20 +621,22 @@
     audioPlayer.addEventListener('ended', function() { if(playingBtn) resetPlayButton(playingBtn); });
 
     window.onload = function() {
+        loadData();
         const savedLang = localStorage.getItem('aiMusicLang');
         if(savedLang) {
             currentLang = savedLang;
-            document.getElementById('language-page').classList.remove('active-page');
             document.getElementById('language-page').style.display = 'none';
+            document.getElementById('language-page').classList.remove('active-page');
             document.getElementById('main-app-content').style.display = 'block';
             document.body.classList.add('main-app-active');
             applyLanguageStrings(savedLang);
-            window.history.replaceState({ page: 'home-page' }, "", "#home-page");
+            switchPage('home-page', false);
         } else {
+            document.getElementById('language-page').style.display = 'flex';
             document.getElementById('language-page').classList.add('active-page');
-            window.history.replaceState({ page: 'language-page' }, "", "#language-page");
+            document.getElementById('main-app-content').style.display = 'none';
+            document.body.classList.remove('main-app-active');
         }
-        loadData();
     };
 
     // BACK BUTTON YA SIMU (HISTORY API)
@@ -716,7 +718,8 @@
 
     function switchPage(pageId, pushToHistory = true) {
         document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active-page'));
-        if(document.getElementById(pageId)) document.getElementById(pageId).classList.add('active-page');
+        const targetPage = document.getElementById(pageId);
+        if(targetPage) targetPage.classList.add('active-page');
         
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
         if(pageId === 'home-page') document.getElementById('nav-home').classList.add('active');
@@ -814,7 +817,7 @@
                         <span class="mc-time">0:00</span>
                         <div class="mc-waveform"></div>
                         <span class="mc-time">${song.time}</span>
-                        <button class="mc-download-btn" style="border: 1px solid rgba(74, 144, 226, 0.4); border-radius: 10px; padding: 6px 10px; color: #4a90e2; font-size: 10px; font-weight: 800; background: transparent;"><i class="fa-solid fa-download"></i> ${langData.btn_download}</button>
+                        <button class="mc-download-btn"><i class="fa-solid fa-download"></i> ${langData.btn_download}</button>
                     </div>
                 </div>
             </div>`;
@@ -928,4 +931,3 @@
 </script>
 </body>
 </html>
-
