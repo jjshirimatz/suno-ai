@@ -20,17 +20,19 @@
             margin: 0; padding: 0; box-sizing: border-box; 
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
             -webkit-tap-highlight-color: transparent; 
+            /* HII INAZUIA MTU AKIBONYEZA MARA MBILI HARAKA (DOUBLE-TAP) ISIZOOM */
+            touch-action: manipulation; 
         }
 
         html, body {
             width: 100%; height: 100%; overflow-x: hidden;
             -webkit-text-size-adjust: 100%; background-color: var(--bg-color); 
+            /* Kuzuia pull-to-refresh na scrolling zinazosumbua */
+            overscroll-behavior-y: none;
         }
 
-        /* NIMEONGEZA BASE FONT SIZE IWE KUBWA */
         body { color: var(--text-main); padding-bottom: 110px; font-size: 20px; }
 
-        /* Nimepunguza padding ili vitu vipate nafasi kutanuka */
         .app-container { width: 100%; max-width: 100%; margin: 0; padding: 15px; }
 
         .page-section { display: none; animation: fadeIn 0.3s ease-in-out; }
@@ -57,7 +59,6 @@
         
         .menu-icon-btn { width: 55px; height: 55px; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--text-main); cursor: pointer; font-size: 26px; transition: 0.2s; flex-shrink: 0; }
         
-        /* MAANDISHI YA HERO YAMEKUWA MAKUBWA NA BOLD */
         .hero-banner { background: linear-gradient(135deg, rgba(26,28,41,1) 0%, rgba(42,24,68,1) 100%); border-radius: 24px; padding: 40px 25px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 35px; }
         .hero-content { position: relative; z-index: 2; width: 90%; }
         .hero-title { font-size: 44px; line-height: 1.2; margin-bottom: 18px; font-weight: 900; }
@@ -105,7 +106,6 @@
         .voice-text { font-size: 18px; color: var(--text-muted); font-weight: 600;}
         .lock-badge { font-size: 15px; background: rgba(255, 215, 0, 0.15); color: #ffd700; padding: 8px 16px; border-radius: 12px; font-weight: 800; margin-top: 8px; display: inline-flex; align-items: center; gap: 8px; }
 
-        /* KADI ZA NYIMBO NA TEXT ZAKE ZIMEKUWA KUBWA */
         .music-list-detailed { display: flex; flex-direction: column; gap: 20px; }
         .music-card { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 24px; padding: 22px; display: flex; align-items: center; gap: 20px; position: relative; margin-bottom: 5px; width: 100%; }
         .music-card.playing { border-color: rgba(138, 43, 226, 0.8); border-width: 2px; }
@@ -140,7 +140,6 @@
         .loading-dots span:nth-child(3) { animation-delay: .4s; }
         @keyframes blink { 0% { opacity: .2; } 20% { opacity: 1; } 100% { opacity: .2; } }
 
-        /* ----- UI YA ONGEZA CREDIT ----- */
         .topup-banner { background: linear-gradient(135deg, rgba(26,28,41,1) 0%, rgba(42,24,68,1) 100%); border-radius: 24px; padding: 30px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 30px; }
         .topup-banner-text h3 { font-size: 24px; font-weight: 900; margin-bottom: 8px; }
         .topup-banner-text p { font-size: 17px; color: var(--text-muted); line-height: 1.5; font-weight: 500;}
@@ -165,13 +164,11 @@
         .credit-option-card.selected .radio-circle { border-color: var(--accent-purple); border-width: 4px; }
         .credit-option-card.selected .radio-circle::after { content: ''; width: 14px; height: 14px; background: var(--accent-purple); border-radius: 50%; }
 
-        /* ----- MENU YA CHINI IMEKUWA BOLD ZAIDI ----- */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(11, 12, 16, 0.98); backdrop-filter: blur(15px); display: flex; justify-content: space-around; padding: 22px 0 30px 0; border-top: 1px solid var(--border-color); z-index: 100; }
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--text-muted); font-size: 16px; font-weight: 700; cursor: pointer; background: none; border: none; outline: none; width: 33%; }
         .nav-item.active { color: var(--accent-purple); font-weight: 900; }
         .nav-item i { font-size: 30px; }
 
-        /* ----- TOAST NOTIFICATION ----- */
         .toast-notification {
             position: fixed; top: 30px; left: 50%; transform: translateX(-50%) translateY(-100px);
             background: rgba(0, 230, 118, 0.95); color: #000; padding: 18px 30px;
@@ -184,16 +181,13 @@
         .toast-notification i { font-size: 24px; }
         .toast-notification.show { transform: translateX(-50%) translateY(0); opacity: 1; }
         
-        /* Simu ndogo sana iweze kupangika vizuri */
         @media (max-width: 380px) {
             .categories-grid { grid-template-columns: repeat(2, 1fr); }
-            .pricing-grid-view { grid-template-columns: 1fr; }
             .mc-thumb { width: 70px; height: 70px; }
             .mc-title-area h4 { font-size: 18px; }
             .logo-text h1 { font-size: 26px; }
         }
 
-        /* ----- ADDITIONS FOR OVERLAYS (POPUPS/ACTIONSHEETS) ----- */
         .custom-popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; pointer-events: none; transition: 0.3s ease; }
         .custom-popup-overlay.show { opacity: 1; pointer-events: auto; }
         .custom-popup-card { background: #161925; border: 1px solid rgba(138, 43, 226, 0.3); border-radius: 32px; width: 90%; max-width: 450px; padding: 40px 30px; text-align: center; box-shadow: 0 15px 40px rgba(0,0,0,0.8); transform: scale(0.85); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
@@ -237,14 +231,12 @@
 </head>
 <body>
 
-<!-- UJUMBE WA TOAST -->
 <div class="toast-notification" id="app-toast">
     <i class="fa-solid fa-circle-check"></i> <span id="toast-msg">Wimbo umekamilika!</span>
 </div>
 
 <div class="app-container">
     
-    <!-- ==================== HOME PAGE ==================== -->
     <div id="home-page" class="page-section active-page">
         <header>
             <div class="logo-area">
@@ -303,11 +295,9 @@
         </div>
 
         <div class="music-list-detailed" id="recent-songs-container" style="margin-bottom: 35px;">
-            <!-- Nyimbo zitajiweka hapa kwa Javascript -->
         </div>
     </div>
 
-    <!-- ==================== CREATE PAGE ==================== -->
     <div id="create-page" class="page-section">
         <div class="page-header-back">
             <div class="back-btn" onclick="switchPage('home-page')"><i class="fa-solid fa-arrow-left"></i></div>
@@ -358,7 +348,6 @@
         </button>
     </div>
 
-    <!-- ==================== NYIMBO ZANGU PAGE ==================== -->
     <div id="music-page" class="page-section">
         <header>
             <div class="logo-area">
@@ -392,11 +381,9 @@
         </div>
 
         <div class="music-list-detailed" id="all-songs-container">
-            <!-- Nyimbo zitajiweka hapa kwa Javascript -->
         </div>
     </div>
 
-    <!-- ==================== ONGEZA CREDIT PAGE ==================== -->
     <div id="topup-page" class="page-section">
         <header>
             <div class="logo-area">
@@ -480,7 +467,7 @@
 
 </div>
 
-<!-- ==================== POPUPS & OVERLAYS ==================== -->
+<!-- POPUPS & OVERLAYS -->
 <div class="custom-popup-overlay" id="custom-modern-popup">
     <div class="custom-popup-card">
         <div class="popup-icon-box" id="popup-icon-container">
@@ -547,7 +534,6 @@
     </div>
 </div>
 
-<!-- ==================== MENU YA CHINI INAYONING'INIA KWENYE KURASA ZOTE ==================== -->
 <nav class="bottom-nav" id="main-bottom-nav">
     <button class="nav-item active" id="nav-home" onclick="switchPage('home-page')">
         <i class="fa-solid fa-house"></i>
@@ -564,6 +550,28 @@
 </nav>
 
 <script>
+    // ==========================================
+    // KUZUIA ZOOMING KABISA (PINCH & DOUBLE TAP)
+    // ==========================================
+    
+    // 1. Kuzuia Pinch-to-Zoom
+    document.addEventListener('touchmove', function (event) {
+        if (event.scale !== 1 || event.touches.length > 1) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+
+    // 2. Kuzuia Double-Tap to Zoom kwenye iOS/Safari na WebViews
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function (event) {
+        let now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, { passive: false });
+
+
     let activeSheetSongId = null;
     let activeSheetSongTitle = '';
     let isVoiceCloningUnlocked = false; 
