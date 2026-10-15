@@ -27,7 +27,6 @@
             -webkit-text-size-adjust: 100%; background-color: var(--bg-color); 
         }
 
-        /* IMEBADILISHWA: Font size imeshushwa ili isijae sana kwenye simu */
         body { color: var(--text-main); padding-bottom: 90px; font-size: 15px; }
 
         .app-container { width: 100%; max-width: 600px; margin: 0 auto; padding: 15px; }
@@ -54,32 +53,15 @@
 
         #language-page.active-page { display: flex; }
 
-        .lang-hero-img {
-            width: 120px;
-            height: 120px;
-            background: radial-gradient(circle, rgba(0,242,254,0.2) 0%, transparent 70%);
-            display: flex; justify-content: center; align-items: center;
-            margin-bottom: 20px; position: relative;
-        }
-        
+        .lang-hero-img { width: 120px; height: 120px; background: radial-gradient(circle, rgba(0,242,254,0.2) 0%, transparent 70%); display: flex; justify-content: center; align-items: center; margin-bottom: 20px; position: relative; }
         .lang-hero-img i { font-size: 60px; color: white; text-shadow: 0 0 20px rgba(0, 242, 254, 0.6); }
-
         .lang-title-area { text-align: center; margin-bottom: 30px; }
         .lang-title { font-size: 26px; font-weight: 900; color: white; margin-bottom: 8px; }
         .lang-subtitle { font-size: 16px; color: var(--text-muted); font-weight: 500; }
-
         .lang-options-list { width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 12px; }
 
-        .lang-card {
-            background: linear-gradient(90deg, #032b69 0%, #021a42 100%);
-            border: 1px solid rgba(0, 242, 254, 0.2);
-            border-radius: 14px;
-            padding: 14px 18px;
-            display: flex; align-items: center; justify-content: space-between;
-            cursor: pointer; box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-            transition: 0.2s;
-        }
-
+        .lang-card { background: linear-gradient(90deg, #032b69 0%, #021a42 100%); border: 1px solid rgba(0, 242, 254, 0.2); border-radius: 14px; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; box-shadow: 0 6px 15px rgba(0,0,0,0.3); transition: 0.2s; }
+        .lang-card:active { transform: scale(0.97); }
         .lang-card-left { display: flex; align-items: center; gap: 15px; }
         .lang-flag { font-size: 24px; border-radius: 8px; overflow: hidden; display: inline-block; }
         .lang-info h4 { font-size: 18px; font-weight: 800; color: white; margin-bottom: 2px; }
@@ -87,7 +69,6 @@
         .lang-card i.fa-chevron-right { color: white; font-size: 16px; opacity: 0.7; }
         /* --- END LANGUAGE SCREEN --- */
 
-        /* HEADER YAMEPUNGUZWA ILI ISIBANANE */
         header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
         .logo-area { display: flex; align-items: center; gap: 8px; }
         .logo-icon { font-size: 32px; background: -webkit-linear-gradient(45deg, var(--accent-cyan), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -119,8 +100,6 @@
         .category-card span { font-size: 12px; font-weight: 800; z-index: 2; text-shadow: 1px 1px 4px rgba(0,0,0,1); text-align: center; }
 
         .music-list-detailed { display: flex; flex-direction: column; gap: 15px; }
-        
-        /* MUSIC CARDS ZIMEFANYWA NDOGO ILI MAANDISHI YASIJIKATE */
         .music-card { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 18px; padding: 15px; display: flex; align-items: center; gap: 15px; margin-bottom: 5px; }
         .mc-thumb { width: 65px; height: 65px; border-radius: 14px; background: #ff4500; flex-shrink: 0; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; font-size: 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .mc-info-area { flex: 1; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
@@ -128,10 +107,8 @@
         .mc-title-area { flex: 1; min-width: 0; } 
         .mc-title-area h4 { font-size: 16px; margin-bottom: 2px; font-weight: 800; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } 
         .mc-title-area p { font-size: 12px; color: var(--text-muted); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } 
-        
         .mc-top-actions { display: flex; gap: 15px; color: var(--text-muted); font-size: 20px; align-items: center; flex-shrink: 0; margin-left: 8px; }
         .mc-top-actions i.fa-heart.liked { color: #ff007f; }
-        
         .mc-player-row { display: flex; align-items: center; gap: 10px; }
         .mc-play-btn { width: 40px; height: 40px; border-radius: 50%; background: var(--accent-purple); border: none; display: flex; justify-content: center; align-items: center; color: white; font-size: 16px; flex-shrink: 0; }
         .mc-time { font-size: 12px; color: var(--text-muted); font-weight: 700; }
@@ -140,8 +117,12 @@
         .mc-download-btn i { font-size: 16px; }
 
         .badge-mpya { background: #ff3b30; color: white; font-size: 10px; padding: 3px 8px; border-radius: 6px; font-weight: 900; display: inline-block; margin-bottom: 4px; text-transform: uppercase;}
-        
-        /* CREATE PAGE INPUTS ZIMEBORESHWA */
+        .loading-dots span { animation: blink 1.4s infinite both; font-weight: bold; }
+        .loading-dots span:nth-child(2) { animation-delay: .2s; }
+        .loading-dots span:nth-child(3) { animation-delay: .4s; }
+        @keyframes blink { 0% { opacity: .2; } 20% { opacity: 1; } 100% { opacity: .2; } }
+
+        /* CREATE PAGE INPUTS */
         .page-header-back { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; padding-top: 10px; }
         .back-btn { background: var(--surface-color); width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--text-main); border: 1px solid var(--border-color); font-size: 18px; }
         
@@ -151,13 +132,16 @@
         .required-star { color: #ff3b30; margin-left: 4px; }
         
         .input-box { width: 100%; height: 55px; background: #12141c; border: 2px solid rgba(138, 43, 226, 0.4); border-radius: 14px; padding: 0 15px; color: var(--text-main); font-size: 15px; font-weight: 600; outline: none; }
-        .textarea-box { width: 100%; height: 120px; background: #12141c; border: 2px solid rgba(138, 43, 226, 0.4); border-radius: 14px; padding: 15px; color: var(--text-main); font-size: 15px; resize: none; outline: none; }
+        .textarea-box { width: 100%; height: 120px; background: #12141c; border: 2px solid rgba(138, 43, 226, 0.4); border-radius: 14px; padding: 15px; color: var(--text-main); font-size: 15px; resize: none; outline: none; line-height: 1.5; }
         .input-box:focus, .textarea-box:focus { border-color: var(--accent-cyan); background: #161822; }
         .input-error { border-color: #ff3b30 !important; }
 
-        .genre-tags { display: flex; flex-wrap: wrap; gap: 10px; }
-        .genre-tag { background: #12141c; border: 1px solid var(--border-color); padding: 10px 18px; border-radius: 20px; font-size: 14px; cursor: pointer; color: var(--text-muted); font-weight: 700; }
-        .genre-tag.active { background: rgba(138, 43, 226, 0.25); border-color: var(--accent-cyan); color: var(--accent-cyan); }
+        /* MABORESHO YA GENRE NA VOCAL STYLES */
+        .genre-tags { display: flex; flex-wrap: wrap; gap: 12px; }
+        .genre-tag { background: rgba(26, 28, 41, 0.8); border: 1px solid var(--border-color); padding: 12px 18px; border-radius: 14px; font-size: 14px; cursor: pointer; color: var(--text-muted); font-weight: 700; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
+        .genre-tag i { font-size: 16px; opacity: 0.7; }
+        .genre-tag.active { background: linear-gradient(135deg, rgba(138, 43, 226, 0.2) 0%, rgba(0, 242, 254, 0.1) 100%); border-color: var(--accent-cyan); color: white; box-shadow: 0 4px 15px rgba(0, 242, 254, 0.15); }
+        .genre-tag.active i { color: var(--accent-cyan); opacity: 1; }
         
         .voice-upload-box { background: #12141c; border: 2px dashed var(--accent-purple); border-radius: 16px; padding: 25px 15px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; }
         .voice-upload-box.locked { border-color: rgba(255, 215, 0, 0.4); }
@@ -166,7 +150,6 @@
         .voice-text { font-size: 14px; color: var(--text-muted); }
         .lock-badge { font-size: 12px; background: rgba(255, 215, 0, 0.15); color: #ffd700; padding: 6px 12px; border-radius: 10px; font-weight: 800; }
 
-        /* TABS NA MENU */
         .music-tabs { display: flex; gap: 10px; margin-bottom: 25px; position: sticky; top: 0; background: var(--bg-color); padding: 15px 0; z-index: 10; }
         .music-tab { flex: 1; padding: 14px; border-radius: 20px; text-align: center; font-size: 15px; font-weight: 800; color: var(--text-muted); border: 1px solid var(--border-color); }
         .music-tab.active { background: var(--accent-purple); color: white; border-color: var(--accent-purple); }
@@ -195,12 +178,10 @@
         .credit-option-card.selected .radio-circle { border-color: var(--accent-purple); border-width: 4px; }
         .credit-option-card.selected .radio-circle::after { content: ''; width: 10px; height: 10px; background: var(--accent-purple); border-radius: 50%; }
 
-        /* BOTTOM NAV NYUMBUFU */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(11, 12, 16, 0.98); backdrop-filter: blur(15px); display: flex; justify-content: space-around; padding: 10px 0 15px 0; border-top: 1px solid var(--border-color); z-index: 100; display: none; }
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); font-size: 12px; font-weight: 700; background: none; border: none; width: 33.33%; }
         .nav-item.active { color: var(--accent-purple); font-weight: 900; }
         .nav-item i { font-size: 22px; }
-
         body.main-app-active .bottom-nav { display: flex; }
 
         .toast-notification { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: rgba(0, 230, 118, 0.95); color: #000; padding: 12px 25px; border-radius: 30px; font-size: 15px; font-weight: 800; z-index: 9999; opacity: 0; display: flex; align-items: center; gap: 10px; transition: 0.4s; }
@@ -217,7 +198,7 @@
         .custom-popup-card h3 { font-size: 22px; margin-bottom: 12px; color: white; }
         .custom-popup-card p { font-size: 15px; color: var(--text-muted); margin-bottom: 25px; line-height: 1.5; }
         .popup-btn-group { display: flex; gap: 10px; }
-        .popup-btn { background: var(--accent-purple); color: white; border: none; padding: 15px; border-radius: 16px; font-size: 16px; font-weight: 800; width: 100%; }
+        .popup-btn { background: var(--accent-purple); color: white; border: none; padding: 15px; border-radius: 16px; font-size: 16px; font-weight: 800; width: 100%; cursor:pointer; }
         .popup-btn.danger { background: #ff3b30; }
         .popup-btn.secondary { background: rgba(255, 255, 255, 0.08); color: white; }
         .popup-btn.gold-btn { background: linear-gradient(135deg, #ffd700, #ff8c00); color: black; }
@@ -230,7 +211,7 @@
         .action-sheet-thumb { width: 50px; height: 50px; border-radius: 12px; font-size: 18px; display: flex; justify-content: center; align-items: center; color: white; }
         .action-sheet-title h4 { font-size: 18px; color: white; margin-bottom: 4px; }
         .action-sheet-title p { font-size: 14px; color: var(--text-muted); }
-        .action-option { display: flex; align-items: center; gap: 15px; padding: 16px; background: rgba(255, 255, 255, 0.03); border-radius: 14px; margin-bottom: 10px; font-size: 16px; font-weight: 700; color: white; }
+        .action-option { display: flex; align-items: center; gap: 15px; padding: 16px; background: rgba(255, 255, 255, 0.03); border-radius: 14px; margin-bottom: 10px; font-size: 16px; font-weight: 700; color: white; cursor:pointer;}
         .action-option i { font-size: 20px; width: 25px; color: var(--accent-purple); text-align: center; }
         .action-option.delete-opt i { color: #ff3b30; }
 
@@ -246,7 +227,7 @@
 <body>
 
 <div class="toast-notification" id="app-toast">
-    <i class="fa-solid fa-circle-check"></i> <span id="toast-msg">Wimbo umekamilika!</span>
+    <i class="fa-solid fa-circle-check"></i> <span id="toast-msg">Success</span>
 </div>
 
 <!-- LANGUAGE SELECTION SCREEN -->
@@ -254,28 +235,19 @@
     <div class="lang-hero-img"><i class="fa-solid fa-globe"></i></div>
     <div class="lang-title-area">
         <h2 class="lang-title">Select Language</h2>
-        <p class="lang-subtitle">Chagua Lugha</p>
+        <p class="lang-subtitle">Chagua Lugha / Choisissez la langue</p>
     </div>
     <div class="lang-options-list">
         <div class="lang-card" onclick="selectInitialLanguage('en')">
-            <div class="lang-card-left">
-                <span class="lang-flag">🇬🇧</span>
-                <div class="lang-info"><h4>English</h4><p>Kiingereza</p></div>
-            </div>
+            <div class="lang-card-left"><span class="lang-flag">🇬🇧</span><div class="lang-info"><h4>English</h4><p>Kiingereza</p></div></div>
             <i class="fa-solid fa-chevron-right"></i>
         </div>
         <div class="lang-card" onclick="selectInitialLanguage('sw')">
-            <div class="lang-card-left">
-                <span class="lang-flag">🇹🇿</span>
-                <div class="lang-info"><h4>Swahili</h4><p>Kiswahili</p></div>
-            </div>
+            <div class="lang-card-left"><span class="lang-flag">🇹🇿</span><div class="lang-info"><h4>Swahili</h4><p>Kiswahili</p></div></div>
             <i class="fa-solid fa-chevron-right"></i>
         </div>
         <div class="lang-card" onclick="selectInitialLanguage('fr')">
-            <div class="lang-card-left">
-                <span class="lang-flag">🇫🇷</span>
-                <div class="lang-info"><h4>French</h4><p>Kifaransa</p></div>
-            </div>
+            <div class="lang-card-left"><span class="lang-flag">🇫🇷</span><div class="lang-info"><h4>French</h4><p>Kifaransa</p></div></div>
             <i class="fa-solid fa-chevron-right"></i>
         </div>
     </div>
@@ -295,10 +267,7 @@
             <div class="header-actions">
                 <div class="credits-badge">
                     <i class="fa-solid fa-coins coin-icon"></i>
-                    <div class="credits-info">
-                        <p data-i18n="credits_label">Credits</p>
-                        <h4 id="user-credits-display">5</h4>
-                    </div>
+                    <div class="credits-info"><p data-i18n="credits_label">Credits</p><h4 id="user-credits-display">5</h4></div>
                 </div>
                 <button class="btn-add-credits" onclick="switchPage('topup-page')" data-i18n="add_btn">+ Ongeza</button>
                 <div class="menu-icon-btn" onclick="openSettingsMenu()"><i class="fa-solid fa-bars"></i></div>
@@ -342,30 +311,34 @@
 
         <div class="input-group">
             <label class="input-label"><i class="fa-solid fa-signature"></i><span data-i18n="song_title_label">Andika Jina la Wimbo</span><span class="required-star">*</span></label>
-            <input type="text" id="song-title-input" class="input-box" placeholder="Mfano: Nitakupenda Milele" data-i18n-placeholder="song_title_placeholder">
+            <input type="text" id="song-title-input" class="input-box" data-i18n-placeholder="song_title_placeholder">
         </div>
 
         <div class="input-group">
             <label class="input-label"><i class="fa-solid fa-pen-nib"></i><span data-i18n="song_prompt_label">Andika Mashairi au Prompt</span><span class="required-star">*</span></label>
-            <textarea id="song-prompt-input" class="textarea-box" placeholder="Mfano: Nataka wimbo wa Bongo Flava..."></textarea>
+            <textarea id="song-prompt-input" class="textarea-box" data-i18n-placeholder="prompt_placeholder"></textarea>
         </div>
 
         <div class="input-group">
             <label class="input-label"><i class="fa-solid fa-guitar"></i><span data-i18n="genre_label">Aina ya Muziki</span></label>
             <div class="genre-tags">
-                <div class="genre-tag active" data-genre="Bongo Flava">Bongo Flava</div>
-                <div class="genre-tag" data-genre="Mduara">Mduara</div>
-                <div class="genre-tag" data-genre="Afrobeat">Afrobeat</div>
-                <div class="genre-tag" data-genre="RnB">RnB</div>
-                <div class="genre-tag" data-genre="Amapiano">Amapiano</div>
+                <div class="genre-tag active" data-genre="Bongo Flava"><i class="fa-solid fa-fire"></i> Bongo Flava</div>
+                <div class="genre-tag" data-genre="Mduara"><i class="fa-solid fa-drum"></i> Mduara</div>
+                <div class="genre-tag" data-genre="Afrobeat"><i class="fa-solid fa-earth-africa"></i> Afrobeat</div>
+                <div class="genre-tag" data-genre="RnB"><i class="fa-solid fa-heart"></i> RnB</div>
+                <div class="genre-tag" data-genre="Amapiano"><i class="fa-solid fa-compact-disc"></i> Amapiano</div>
             </div>
         </div>
 
         <div class="input-group">
             <label class="input-label"><i class="fa-solid fa-microphone"></i><span data-i18n="vocal_label">Chagua Aina ya Sauti</span></label>
             <div class="genre-tags">
-                <div class="voice-tag genre-tag active" data-voice="Mwanamke" data-i18n="voice_female">Mwanamke</div>
-                <div class="voice-tag genre-tag" data-voice="Mwanaume" data-i18n="voice_male">Mwanaume</div>
+                <div class="voice-tag genre-tag active" data-voice="Female">
+                    <i class="fa-solid fa-person-dress"></i> <span data-i18n="voice_female">Mwanamke</span>
+                </div>
+                <div class="voice-tag genre-tag" data-voice="Male">
+                    <i class="fa-solid fa-person"></i> <span data-i18n="voice_male">Mwanaume</span>
+                </div>
             </div>
         </div>
 
@@ -373,7 +346,7 @@
             <label class="input-label"><i class="fa-solid fa-crown"></i><span data-i18n="voice_cloning_label">Sauti Yako (Cloning)</span></label>
             <div class="voice-upload-box locked" id="voice-cloning-box" onclick="handleVoiceCloningClick()">
                 <i class="fa-solid fa-lock voice-icon" id="voice-cloning-icon"></i>
-                <span class="voice-text" id="voice-cloning-text" data-i18n="voice_cloning_desc">Inapatikana kwa Tsh 10,000 pekee</span>
+                <span class="voice-text" id="voice-cloning-text" data-i18n="voice_cloning_desc">Inapatikana kwa Tsh 10k pekee</span>
                 <div class="lock-badge" id="voice-lock-badge"><i class="fa-solid fa-crown"></i> <span data-i18n="locked_badge">Imefungwa</span></div>
             </div>
         </div>
@@ -450,7 +423,7 @@
         </div>
 
         <button class="btn-primary" id="checkout-pay-btn" onclick="executeSelectedPayment()">
-            <i class="fa-solid fa-lock"></i> <span data-i18n="pay_btn_prefix">Lipa</span> Tsh 2,000
+            <i class="fa-solid fa-lock"></i> <span id="btn-pay-text">Lipa</span> Tsh 2,000
         </button>
     </div>
 </div>
@@ -462,7 +435,7 @@
         <h3 id="popup-title-text">Taarifa</h3>
         <p id="popup-message-text">Ujumbe...</p>
         <div class="popup-btn-group" id="popup-btn-group-container">
-            <button class="popup-btn" onclick="closeModernPopup()" data-i18n="ok_btn">Sawa</button>
+            <button class="popup-btn" onclick="closeModernPopup()" id="popup-btn-ok">Sawa</button>
         </div>
     </div>
 </div>
@@ -473,8 +446,8 @@
         <h3 data-i18n="delete_song_title">Futa Wimbo</h3>
         <p id="confirm-message-text">Una uhakika?</p>
         <div class="popup-btn-group">
-            <button class="popup-btn secondary" onclick="closeConfirmPopup()" data-i18n="cancel_btn">Ghairi</button>
-            <button class="popup-btn danger" id="confirm-action-btn" data-i18n="yes_delete_btn">Futa</button>
+            <button class="popup-btn secondary" onclick="closeConfirmPopup()" id="confirm-btn-cancel">Ghairi</button>
+            <button class="popup-btn danger" id="confirm-action-btn">Futa</button>
         </div>
     </div>
 </div>
@@ -509,12 +482,109 @@
 </nav>
 
 <script>
-    // Sehemu ya JavaScript imebaki ileile, hakuna logic iliyoharibiwa.
     let currentLang = 'sw';
+    
+    // TAFSIRI ZOTE (ZIMEBORESHWA 100% KWA POPUPS NA PLACEHOLDERS)
     const translations = {
-        sw: { subtitle: "Tengeneza Nyimbo kwa AI", credits_label: "Credits", add_btn: "+ Ongeza", hero_title: "Tengeneza<br>Nyimbo Zako<br><span class=\"text-cyan\">kwa AI</span>", hero_desc: "Andika mashairi yako, chagua aina ya muziki au rekodi sauti yako na upate wimbo kamili.", create_new_song_btn: "TENGENEZA MPYA", genres_title: "Aina za Muziki", view_all: "Tazama", recent_songs_title: "Nyimbo Hivi Karibuni", create_song_title: "Tengeneza Wimbo", song_title_label: "Jina la Wimbo", song_title_placeholder: "Mfano: Nitakupenda", song_prompt_label: "Mashairi au Prompt", genre_label: "Aina ya Muziki", vocal_label: "Aina ya Sauti", voice_female: "Mwanamke", voice_male: "Mwanaume", voice_cloning_label: "Sauti Yako (Cloning)", voice_cloning_desc: "Inapatikana kwa Tsh 10k", locked_badge: "Imefungwa", unlocked_badge: "Imefunguliwa", voice_unlocked_desc: "Rekodi sauti yako", generate_btn: "TENGENEZA SASA", credit_cost: "-1 Credit", my_songs_title: "Nyimbo Zangu", my_songs_desc: "Orodha ya nyimbo zako", tab_all: "Zote", tab_fav: "Vipendwa", buy_credits_sub: "Nunua Credits", remaining_credits: "Zilizobaki", topup_banner_title: "Tengeneza Zaidi", topup_banner_desc: "Nunua credits uendelee.", select_package_title: "Chagua Kifurushi", badge_recommended: "Rec", pack_1_desc: "Nyimbo 5", pack_2_desc: "Nyimbo 15", pack_3_desc: "Nyimbo 30 + Sauti", complete_payment: "Malipo", pay_btn_prefix: "Lipa", ok_btn: "Sawa", cancel_btn: "Ghairi", delete_song_title: "Futa Wimbo", yes_delete_btn: "Futa", action_share: "Shiriki", action_delete: "Futa", settings_title: "Mipangilio", menu_topup: "Nunua Credit", menu_support: "Msaada (WhatsApp)", menu_logout: "Toka", nav_home: "Nyumbani", nav_create: "Tengeneza", nav_my_songs: "Zangu" },
-        en: { subtitle: "Generate Songs", credits_label: "Credits", add_btn: "+ Top Up", hero_title: "Create<br>Your Songs<br><span class=\"text-cyan\">with AI</span>", hero_desc: "Write lyrics and select a genre to get a song.", create_new_song_btn: "CREATE SONG", genres_title: "Genres", view_all: "View All", recent_songs_title: "Recent Songs", create_song_title: "Create Song", song_title_label: "Song Title", song_title_placeholder: "Example: Love", song_prompt_label: "Lyrics or Prompt", genre_label: "Genre", vocal_label: "Vocal Style", voice_female: "Female", voice_male: "Male", voice_cloning_label: "Voice Cloning", voice_cloning_desc: "Pro Feature", locked_badge: "Locked", unlocked_badge: "Unlocked", voice_unlocked_desc: "Record your voice", generate_btn: "GENERATE NOW", credit_cost: "-1 Credit", my_songs_title: "My Songs", my_songs_desc: "List of your songs", tab_all: "All", tab_fav: "Favorites", buy_credits_sub: "Buy Credits", remaining_credits: "Remaining", topup_banner_title: "Generate More", topup_banner_desc: "Buy credits.", select_package_title: "Select Package", badge_recommended: "Rec", pack_1_desc: "5 songs", pack_2_desc: "15 songs", pack_3_desc: "30 songs + Voice", complete_payment: "Payment", pay_btn_prefix: "Pay", ok_btn: "OK", cancel_btn: "Cancel", delete_song_title: "Delete", yes_delete_btn: "Delete", action_share: "Share", action_delete: "Delete", settings_title: "Settings", menu_topup: "Top Up", menu_support: "Support", menu_logout: "Logout", nav_home: "Home", nav_create: "Create", nav_my_songs: "My Songs" },
-        fr: { subtitle: "Générer des Chansons", credits_label: "Crédits", add_btn: "+ Ajouter", hero_title: "Créez<br>Vos Chansons<br><span class=\"text-cyan\">avec l'IA</span>", hero_desc: "Écrivez des paroles pour obtenir une chanson.", create_new_song_btn: "CRÉER", genres_title: "Genres", view_all: "Voir Tout", recent_songs_title: "Récentes", create_song_title: "Créer Chanson", song_title_label: "Titre", song_title_placeholder: "Exemple: Amour", song_prompt_label: "Paroles", genre_label: "Genre", vocal_label: "Voix", voice_female: "Femme", voice_male: "Homme", voice_cloning_label: "Clonage Vocal", voice_cloning_desc: "Fonction Pro", locked_badge: "Verrouillé", unlocked_badge: "Déverrouillé", voice_unlocked_desc: "Enregistrez votre voix", generate_btn: "GÉNÉRER", credit_cost: "-1 Crédit", my_songs_title: "Mes Chansons", my_songs_desc: "Votre liste", tab_all: "Tout", tab_fav: "Favoris", buy_credits_sub: "Acheter", remaining_credits: "Restant", topup_banner_title: "Plus de Chansons", topup_banner_desc: "Achetez des crédits.", select_package_title: "Forfaits", badge_recommended: "Rec", pack_1_desc: "5 chansons", pack_2_desc: "15 chansons", pack_3_desc: "30 chansons + Voix", complete_payment: "Paiement", pay_btn_prefix: "Payer", ok_btn: "OK", cancel_btn: "Annuler", delete_song_title: "Supprimer", yes_delete_btn: "Supprimer", action_share: "Partager", action_delete: "Supprimer", settings_title: "Paramètres", menu_topup: "Acheter", menu_support: "Support", menu_logout: "Quitter", nav_home: "Accueil", nav_create: "Créer", nav_my_songs: "Chansons" }
+        sw: { 
+            subtitle: "Tengeneza Nyimbo kwa AI", credits_label: "Credits", add_btn: "+ Ongeza", 
+            hero_title: "Tengeneza<br>Nyimbo Zako<br><span class=\"text-cyan\">kwa AI</span>", 
+            hero_desc: "Andika mashairi yako, chagua aina ya muziki na upate wimbo kamili.", 
+            create_new_song_btn: "TENGENEZA MPYA", genres_title: "Aina za Muziki", view_all: "Tazama", 
+            recent_songs_title: "Nyimbo Hivi Karibuni", create_song_title: "Tengeneza Wimbo", 
+            song_title_label: "Jina la Wimbo", song_title_placeholder: "Mfano: Nitakupenda Milele", 
+            song_prompt_label: "Mashairi au Prompt", prompt_placeholder: "Mfano: Nataka wimbo wa Bongo Flava unaohusu mapenzi ya dhati...", 
+            genre_label: "Aina ya Muziki", vocal_label: "Aina ya Sauti", voice_female: "Mwanamke", voice_male: "Mwanaume", 
+            voice_cloning_label: "Sauti Yako (Cloning)", voice_cloning_desc: "Inapatikana kwa Tsh 10k", 
+            locked_badge: "Imefungwa", unlocked_badge: "Imefunguliwa", voice_unlocked_desc: "Rekodi sauti yako", 
+            generate_btn: "TENGENEZA SASA", credit_cost: "-1 Credit", my_songs_title: "Nyimbo Zangu", 
+            my_songs_desc: "Orodha ya nyimbo zako", tab_all: "Zote", tab_fav: "Vipendwa", buy_credits_sub: "Nunua Credits", 
+            remaining_credits: "Zilizobaki", topup_banner_title: "Tengeneza Zaidi", topup_banner_desc: "Nunua credits uendelee.", 
+            select_package_title: "Chagua Kifurushi", badge_recommended: "Rec", pack_1_desc: "Nyimbo 5", 
+            pack_2_desc: "Nyimbo 15", pack_3_desc: "Nyimbo 30 + Sauti", complete_payment: "Malipo", 
+            pay_btn_prefix: "Lipa", ok_btn: "Sawa", cancel_btn: "Ghairi", delete_song_title: "Futa Wimbo", 
+            yes_delete_btn: "Ndiyo, Futa", action_share: "Shiriki", action_delete: "Futa", settings_title: "Mipangilio", 
+            menu_topup: "Nunua Credit", menu_support: "Msaada (WhatsApp)", menu_logout: "Toka", 
+            nav_home: "Nyumbani", nav_create: "Tengeneza", nav_my_songs: "Zangu",
+            
+            // POPUPS NA JUMBE ZA JAVASCRIPT
+            err_title: "Taarifa Muhimu", err_fill_all: "Tafadhali jaza jina na mashairi ya wimbo.",
+            err_no_title: "Andika jina la wimbo.", err_no_prompt: "Andika mashairi au prompt.",
+            err_no_credits: "Credit zako zimekwisha. Nunua credit kuendelea.",
+            msg_generating: "Inatengenezwa", msg_generating_sub: "Inatengeneza wimbo wako",
+            msg_link_copied: "Kiungo kimenakiliwa kikamilifu!", msg_success_title: "Imefanikiwa!",
+            msg_delete_confirm: "Una uhakika unataka kufuta wimbo huu?",
+            msg_support: "WhatsApp: +255 700 000 000\nMsaada 24/7.", msg_logout_title: "Toka Akaunti",
+            msg_logout_desc: "Je, unataka kutoka kwenye akaunti yako?", badge_new: "Mpya",
+            btn_download: "Pakua", vip_title: "Kipengele cha VIP", payment_success: "Malipo yamefanikiwa!",
+            toast_generated: "Wimbo umetengenezwa kikamilifu!", toast_deleted: "Wimbo umefutwa."
+        },
+        en: { 
+            subtitle: "Generate AI Songs", credits_label: "Credits", add_btn: "+ Top Up", 
+            hero_title: "Create<br>Your Songs<br><span class=\"text-cyan\">with AI</span>", 
+            hero_desc: "Write your lyrics, select a genre and get a complete song.", 
+            create_new_song_btn: "CREATE SONG", genres_title: "Genres", view_all: "View All", 
+            recent_songs_title: "Recent Songs", create_song_title: "Create Song", 
+            song_title_label: "Song Title", song_title_placeholder: "Example: Forever Love", 
+            song_prompt_label: "Lyrics or Prompt", prompt_placeholder: "Example: I want a romantic Afrobeat song...", 
+            genre_label: "Music Genre", vocal_label: "Vocal Style", voice_female: "Female", voice_male: "Male", 
+            voice_cloning_label: "Voice Cloning", voice_cloning_desc: "Available for Tsh 10k", 
+            locked_badge: "Locked", unlocked_badge: "Unlocked", voice_unlocked_desc: "Record your voice", 
+            generate_btn: "GENERATE NOW", credit_cost: "-1 Credit", my_songs_title: "My Songs", 
+            my_songs_desc: "List of your generated songs", tab_all: "All", tab_fav: "Favorites", buy_credits_sub: "Buy Credits", 
+            remaining_credits: "Remaining", topup_banner_title: "Generate More", topup_banner_desc: "Buy credits to continue.", 
+            select_package_title: "Select Package", badge_recommended: "Rec", pack_1_desc: "5 songs", 
+            pack_2_desc: "15 songs", pack_3_desc: "30 songs + Voice", complete_payment: "Payment", 
+            pay_btn_prefix: "Pay", ok_btn: "OK", cancel_btn: "Cancel", delete_song_title: "Delete Song", 
+            yes_delete_btn: "Yes, Delete", action_share: "Share", action_delete: "Delete", settings_title: "Settings", 
+            menu_topup: "Top Up", menu_support: "Support", menu_logout: "Logout", 
+            nav_home: "Home", nav_create: "Create", nav_my_songs: "My Songs",
+            
+            // JAVASCRIPT POPUPS
+            err_title: "Important Notice", err_fill_all: "Please fill in the song title and lyrics.",
+            err_no_title: "Enter the song title.", err_no_prompt: "Enter lyrics or prompt.",
+            err_no_credits: "Out of credits. Top up to continue.",
+            msg_generating: "Generating", msg_generating_sub: "Creating your song",
+            msg_link_copied: "Link copied successfully!", msg_success_title: "Success!",
+            msg_delete_confirm: "Are you sure you want to delete this song?",
+            msg_support: "WhatsApp: +255 700 000 000\n24/7 Support.", msg_logout_title: "Logout",
+            msg_logout_desc: "Do you want to logout of your account?", badge_new: "New",
+            btn_download: "Download", vip_title: "VIP Feature", payment_success: "Payment successful!",
+            toast_generated: "Song generated successfully!", toast_deleted: "Song deleted."
+        },
+        fr: { 
+            subtitle: "Générer des Chansons", credits_label: "Crédits", add_btn: "+ Ajouter", 
+            hero_title: "Créez<br>Vos Chansons<br><span class=\"text-cyan\">avec l'IA</span>", 
+            hero_desc: "Écrivez des paroles pour obtenir une chanson.", 
+            create_new_song_btn: "CRÉER", genres_title: "Genres", view_all: "Voir Tout", 
+            recent_songs_title: "Récentes", create_song_title: "Créer Chanson", 
+            song_title_label: "Titre", song_title_placeholder: "Exemple: Mon Amour", 
+            song_prompt_label: "Paroles", prompt_placeholder: "Exemple: Je veux une chanson romantique...", 
+            genre_label: "Genre", vocal_label: "Voix", voice_female: "Femme", voice_male: "Homme", 
+            voice_cloning_label: "Clonage Vocal", voice_cloning_desc: "Fonction Pro (Tsh 10k)", 
+            locked_badge: "Verrouillé", unlocked_badge: "Déverrouillé", voice_unlocked_desc: "Enregistrez votre voix", 
+            generate_btn: "GÉNÉRER", credit_cost: "-1 Crédit", my_songs_title: "Mes Chansons", 
+            my_songs_desc: "Votre liste", tab_all: "Tout", tab_fav: "Favoris", buy_credits_sub: "Acheter", 
+            remaining_credits: "Restant", topup_banner_title: "Plus de Chansons", topup_banner_desc: "Achetez des crédits.", 
+            select_package_title: "Forfaits", badge_recommended: "Rec", pack_1_desc: "5 chansons", 
+            pack_2_desc: "15 chansons", pack_3_desc: "30 chansons + Voix", complete_payment: "Paiement", 
+            pay_btn_prefix: "Payer", ok_btn: "OK", cancel_btn: "Annuler", delete_song_title: "Supprimer", 
+            yes_delete_btn: "Supprimer", action_share: "Partager", action_delete: "Supprimer", settings_title: "Paramètres", 
+            menu_topup: "Acheter", menu_support: "Support", menu_logout: "Quitter", 
+            nav_home: "Accueil", nav_create: "Créer", nav_my_songs: "Chansons",
+            
+            // JAVASCRIPT POPUPS
+            err_title: "Avis Important", err_fill_all: "Veuillez remplir le titre et les paroles.",
+            err_no_title: "Entrez le titre de la chanson.", err_no_prompt: "Entrez les paroles.",
+            err_no_credits: "Crédits épuisés. Rechargez pour continuer.",
+            msg_generating: "Génération", msg_generating_sub: "Création de votre chanson",
+            msg_link_copied: "Lien copié avec succès!", msg_success_title: "Succès!",
+            msg_delete_confirm: "Voulez-vous vraiment supprimer cette chanson?",
+            msg_support: "WhatsApp: +255 700 000 000\nSupport 24/7.", msg_logout_title: "Se déconnecter",
+            msg_logout_desc: "Voulez-vous vous déconnecter?", badge_new: "Nouveau",
+            btn_download: "Télécharger", vip_title: "Fonction VIP", payment_success: "Paiement réussi!",
+            toast_generated: "Chanson générée avec succès!", toast_deleted: "Chanson supprimée."
+        }
     };
 
     function selectInitialLanguage(lang) {
@@ -529,14 +599,28 @@
 
     function applyLanguageStrings(lang) {
         document.getElementById('html-root').setAttribute('lang', lang);
+        const langData = translations[lang];
+
+        // Replace texts
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
-            if (translations[lang][key]) el.innerHTML = translations[lang][key];
+            if (langData[key]) el.innerHTML = langData[key];
         });
+
+        // Replace placeholders
         document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
             const key = el.getAttribute('data-i18n-placeholder');
-            if (translations[lang][key]) el.setAttribute('placeholder', translations[lang][key]);
+            if (langData[key]) el.setAttribute('placeholder', langData[key]);
         });
+        
+        // Update pay button prefix text manually if needed
+        document.getElementById('btn-pay-text').innerText = langData.pay_btn_prefix;
+        
+        // Update popup action buttons logic labels
+        document.getElementById('popup-btn-ok').innerText = langData.ok_btn;
+        document.getElementById('confirm-btn-cancel').innerText = langData.cancel_btn;
+        document.getElementById('confirm-action-btn').innerText = langData.yes_delete_btn;
+
         if(isVoiceCloningUnlocked) unlockVoiceUI();
         renderSongs();
     }
@@ -598,18 +682,19 @@
         setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    let selectedCreditsCount = 5; let selectedUnlockVoice = false;
+    let selectedCreditsCount = 5; let selectedUnlockVoice = false; let selectedPriceStr = "Tsh 2,000";
     function selectCreditOption(priceNum, creditsCount, priceStr, unlockVoice) {
-        selectedCreditsCount = creditsCount; selectedUnlockVoice = unlockVoice;
+        selectedCreditsCount = creditsCount; selectedUnlockVoice = unlockVoice; selectedPriceStr = priceStr;
         document.querySelectorAll('.credit-option-card').forEach(c => c.classList.remove('selected'));
         if(document.getElementById('opt-' + priceNum)) document.getElementById('opt-' + priceNum).classList.add('selected');
-        document.getElementById('checkout-pay-btn').innerHTML = `<i class="fa-solid fa-lock"></i> ${translations[currentLang].pay_btn_prefix} ${priceStr}`;
+        document.getElementById('checkout-pay-btn').innerHTML = `<i class="fa-solid fa-lock"></i> <span id="btn-pay-text">${translations[currentLang].pay_btn_prefix}</span> ${priceStr}`;
     }
 
     function executeSelectedPayment() {
         currentCredits += selectedCreditsCount;
         if (selectedUnlockVoice) { isVoiceCloningUnlocked = true; unlockVoiceUI(); }
-        showModernPopup("Success!", "Malipo yamefanikiwa.", "success", () => switchPage('home-page'));
+        const langData = translations[currentLang];
+        showModernPopup(langData.msg_success_title, langData.payment_success, "success", () => switchPage('home-page'));
         updateCreditsDisplay(); saveData(); 
     }
 
@@ -632,59 +717,129 @@
     function openSettingsMenu() { document.getElementById('settings-menu-sheet').classList.add('show'); }
     function closeSettingsMenu() { document.getElementById('settings-menu-sheet').classList.remove('show'); }
     function closeSettingsOnOutside(e) { if (e.target.id === 'settings-menu-sheet') closeSettingsMenu(); }
+    
     function openMenuInfo(type) {
         closeSettingsMenu();
+        const langData = translations[currentLang];
         if(type === 'buy-credit') switchPage('topup-page');
-        else if(type === 'support') showModernPopup("WhatsApp", "+255 700 000 000", "info");
-        else showModernPopup("Logout", "Logged out.", "info");
+        else if(type === 'support') showModernPopup(langData.menu_support, langData.msg_support, "info");
+        else showModernPopup(langData.msg_logout_title, langData.msg_logout_desc, "warning");
     }
 
     function handleVoiceCloningClick() {
-        if (!isVoiceCloningUnlocked) showModernPopup("VIP Feature", "Tsh 10k required", "gold", () => switchPage('topup-page'));
-        else showModernPopup("Voice Cloning", "Ready to record", "success");
+        const langData = translations[currentLang];
+        if (!isVoiceCloningUnlocked) showModernPopup(langData.vip_title, langData.voice_cloning_desc, "gold", () => switchPage('topup-page'));
+        else showModernPopup(langData.voice_cloning_label, langData.voice_unlocked_desc, "success");
     }
 
     function checkCreditsAndGenerate() {
+        const langData = translations[currentLang];
         const titleVal = document.getElementById('song-title-input').value.trim();
         const promptVal = document.getElementById('song-prompt-input').value.trim();
-        if(!titleVal || !promptVal) { showModernPopup("Kosa", "Jaza jina na mashairi.", "warning"); return; }
-        if (currentCredits <= 0) { showModernPopup("Kosa", "Hauna credits.", "warning", () => switchPage('topup-page')); return; }
+        
+        if(!titleVal && !promptVal) { showModernPopup(langData.err_title, langData.err_fill_all, "warning"); return; }
+        if(!titleVal) { showModernPopup(langData.err_title, langData.err_no_title, "warning"); return; }
+        if(!promptVal) { showModernPopup(langData.err_title, langData.err_no_prompt, "warning"); return; }
+        
+        if (currentCredits <= 0) { 
+            showModernPopup(langData.err_title, langData.err_no_credits, "warning", () => switchPage('topup-page')); 
+            return; 
+        }
         
         currentCredits--; updateCreditsDisplay(); saveData();
         const songId = 'song-' + Date.now();
-        mySongs.unshift({ id: songId, title: titleVal, genre: 'Bongo Flava', voice: 'Mwanamke', isFav: false, time: '3:15' });
-        saveData(); switchPage('home-page'); showToast("Wimbo umetengenezwa!"); renderSongs();
+        
+        // Retrieve selected options
+        const activeGenreTag = document.querySelector('.genre-tag.active:not(.voice-tag)');
+        const activeVoiceTag = document.querySelector('.voice-tag.active');
+        const genre = activeGenreTag ? activeGenreTag.getAttribute('data-genre') : 'Bongo Flava';
+        const voiceType = activeVoiceTag ? translations[currentLang][activeVoiceTag.getAttribute('data-voice') === 'Male' ? 'voice_male' : 'voice_female'] : translations[currentLang].voice_female;
+
+        switchPage('home-page');
+        
+        const rC = document.getElementById('recent-songs-container');
+        const loadingCardId = 'loading-' + songId;
+        const loadingHTML = `
+            <div class="music-card generating" id="${loadingCardId}">
+                <div class="generating-content" style="display:flex; align-items:center; gap:20px; width:100%;">
+                    <div style="width:50px; height:50px; border-radius:50%; border:3px solid rgba(255,255,255,0.1); border-top-color:var(--accent-purple); animation:spin 1s linear infinite;"></div>
+                    <div style="flex:1;">
+                        <span class="badge-mpya">${langData.msg_generating}</span>
+                        <h4 style="font-size:18px; color:white;">${titleVal}</h4>
+                        <p class="loading-dots" style="color:var(--text-muted); font-size:14px;">${langData.msg_generating_sub}<span>.</span><span>.</span><span>.</span></p>
+                    </div>
+                </div>
+            </div>`;
+        rC.insertAdjacentHTML('afterbegin', loadingHTML);
+        
+        document.getElementById('song-title-input').value = '';
+        document.getElementById('song-prompt-input').value = '';
+
+        setTimeout(() => {
+            const lc = document.getElementById(loadingCardId); if(lc) lc.remove();
+            mySongs.unshift({ id: songId, title: titleVal, genre: genre, voice: voiceType, isFav: false, time: '3:15' });
+            saveData(); renderSongs(); showToast(langData.toast_generated);
+        }, 4000);
     }
 
-    function createSongHTML(song) {
+    function createSongHTML(song, isNew = false) {
+        const langData = translations[currentLang];
         const favClass = song.isFav ? 'fa-solid liked' : 'fa-regular';
-        return `<div class="music-card" data-song-id="${song.id}" data-is-fav="${song.isFav}"><div class="mc-thumb" style="background: linear-gradient(135deg, #8a2be2, #ff007f);">${song.title.substring(0,4)}</div><div class="mc-info-area"><div class="mc-header-row"><div class="mc-title-area"><h4>${song.title}</h4><p>${song.genre} &bull; ${song.time}</p></div><div class="mc-top-actions"><i class="${favClass} fa-heart fav-icon" onclick="toggleFavorite(this, '${song.id}')"></i><i class="fa-solid fa-ellipsis-vertical" onclick="openActionSheet('${song.id}', '${song.title}', '${song.genre}')"></i></div></div><div class="mc-player-row"><button class="mc-play-btn" onclick="togglePlay(this)"><i class="fa-solid fa-play"></i></button><span class="mc-time">0:00</span><div class="mc-waveform"></div><span class="mc-time">${song.time}</span></div></div></div>`;
+        const badgeHTML = isNew ? `<span class="badge-mpya">${langData.badge_new}</span>` : '';
+        return `
+            <div class="music-card" data-song-id="${song.id}" data-is-fav="${song.isFav}">
+                <div class="mc-thumb" style="background: linear-gradient(135deg, #8a2be2, #ff007f);">${song.title.substring(0,4)}</div>
+                <div class="mc-info-area">
+                    <div class="mc-header-row">
+                        <div class="mc-title-area">${badgeHTML}<h4>${song.title}</h4><p>${song.genre} &bull; ${song.time}</p></div>
+                        <div class="mc-top-actions"><i class="${favClass} fa-heart fav-icon" onclick="toggleFavorite(this, '${song.id}')"></i><i class="fa-solid fa-ellipsis-vertical" onclick="openActionSheet('${song.id}', '${song.title}', '${song.genre}')"></i></div>
+                    </div>
+                    <div class="mc-player-row">
+                        <button class="mc-play-btn" onclick="togglePlay(this)"><i class="fa-solid fa-play"></i></button>
+                        <span class="mc-time">0:00</span>
+                        <div class="mc-waveform"></div>
+                        <span class="mc-time">${song.time}</span>
+                        <button class="mc-download-btn" style="border: 1px solid rgba(74, 144, 226, 0.4); border-radius: 10px; padding: 6px 10px; color: #4a90e2; font-size: 10px; font-weight: 800; background: transparent;"><i class="fa-solid fa-download"></i> ${langData.btn_download}</button>
+                    </div>
+                </div>
+            </div>`;
     }
 
     function renderSongs() {
-        const rC = document.getElementById('recent-songs-container'); const aC = document.getElementById('all-songs-container');
-        rC.innerHTML = ''; aC.innerHTML = '';
-        mySongs.slice(0, 3).forEach(s => rC.innerHTML += createSongHTML(s));
-        mySongs.forEach(s => aC.innerHTML += createSongHTML(s));
+        const rC = document.getElementById('recent-songs-container'); 
+        const aC = document.getElementById('all-songs-container');
+        
+        let loadingHTML = '';
+        const generatingCard = rC.querySelector('.generating');
+        if(generatingCard) loadingHTML = generatingCard.outerHTML;
+
+        rC.innerHTML = loadingHTML; aC.innerHTML = '';
+        
+        mySongs.slice(0, 3).forEach((s, index) => rC.innerHTML += createSongHTML(s, index === 0 && !loadingHTML));
+        mySongs.forEach(s => aC.innerHTML += createSongHTML(s, false));
+        
         const activeTab = document.querySelector('.music-tab.active');
-        if(activeTab && activeTab.innerText.includes('Vipendwa')) switchTab('favorites', activeTab);
+        if(activeTab && (activeTab.innerText.includes('Vipendwa') || activeTab.innerText.includes('Favorites') || activeTab.innerText.includes('Favoris'))) {
+             switchTab('favorites', activeTab);
+        }
     }
 
     let customCb = null;
     function showModernPopup(title, msg, type = 'info', cb = null) {
         document.getElementById('popup-title-text').innerText = title;
         document.getElementById('popup-message-text').innerText = msg;
+        const langData = translations[currentLang];
         const iconBox = document.getElementById('popup-icon-container'), btnGrp = document.getElementById('popup-btn-group-container');
         customCb = cb;
         if(type === 'warning') {
             iconBox.className = 'popup-icon-box warning';
-            btnGrp.innerHTML = `<button class="popup-btn secondary" onclick="closeModernPopup()">Cancel</button><button class="popup-btn danger" onclick="execCb()">OK</button>`;
+            btnGrp.innerHTML = `<button class="popup-btn secondary" onclick="closeModernPopup()">${langData.cancel_btn}</button><button class="popup-btn danger" onclick="execCb()">${langData.ok_btn}</button>`;
         } else if(type === 'gold') {
             iconBox.className = 'popup-icon-box gold';
-            btnGrp.innerHTML = `<button class="popup-btn secondary" onclick="closeModernPopup()">Cancel</button><button class="popup-btn gold-btn" onclick="execCb()">OK</button>`;
+            btnGrp.innerHTML = `<button class="popup-btn secondary" onclick="closeModernPopup()">${langData.cancel_btn}</button><button class="popup-btn gold-btn" onclick="execCb()">${langData.ok_btn}</button>`;
         } else {
             iconBox.className = 'popup-icon-box';
-            btnGrp.innerHTML = `<button class="popup-btn" onclick="closeModernPopup()">OK</button>`;
+            btnGrp.innerHTML = `<button class="popup-btn" onclick="closeModernPopup()">${langData.ok_btn}</button>`;
         }
         document.getElementById('custom-modern-popup').classList.add('show');
     }
@@ -694,10 +849,24 @@
     function openActionSheet(id, title, info) { activeSheetSongId = id; activeSheetSongTitle = title; document.getElementById('sheet-song-title').innerText = title; document.getElementById('song-action-sheet').classList.add('show'); }
     function closeActionSheet() { document.getElementById('song-action-sheet').classList.remove('show'); }
     function closeActionSheetOnOutside(e) { if (e.target.id === 'song-action-sheet') closeActionSheet(); }
-    function shareCurrentSong() { closeActionSheet(); showToast("Link copied!"); }
-    function confirmDeleteSong() { closeActionSheet(); document.getElementById('custom-confirm-popup').classList.add('show'); }
+    
+    function shareCurrentSong() { 
+        closeActionSheet(); 
+        showToast(translations[currentLang].msg_link_copied); 
+    }
+    
+    function confirmDeleteSong() { 
+        closeActionSheet(); 
+        document.getElementById('confirm-message-text').innerText = translations[currentLang].msg_delete_confirm;
+        document.getElementById('custom-confirm-popup').classList.add('show'); 
+    }
+    
     function closeConfirmPopup() { document.getElementById('custom-confirm-popup').classList.remove('show'); }
-    document.getElementById('confirm-action-btn').onclick = function() { closeConfirmPopup(); mySongs = mySongs.filter(s => s.id !== activeSheetSongId); saveData(); renderSongs(); showToast("Deleted."); };
+    
+    document.getElementById('confirm-action-btn').onclick = function() { 
+        closeConfirmPopup(); mySongs = mySongs.filter(s => s.id !== activeSheetSongId); 
+        saveData(); renderSongs(); showToast(translations[currentLang].toast_deleted); 
+    };
 
     function toggleFavorite(icon, id) {
         const i = mySongs.findIndex(s => s.id === id);
@@ -728,8 +897,20 @@
         if(playingBtn === btn) playingBtn = null;
     }
 
-    document.querySelectorAll('.genre-tag:not(.voice-tag)').forEach(tag => { tag.addEventListener('click', function() { document.querySelectorAll('.genre-tag:not(.voice-tag)').forEach(t => t.classList.remove('active')); this.classList.add('active'); }); });
-    document.querySelectorAll('.voice-tag').forEach(tag => { tag.addEventListener('click', function() { document.querySelectorAll('.voice-tag').forEach(t => t.classList.remove('active')); this.classList.add('active'); }); });
+    // Interactive Genre & Voice Tags
+    document.querySelectorAll('.genre-tag:not(.voice-tag)').forEach(tag => { 
+        tag.addEventListener('click', function() { 
+            document.querySelectorAll('.genre-tag:not(.voice-tag)').forEach(t => t.classList.remove('active')); 
+            this.classList.add('active'); 
+        }); 
+    });
+    
+    document.querySelectorAll('.voice-tag').forEach(tag => { 
+        tag.addEventListener('click', function() { 
+            document.querySelectorAll('.voice-tag').forEach(t => t.classList.remove('active')); 
+            this.classList.add('active'); 
+        }); 
+    });
 </script>
 </body>
 </html>
