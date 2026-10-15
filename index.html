@@ -20,7 +20,6 @@
             margin: 0; padding: 0; box-sizing: border-box; 
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
             -webkit-tap-highlight-color: transparent; 
-            touch-action: manipulation; 
         }
 
         html, body {
@@ -548,10 +547,8 @@
 
 <script>
     // ==========================================
-    // KUZUIA ZOOMING LAKINI SCROLL INARUHUSIWA
+    // KUZUIA DOUBLE-TAP ZOOM ILI SCROLL ISUMBULIWE
     // ==========================================
-    
-    // Kuzuia Double-Tap to Zoom pekee kwenye Safari/WebViews
     let lastTouchEnd = 0;
     document.addEventListener('touchend', function (event) {
         let now = (new Date()).getTime();
