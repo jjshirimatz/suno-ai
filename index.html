@@ -2,7 +2,6 @@
 <html lang="sw">
 <head>
     <meta charset="UTF-8">
-    <!-- Viewport hii inalazimisha app ijae kioo kizima na isisinyae -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>AI Music App</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -28,10 +27,11 @@
             -webkit-text-size-adjust: 100%; background-color: var(--bg-color); 
         }
 
-        body { color: var(--text-main); padding-bottom: 110px; font-size: 18px; }
+        /* NIMEONGEZA BASE FONT SIZE IWE KUBWA */
+        body { color: var(--text-main); padding-bottom: 110px; font-size: 20px; }
 
-        /* HAPA NDIPO TATIZO LILIPOKUWA: Nimeondoa max-width ili ijae kioo asilimia 100 */
-        .app-container { width: 100%; max-width: 100%; margin: 0; padding: 20px; }
+        /* Nimepunguza padding ili vitu vipate nafasi kutanuka */
+        .app-container { width: 100%; max-width: 100%; margin: 0; padding: 15px; }
 
         .page-section { display: none; animation: fadeIn 0.3s ease-in-out; }
         .page-section.active-page { display: block; }
@@ -41,101 +41,100 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- HEADER KUBWA NA ILIYOJAA VIZURI --- */
         header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
         .logo-area { display: flex; align-items: center; gap: 12px; }
-        .logo-icon { font-size: 38px; background: -webkit-linear-gradient(45deg, var(--accent-cyan), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .logo-text h1 { font-size: 26px; font-weight: 700; line-height: 1.1; }
-        .logo-text p { font-size: 14px; color: var(--text-muted); }
+        .logo-icon { font-size: 42px; background: -webkit-linear-gradient(45deg, var(--accent-cyan), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo-text h1 { font-size: 30px; font-weight: 800; line-height: 1.1; }
+        .logo-text p { font-size: 16px; color: var(--text-muted); font-weight: 500; }
         
         .header-actions { display: flex; align-items: center; gap: 15px; }
-        .credits-badge { background: rgba(255, 255, 255, 0.1); border-radius: 25px; padding: 8px 16px; display: flex; align-items: center; gap: 10px; border: 1px solid var(--border-color); }
-        .credits-info p { font-size: 12px; color: var(--text-muted); margin: 0; line-height: 1; }
-        .credits-info h4 { font-size: 18px; margin: 0; display: flex; align-items: center; gap: 6px; }
-        .coin-icon { color: #ffd700; font-size: 20px; }
+        .credits-badge { background: rgba(255, 255, 255, 0.1); border-radius: 25px; padding: 10px 18px; display: flex; align-items: center; gap: 10px; border: 1px solid var(--border-color); }
+        .credits-info p { font-size: 13px; color: var(--text-muted); margin: 0; line-height: 1; font-weight: 600; }
+        .credits-info h4 { font-size: 20px; margin: 0; display: flex; align-items: center; gap: 6px; font-weight: 800; }
+        .coin-icon { color: #ffd700; font-size: 22px; }
         
-        .btn-add-credits { background: var(--accent-purple); color: white; font-size: 14px; padding: 8px 12px; border-radius: 10px; text-decoration: none; font-weight: bold; cursor: pointer; border: none; outline: none; }
+        .btn-add-credits { background: var(--accent-purple); color: white; font-size: 16px; padding: 10px 15px; border-radius: 12px; text-decoration: none; font-weight: bold; cursor: pointer; border: none; outline: none; }
         
-        .menu-icon-btn { width: 50px; height: 50px; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--text-main); cursor: pointer; font-size: 22px; transition: 0.2s; flex-shrink: 0; }
+        .menu-icon-btn { width: 55px; height: 55px; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--text-main); cursor: pointer; font-size: 26px; transition: 0.2s; flex-shrink: 0; }
         
-        /* --- HERO BANNER KUBWA --- */
-        .hero-banner { background: linear-gradient(135deg, rgba(26,28,41,1) 0%, rgba(42,24,68,1) 100%); border-radius: 24px; padding: 35px 25px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 35px; }
-        .hero-content { position: relative; z-index: 2; width: 85%; }
-        .hero-title { font-size: 38px; line-height: 1.2; margin-bottom: 15px; font-weight: 800; }
+        /* MAANDISHI YA HERO YAMEKUWA MAKUBWA NA BOLD */
+        .hero-banner { background: linear-gradient(135deg, rgba(26,28,41,1) 0%, rgba(42,24,68,1) 100%); border-radius: 24px; padding: 40px 25px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 35px; }
+        .hero-content { position: relative; z-index: 2; width: 90%; }
+        .hero-title { font-size: 44px; line-height: 1.2; margin-bottom: 18px; font-weight: 900; }
         .text-cyan { color: var(--accent-cyan); }
-        .hero-desc { font-size: 16px; color: var(--text-muted); margin-bottom: 30px; line-height: 1.5; }
+        .hero-desc { font-size: 18px; color: var(--text-muted); margin-bottom: 30px; line-height: 1.5; font-weight: 500; }
         
-        .btn-primary { background: var(--accent-purple); color: white; border: none; padding: 22px 20px; border-radius: 35px; font-size: 18px; font-weight: 700; width: 100%; display: flex; justify-content: center; align-items: center; gap: 12px; cursor: pointer; box-shadow: 0 5px 20px rgba(138, 43, 226, 0.4); }
+        .btn-primary { background: var(--accent-purple); color: white; border: none; padding: 22px 20px; border-radius: 35px; font-size: 20px; font-weight: 800; width: 100%; display: flex; justify-content: center; align-items: center; gap: 12px; cursor: pointer; box-shadow: 0 5px 20px rgba(138, 43, 226, 0.4); }
 
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .section-title { font-size: 22px; font-weight: 700; }
-        .view-all { font-size: 16px; color: #4a90e2; text-decoration: none; cursor: pointer; font-weight: 600; }
+        .section-title { font-size: 24px; font-weight: 800; }
+        .view-all { font-size: 18px; color: #4a90e2; text-decoration: none; cursor: pointer; font-weight: 700; }
 
-        .categories-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 35px; }
-        .category-card { background: var(--surface-color); border-radius: 18px; height: 110px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 15px; position: relative; overflow: hidden; }
-        .category-card span { font-size: 15px; font-weight: 700; z-index: 2; text-shadow: 1px 1px 4px rgba(0,0,0,0.9); text-align: center; }
+        .categories-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 35px; }
+        .category-card { background: var(--surface-color); border-radius: 18px; height: 120px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 15px; position: relative; overflow: hidden; }
+        .category-card span { font-size: 16px; font-weight: 800; z-index: 2; text-shadow: 1px 1px 4px rgba(0,0,0,1); text-align: center; width: 100%; padding: 0 5px; }
 
         .empty-state-box { background: var(--surface-color); border: 2px dashed var(--border-color); border-radius: 24px; padding: 50px 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 18px; margin-bottom: 35px; }
         .empty-state-icon { width: 90px; height: 90px; background: rgba(138, 43, 226, 0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--accent-purple); font-size: 38px; border: 1px solid rgba(138, 43, 226, 0.2); }
-        .empty-state-box h4 { font-size: 20px; font-weight: 700; color: white; }
-        .empty-state-box p { font-size: 16px; color: var(--text-muted); max-width: 320px; line-height: 1.5; }
+        .empty-state-box h4 { font-size: 22px; font-weight: 800; color: white; }
+        .empty-state-box p { font-size: 17px; color: var(--text-muted); max-width: 320px; line-height: 1.5; }
 
         .page-header-back { display: flex; align-items: center; gap: 18px; margin-bottom: 35px; padding-top: 15px; }
-        .back-btn { background: var(--surface-color); width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--text-main); cursor: pointer; border: 1px solid var(--border-color); font-size: 22px; }
+        .back-btn { background: var(--surface-color); width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--text-main); cursor: pointer; border: 1px solid var(--border-color); font-size: 24px; }
         
         .input-group { margin-bottom: 30px; }
-        .input-label { display: block; font-size: 17px; font-weight: 600; margin-bottom: 12px; color: var(--text-muted); }
+        .input-label { display: block; font-size: 19px; font-weight: 700; margin-bottom: 12px; color: var(--text-muted); }
         .required-star { color: #ff3b30; margin-left: 4px; }
         
-        .input-box { width: 100%; height: 65px; background: var(--surface-color); border: 2px solid var(--border-color); border-radius: 18px; padding: 0 20px; color: var(--text-main); font-size: 18px; outline: none; transition: 0.3s; }
+        .input-box { width: 100%; height: 70px; background: var(--surface-color); border: 2px solid var(--border-color); border-radius: 18px; padding: 0 20px; color: var(--text-main); font-size: 20px; outline: none; transition: 0.3s; }
         .input-box:focus { border-color: var(--accent-purple); }
 
-        .textarea-box { width: 100%; height: 150px; background: var(--surface-color); border: 2px solid var(--border-color); border-radius: 18px; padding: 20px; color: var(--text-main); font-size: 18px; resize: none; outline: none; transition: 0.3s; line-height: 1.5; }
+        .textarea-box { width: 100%; height: 160px; background: var(--surface-color); border: 2px solid var(--border-color); border-radius: 18px; padding: 20px; color: var(--text-main); font-size: 20px; resize: none; outline: none; transition: 0.3s; line-height: 1.5; }
         .textarea-box:focus { border-color: var(--accent-purple); }
         
         .input-error { border-color: #ff3b30 !important; box-shadow: 0 0 15px rgba(255, 59, 48, 0.3); }
 
         .genre-tags { display: flex; flex-wrap: wrap; gap: 15px; }
-        .genre-tag { background: var(--surface-color); border: 1px solid var(--border-color); padding: 15px 25px; border-radius: 30px; font-size: 16px; cursor: pointer; color: var(--text-muted); transition: 0.3s; font-weight: 600; }
+        .genre-tag { background: var(--surface-color); border: 1px solid var(--border-color); padding: 15px 25px; border-radius: 30px; font-size: 18px; cursor: pointer; color: var(--text-muted); transition: 0.3s; font-weight: 700; }
         .genre-tag.active { background: rgba(138, 43, 226, 0.2); border-color: var(--accent-purple); color: var(--accent-purple); border-width: 2px; }
         
         .voice-upload-box { background: var(--surface-color); border: 2px dashed var(--accent-purple); border-radius: 20px; padding: 35px 20px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 12px; transition: 0.3s; }
         .voice-upload-box.locked { border-color: rgba(255, 215, 0, 0.3); background: rgba(255, 215, 0, 0.02); cursor: not-allowed; }
-        .voice-icon { font-size: 35px; color: var(--accent-purple); margin-bottom: 5px; }
+        .voice-icon { font-size: 40px; color: var(--accent-purple); margin-bottom: 5px; }
         .voice-upload-box.locked .voice-icon { color: #ffd700; }
-        .voice-text { font-size: 16px; color: var(--text-muted); }
-        .lock-badge { font-size: 14px; background: rgba(255, 215, 0, 0.15); color: #ffd700; padding: 6px 14px; border-radius: 10px; font-weight: 700; margin-top: 8px; display: inline-flex; align-items: center; gap: 8px; }
+        .voice-text { font-size: 18px; color: var(--text-muted); font-weight: 600;}
+        .lock-badge { font-size: 15px; background: rgba(255, 215, 0, 0.15); color: #ffd700; padding: 8px 16px; border-radius: 12px; font-weight: 800; margin-top: 8px; display: inline-flex; align-items: center; gap: 8px; }
 
-        /* --- KADI ZA NYIMBO ZIMEJA KIOO --- */
+        /* KADI ZA NYIMBO NA TEXT ZAKE ZIMEKUWA KUBWA */
         .music-list-detailed { display: flex; flex-direction: column; gap: 20px; }
-        .music-card { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 24px; padding: 22px; display: flex; align-items: center; gap: 22px; position: relative; margin-bottom: 5px; width: 100%; }
+        .music-card { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 24px; padding: 22px; display: flex; align-items: center; gap: 20px; position: relative; margin-bottom: 5px; width: 100%; }
         .music-card.playing { border-color: rgba(138, 43, 226, 0.8); border-width: 2px; }
         
-        .mc-thumb { width: 90px; height: 90px; border-radius: 20px; object-fit: cover; background: #ff4500; flex-shrink: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; font-weight: bold; font-size: 18px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
-        .mc-info-area { flex: 1; display: flex; flex-direction: column; gap: 15px; overflow: hidden; }
+        .mc-thumb { width: 95px; height: 95px; border-radius: 20px; object-fit: cover; background: #ff4500; flex-shrink: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; font-weight: bold; font-size: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
+        .mc-info-area { flex: 1; display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
         .mc-header-row { display: flex; justify-content: space-between; align-items: flex-start; }
         .mc-title-area { flex: 1; min-width: 0; } 
-        .mc-title-area h4 { font-size: 20px; margin-bottom: 5px; font-weight: 700; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } 
-        .mc-title-area p { font-size: 14px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } 
+        .mc-title-area h4 { font-size: 22px; margin-bottom: 4px; font-weight: 800; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } 
+        .mc-title-area p { font-size: 16px; color: var(--text-muted); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } 
         
-        .mc-top-actions { display: flex; gap: 22px; color: var(--text-muted); font-size: 24px; align-items: center; flex-shrink: 0; margin-left: 15px; }
+        .mc-top-actions { display: flex; gap: 22px; color: var(--text-muted); font-size: 26px; align-items: center; flex-shrink: 0; margin-left: 10px; }
         .mc-top-actions i { cursor: pointer; transition: 0.2s; padding: 5px; } 
         .mc-top-actions i.fa-heart.liked { color: #ff007f; }
         
         .mc-player-row { display: flex; align-items: center; gap: 15px; }
-        .mc-play-btn { width: 55px; height: 55px; border-radius: 50%; background: var(--accent-purple); border: none; display: flex; justify-content: center; align-items: center; color: white; cursor: pointer; font-size: 20px; box-shadow: 0 5px 15px rgba(138, 43, 226, 0.5); flex-shrink: 0; }
-        .mc-time { font-size: 14px; color: var(--text-muted); font-weight: 600;}
+        .mc-play-btn { width: 55px; height: 55px; border-radius: 50%; background: var(--accent-purple); border: none; display: flex; justify-content: center; align-items: center; color: white; cursor: pointer; font-size: 22px; box-shadow: 0 5px 15px rgba(138, 43, 226, 0.5); flex-shrink: 0; }
+        .mc-time { font-size: 15px; color: var(--text-muted); font-weight: 700;}
         .mc-waveform { flex: 1; height: 35px; background: repeating-linear-gradient(90deg, var(--accent-purple) 0px, var(--accent-purple) 4px, transparent 4px, transparent 8px); opacity: 0.8; border-radius: 3px; }
         
-        .mc-download-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; border: 1px solid rgba(74, 144, 226, 0.4); border-radius: 14px; padding: 12px 18px; color: #4a90e2; font-size: 13px; font-weight: 700; background: transparent; cursor: pointer; flex-shrink: 0; }
-        .mc-download-btn i { font-size: 20px; }
+        .mc-download-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; border: 1px solid rgba(74, 144, 226, 0.4); border-radius: 14px; padding: 12px 18px; color: #4a90e2; font-size: 14px; font-weight: 800; background: transparent; cursor: pointer; flex-shrink: 0; }
+        .mc-download-btn i { font-size: 22px; }
 
         .music-card.generating { border-style: dashed; border-color: var(--accent-purple); background: rgba(138, 43, 226, 0.05); }
         .generating-content { display: flex; align-items: center; gap: 20px; width: 100%; }
         .spinner-box { width: 70px; height: 70px; border-radius: 50%; border: 4px solid rgba(255,255,255,0.1); border-top-color: var(--accent-purple); animation: spin 1s linear infinite; flex-shrink: 0; }
         @keyframes spin { to { transform: rotate(360deg); } }
         
-        .badge-mpya { background: #ff3b30; color: white; font-size: 12px; padding: 4px 10px; border-radius: 8px; font-weight: 800; display: inline-block; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;}
+        .badge-mpya { background: #ff3b30; color: white; font-size: 12px; padding: 4px 10px; border-radius: 8px; font-weight: 900; display: inline-block; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;}
         .loading-dots span { animation: blink 1.4s infinite both; font-weight: bold; }
         .loading-dots span:nth-child(2) { animation-delay: .2s; }
         .loading-dots span:nth-child(3) { animation-delay: .4s; }
@@ -143,118 +142,34 @@
 
         /* ----- UI YA ONGEZA CREDIT ----- */
         .topup-banner { background: linear-gradient(135deg, rgba(26,28,41,1) 0%, rgba(42,24,68,1) 100%); border-radius: 24px; padding: 30px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 30px; }
-        .topup-banner-text h3 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
-        .topup-banner-text p { font-size: 15px; color: var(--text-muted); line-height: 1.5; }
-        .topup-banner-img { font-size: 50px; color: #ffd700; flex-shrink: 0; margin-left: 15px; }
+        .topup-banner-text h3 { font-size: 24px; font-weight: 900; margin-bottom: 8px; }
+        .topup-banner-text p { font-size: 17px; color: var(--text-muted); line-height: 1.5; font-weight: 500;}
+        .topup-banner-img { font-size: 55px; color: #ffd700; flex-shrink: 0; margin-left: 15px; }
 
         .credits-select-list { display: flex; flex-direction: column; gap: 18px; margin-bottom: 35px; }
         
-        .credit-option-card { background: var(--surface-color); border: 2px solid var(--border-color); border-radius: 22px; padding: 22px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.2s; position: relative; }
-        .credit-option-card.selected { border-color: var(--accent-purple); background: linear-gradient(90deg, rgba(138,43,226,0.15) 0%, rgba(26,28,41,1) 100%); }
+        .credit-option-card { background: var(--surface-color); border: 2px solid var(--border-color); border-radius: 22px; padding: 25px 22px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.2s; position: relative; }
+        .credit-option-card.selected { border-color: var(--accent-purple); background: linear-gradient(90deg, rgba(138,43,226,0.15) 0%, rgba(26,28,41,1) 100%); border-width: 3px; padding: 24px 21px;}
         
-        .coc-left { display: flex; align-items: center; gap: 18px; }
-        .coc-icon { font-size: 38px; color: #ffd700; }
-        .coc-info h4 { font-size: 18px; font-weight: 800; color: white; margin-bottom: 5px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-        .coc-info p { font-size: 15px; color: var(--text-muted); }
+        .coc-left { display: flex; align-items: center; gap: 20px; }
+        .coc-icon { font-size: 42px; color: #ffd700; }
+        .coc-info h4 { font-size: 22px; font-weight: 800; color: white; margin-bottom: 5px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .coc-info p { font-size: 17px; color: var(--text-muted); font-weight: 500;}
 
         .coc-right { display: flex; align-items: center; gap: 15px; }
-        .badge-tag { font-size: 12px; padding: 5px 12px; border-radius: 12px; font-weight: 800; white-space: nowrap; text-transform: uppercase; }
+        .badge-tag { font-size: 13px; padding: 6px 14px; border-radius: 12px; font-weight: 800; white-space: nowrap; text-transform: uppercase; }
         .badge-tag.purple { background: var(--accent-purple); color: white; }
         .badge-tag.green { background: #00e676; color: black; }
 
-        .radio-circle { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--border-color); display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
-        .credit-option-card.selected .radio-circle { border-color: var(--accent-purple); border-width: 3px; }
+        .radio-circle { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--border-color); display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
+        .credit-option-card.selected .radio-circle { border-color: var(--accent-purple); border-width: 4px; }
         .credit-option-card.selected .radio-circle::after { content: ''; width: 14px; height: 14px; background: var(--accent-purple); border-radius: 50%; }
 
-        /* ----- UI YA GHARAMA ZA HUDUMA ----- */
-        .pricing-grid-view { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px; }
-        
-        .price-card { background: var(--surface-color); border: 2px solid var(--border-color); border-radius: 20px; padding: 25px 12px; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; transition: 0.3s; }
-        .price-card.basic { border-color: rgba(138, 43, 226, 0.4); background: linear-gradient(180deg, rgba(26,28,41,1) 0%, rgba(15,12,26,1) 100%); }
-        .price-card.standard { border-color: rgba(0, 242, 254, 0.4); background: linear-gradient(180deg, rgba(16,28,45,1) 0%, rgba(10,15,28,1) 100%); }
-        .price-card.premium { border-color: rgba(255, 215, 0, 0.6); background: linear-gradient(180deg, rgba(40,30,10,1) 100%); box-shadow: 0 0 20px rgba(255, 215, 0, 0.2); }
-
-        .pc-tier-title { font-size: 14px; font-weight: 800; letter-spacing: 1px; margin-bottom: 15px; color: white; }
-        .pc-coin-stack { font-size: 38px; color: #ffd700; margin-bottom: 12px; position: relative; }
-        .pc-price { font-size: 18px; font-weight: 800; margin-bottom: 12px; color: white; }
-        .pc-credits-badge { font-size: 13px; padding: 6px 12px; border-radius: 12px; font-weight: 700; margin-bottom: 20px; width: 100%; }
-        .pc-credits-badge.b-badge { background: var(--accent-purple); color: white; }
-        .pc-credits-badge.s-badge { background: #00f2fe; color: black; }
-        .pc-credits-badge.p-badge { background: #ffd700; color: black; }
-
-        .pc-features-list { width: 100%; list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 25px; text-align: left; }
-        .pc-features-list li { font-size: 13px; color: var(--text-muted); display: flex; align-items: flex-start; gap: 8px; line-height: 1.4; }
-        .pc-features-list li i { font-size: 14px; width: 18px; text-align: center; margin-top: 2px; flex-shrink: 0; }
-        .pc-features-list li i.fa-music { color: #ff007f; }
-        .pc-features-list li i.fa-file-lines { color: #00f2fe; }
-        .pc-features-list li i.fa-microphone-lines { color: #ffd700; }
-
-        .pc-pay-btn { width: 100%; padding: 14px 5px; border-radius: 14px; font-size: 14px; font-weight: 800; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: auto; }
-        .pc-pay-btn.b-btn { background: var(--accent-purple); color: white; }
-        .pc-pay-btn.s-btn { background: #00f2fe; color: black; }
-        .pc-pay-btn.p-btn { background: linear-gradient(135deg, #ffd700, #ff8c00); color: black; }
-
-        .benefits-title { font-size: 22px; font-weight: 700; margin-bottom: 18px; }
-        .benefits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
-        .benefit-card { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 18px; padding: 20px 10px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px; }
-        .benefit-card i { font-size: 28px; color: var(--accent-purple); }
-        .benefit-card h5 { font-size: 15px; font-weight: 700; color: white; }
-        .benefit-card p { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
-
-        .secure-footer { display: flex; justify-content: center; align-items: center; gap: 10px; font-size: 15px; color: var(--text-muted); padding-bottom: 30px; }
-        .secure-footer i { color: #00e676; font-size: 18px; }
-
-        /* ----- POPUPS & OVERLAYS ----- */
-        .custom-popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; pointer-events: none; transition: 0.3s ease; }
-        .custom-popup-overlay.show { opacity: 1; pointer-events: auto; }
-        
-        .custom-popup-card { background: #161925; border: 1px solid rgba(138, 43, 226, 0.3); border-radius: 32px; width: 90%; max-width: 450px; padding: 40px 30px; text-align: center; box-shadow: 0 15px 40px rgba(0,0,0,0.8); transform: scale(0.85); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .custom-popup-overlay.show .custom-popup-card { transform: scale(1); }
-        
-        .popup-icon-box { width: 90px; height: 90px; background: rgba(138, 43, 226, 0.15); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 25px auto; color: var(--accent-purple); font-size: 40px; border: 1px solid rgba(138, 43, 226, 0.3); }
-        .popup-icon-box.warning { background: rgba(255, 59, 48, 0.15); color: #ff3b30; border-color: rgba(255, 59, 48, 0.3); }
-        .popup-icon-box.gold { background: rgba(255, 215, 0, 0.15); color: #ffd700; border-color: rgba(255, 215, 0, 0.3); }
-        .custom-popup-card h3 { font-size: 26px; font-weight: 800; margin-bottom: 15px; color: white; }
-        .custom-popup-card p { font-size: 18px; color: var(--text-muted); margin-bottom: 30px; line-height: 1.5; text-align: left; max-height: 300px; overflow-y: auto; }
-        .custom-popup-card p.center-text { text-align: center; }
-        
-        .popup-btn-group { display: flex; gap: 15px; }
-        .popup-btn { background: var(--accent-purple); color: white; border: none; padding: 20px; border-radius: 20px; font-size: 18px; font-weight: 700; width: 100%; cursor: pointer; }
-        .popup-btn.danger { background: #ff3b30; }
-        .popup-btn.secondary { background: rgba(255, 255, 255, 0.08); color: var(--text-main); border: 1px solid var(--border-color); }
-        .popup-btn.gold-btn { background: linear-gradient(135deg, #ffd700, #ff8c00); color: #0b0c10; font-weight: 800; }
-
-        .action-sheet-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(5px); display: flex; justify-content: flex-end; flex-direction: column; z-index: 1000; opacity: 0; pointer-events: none; transition: 0.3s ease; }
-        .action-sheet-overlay.show { opacity: 1; pointer-events: auto; }
-        
-        .action-sheet-content { background: #161925; border-top: 1px solid var(--border-color); border-radius: 32px 32px 0 0; padding: 35px 25px; width: 100%; max-width: 100%; margin: 0 auto; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.1, 0.9, 0.2, 1); }
-        .action-sheet-overlay.show .action-sheet-content { transform: translateY(0); }
-        
-        .action-sheet-header { display: flex; align-items: center; gap: 20px; margin-bottom: 30px; padding-bottom: 25px; border-bottom: 1px solid var(--border-color); }
-        .action-sheet-thumb { width: 65px; height: 65px; border-radius: 16px; background: linear-gradient(135deg, #8a2be2, #ff007f); display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; font-size: 20px; }
-        .action-sheet-title h4 { font-size: 22px; font-weight: 700; color: white; margin-bottom: 6px; }
-        .action-sheet-title p { font-size: 16px; color: var(--text-muted); }
-        
-        .action-option { display: flex; align-items: center; gap: 20px; padding: 22px; background: rgba(255, 255, 255, 0.03); border-radius: 20px; margin-bottom: 15px; cursor: pointer; transition: 0.2s; font-size: 18px; font-weight: 600; color: white; border: 1px solid rgba(255,255,255,0.03); }
-        .action-option:hover { background: rgba(138, 43, 226, 0.15); border-color: rgba(138, 43, 226, 0.3); }
-        .action-option i { font-size: 24px; width: 30px; color: var(--accent-purple); text-align: center; }
-        .action-option.credit-opt i { color: #ffd700; }
-        .action-option.delete-opt i { color: #ff3b30; }
-        .action-option.delete-opt:hover { background: rgba(255, 59, 48, 0.15); border-color: rgba(255, 59, 48, 0.3); }
-        .action-option.logout-opt i { color: #ff3b30; }
-
-        .page-header-text { margin-bottom: 30px; }
-        .page-header-text h2 { font-size: 30px; margin-bottom: 10px; font-weight: 800; }
-        .page-header-text p { font-size: 17px; color: var(--text-muted); }
-
-        .music-tabs { display: flex; gap: 15px; margin-bottom: 30px; position: sticky; top: 0; background: var(--bg-color); padding: 18px 0; z-index: 10; }
-        .music-tab { flex: 1; padding: 18px; border-radius: 30px; text-align: center; font-size: 17px; font-weight: 700; color: var(--text-muted); cursor: pointer; border: 1px solid var(--border-color); display: flex; justify-content: center; align-items: center; gap: 12px; background: transparent; transition: 0.3s; }
-        .music-tab.active { background: var(--accent-purple); color: white; border-color: var(--accent-purple); box-shadow: 0 5px 15px rgba(138, 43, 226, 0.3); }
-
+        /* ----- MENU YA CHINI IMEKUWA BOLD ZAIDI ----- */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(11, 12, 16, 0.98); backdrop-filter: blur(15px); display: flex; justify-content: space-around; padding: 22px 0 30px 0; border-top: 1px solid var(--border-color); z-index: 100; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--text-muted); font-size: 14px; font-weight: 600; cursor: pointer; background: none; border: none; outline: none; width: 33%; }
-        .nav-item.active { color: var(--accent-purple); font-weight: 800; }
-        .nav-item i { font-size: 28px; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--text-muted); font-size: 16px; font-weight: 700; cursor: pointer; background: none; border: none; outline: none; width: 33%; }
+        .nav-item.active { color: var(--accent-purple); font-weight: 900; }
+        .nav-item i { font-size: 30px; }
 
         /* ----- TOAST NOTIFICATION ----- */
         .toast-notification {
@@ -275,7 +190,49 @@
             .pricing-grid-view { grid-template-columns: 1fr; }
             .mc-thumb { width: 70px; height: 70px; }
             .mc-title-area h4 { font-size: 18px; }
+            .logo-text h1 { font-size: 26px; }
         }
+
+        /* ----- ADDITIONS FOR OVERLAYS (POPUPS/ACTIONSHEETS) ----- */
+        .custom-popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; pointer-events: none; transition: 0.3s ease; }
+        .custom-popup-overlay.show { opacity: 1; pointer-events: auto; }
+        .custom-popup-card { background: #161925; border: 1px solid rgba(138, 43, 226, 0.3); border-radius: 32px; width: 90%; max-width: 450px; padding: 40px 30px; text-align: center; box-shadow: 0 15px 40px rgba(0,0,0,0.8); transform: scale(0.85); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .custom-popup-overlay.show .custom-popup-card { transform: scale(1); }
+        .popup-icon-box { width: 90px; height: 90px; background: rgba(138, 43, 226, 0.15); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 25px auto; color: var(--accent-purple); font-size: 40px; border: 1px solid rgba(138, 43, 226, 0.3); }
+        .popup-icon-box.warning { background: rgba(255, 59, 48, 0.15); color: #ff3b30; border-color: rgba(255, 59, 48, 0.3); }
+        .popup-icon-box.gold { background: rgba(255, 215, 0, 0.15); color: #ffd700; border-color: rgba(255, 215, 0, 0.3); }
+        .custom-popup-card h3 { font-size: 26px; font-weight: 800; margin-bottom: 15px; color: white; }
+        .custom-popup-card p { font-size: 18px; color: var(--text-muted); margin-bottom: 30px; line-height: 1.5; text-align: left; max-height: 300px; overflow-y: auto; font-weight: 500;}
+        .custom-popup-card p.center-text { text-align: center; }
+        .popup-btn-group { display: flex; gap: 15px; }
+        .popup-btn { background: var(--accent-purple); color: white; border: none; padding: 20px; border-radius: 20px; font-size: 18px; font-weight: 800; width: 100%; cursor: pointer; }
+        .popup-btn.danger { background: #ff3b30; }
+        .popup-btn.secondary { background: rgba(255, 255, 255, 0.08); color: var(--text-main); border: 1px solid var(--border-color); }
+        .popup-btn.gold-btn { background: linear-gradient(135deg, #ffd700, #ff8c00); color: #0b0c10; font-weight: 900; }
+
+        .action-sheet-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(5px); display: flex; justify-content: flex-end; flex-direction: column; z-index: 1000; opacity: 0; pointer-events: none; transition: 0.3s ease; }
+        .action-sheet-overlay.show { opacity: 1; pointer-events: auto; }
+        .action-sheet-content { background: #161925; border-top: 1px solid var(--border-color); border-radius: 32px 32px 0 0; padding: 35px 25px; width: 100%; max-width: 100%; margin: 0 auto; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.1, 0.9, 0.2, 1); }
+        .action-sheet-overlay.show .action-sheet-content { transform: translateY(0); }
+        .action-sheet-header { display: flex; align-items: center; gap: 20px; margin-bottom: 30px; padding-bottom: 25px; border-bottom: 1px solid var(--border-color); }
+        .action-sheet-thumb { width: 65px; height: 65px; border-radius: 16px; background: linear-gradient(135deg, #8a2be2, #ff007f); display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; font-size: 20px; }
+        .action-sheet-title h4 { font-size: 24px; font-weight: 800; color: white; margin-bottom: 6px; }
+        .action-sheet-title p { font-size: 16px; color: var(--text-muted); font-weight: 600;}
+        .action-option { display: flex; align-items: center; gap: 20px; padding: 22px; background: rgba(255, 255, 255, 0.03); border-radius: 20px; margin-bottom: 15px; cursor: pointer; transition: 0.2s; font-size: 18px; font-weight: 700; color: white; border: 1px solid rgba(255,255,255,0.03); }
+        .action-option:hover { background: rgba(138, 43, 226, 0.15); border-color: rgba(138, 43, 226, 0.3); }
+        .action-option i { font-size: 24px; width: 30px; color: var(--accent-purple); text-align: center; }
+        .action-option.credit-opt i { color: #ffd700; }
+        .action-option.delete-opt i { color: #ff3b30; }
+        .action-option.delete-opt:hover { background: rgba(255, 59, 48, 0.15); border-color: rgba(255, 59, 48, 0.3); }
+        .action-option.logout-opt i { color: #ff3b30; }
+
+        .music-tabs { display: flex; gap: 15px; margin-bottom: 30px; position: sticky; top: 0; background: var(--bg-color); padding: 18px 0; z-index: 10; }
+        .music-tab { flex: 1; padding: 18px; border-radius: 30px; text-align: center; font-size: 18px; font-weight: 800; color: var(--text-muted); cursor: pointer; border: 1px solid var(--border-color); display: flex; justify-content: center; align-items: center; gap: 12px; background: transparent; transition: 0.3s; }
+        .music-tab.active { background: var(--accent-purple); color: white; border-color: var(--accent-purple); box-shadow: 0 5px 15px rgba(138, 43, 226, 0.3); }
+        
+        .page-header-text { margin-bottom: 30px; }
+        .page-header-text h2 { font-size: 32px; margin-bottom: 10px; font-weight: 900; }
+        .page-header-text p { font-size: 18px; color: var(--text-muted); font-weight: 500;}
     </style>
 </head>
 <body>
@@ -397,7 +354,7 @@
 
         <button class="btn-primary" style="margin-top: 40px;" onclick="checkCreditsAndGenerate()">
             <i class="fa-solid fa-wand-magic-sparkles"></i> TENGENEZA SASA
-            <span style="background: rgba(0,0,0,0.3); padding: 6px 12px; border-radius: 12px; font-size: 14px;">-1 Credit</span>
+            <span style="background: rgba(0,0,0,0.3); padding: 6px 12px; border-radius: 12px; font-size: 15px;">-1 Credit</span>
         </button>
     </div>
 
@@ -481,7 +438,7 @@
                     </div>
                 </div>
                 <div class="coc-right">
-                    <h4 style="color:white; font-size:18px;">Tsh 2,000</h4>
+                    <h4 style="color:white; font-size:20px;">Tsh 2,000</h4>
                     <div class="radio-circle"></div>
                 </div>
             </div>
@@ -495,7 +452,7 @@
                     </div>
                 </div>
                 <div class="coc-right">
-                    <h4 style="color:white; font-size:18px;">Tsh 5,000</h4>
+                    <h4 style="color:white; font-size:20px;">Tsh 5,000</h4>
                     <div class="radio-circle"></div>
                 </div>
             </div>
@@ -509,7 +466,7 @@
                     </div>
                 </div>
                 <div class="coc-right">
-                    <h4 style="color:white; font-size:18px;">Tsh 10,000</h4>
+                    <h4 style="color:white; font-size:20px;">Tsh 10,000</h4>
                     <div class="radio-circle"></div>
                 </div>
             </div>
@@ -519,88 +476,6 @@
         <button class="btn-primary" id="checkout-pay-btn" onclick="executeSelectedPayment()" style="margin-bottom: 25px;">
             <i class="fa-solid fa-lock"></i> Lipa Tsh 2,000
         </button>
-
-        <div class="secure-footer">
-            <i class="fa-solid fa-shield-halved"></i> Malipo ni salama na ya haraka
-        </div>
-    </div>
-
-    <!-- ==================== GHARAMA ZA HUDUMA & VIFURUSHI PAGE ==================== -->
-    <div id="pricing-page" class="page-section">
-        <div class="page-header-back">
-            <div class="back-btn" onclick="switchPage('home-page')"><i class="fa-solid fa-arrow-left"></i></div>
-            <div class="topup-title-area">
-                <h2 style="font-size:24px; font-weight:700;">Gharama za Huduma</h2>
-                <p style="font-size:16px; color:var(--text-muted);">Orodha kamili ya vifurushi na bei</p>
-            </div>
-        </div>
-
-        <div class="pricing-grid-view">
-            <div class="price-card basic">
-                <div class="pc-tier-title">BASIC</div>
-                <div class="pc-coin-stack"><i class="fa-solid fa-coins"></i></div>
-                <div class="pc-price">Tsh 2,000</div>
-                <div class="pc-credits-badge b-badge">5 Credits</div>
-                <ul class="pc-features-list">
-                    <li><i class="fa-solid fa-music"></i> Tengeneza nyimbo 5</li>
-                    <li><i class="fa-solid fa-file-lines"></i> Aina zote za muziki</li>
-                </ul>
-                <button class="pc-pay-btn b-btn" onclick="switchPage('topup-page')">
-                    <i class="fa-solid fa-arrow-right"></i> Nunua
-                </button>
-            </div>
-
-            <div class="price-card standard">
-                <div class="pc-tier-title">STANDARD</div>
-                <div class="pc-coin-stack"><i class="fa-solid fa-coins"></i></div>
-                <div class="pc-price">Tsh 5,000</div>
-                <div class="pc-credits-badge s-badge">15 Credits</div>
-                <ul class="pc-features-list">
-                    <li><i class="fa-solid fa-music"></i> Tengeneza nyimbo 15</li>
-                    <li><i class="fa-solid fa-file-lines"></i> Aina zote za muziki</li>
-                </ul>
-                <button class="pc-pay-btn s-btn" onclick="switchPage('topup-page')">
-                    <i class="fa-solid fa-arrow-right"></i> Nunua
-                </button>
-            </div>
-
-            <div class="price-card premium">
-                <div class="pc-tier-title" style="color:#ffd700;">PREMIUM</div>
-                <div class="pc-coin-stack"><i class="fa-solid fa-coins"><span>AI</span></i></div>
-                <div class="pc-price">Tsh 10,000</div>
-                <div class="pc-credits-badge p-badge">30 Credits</div>
-                <ul class="pc-features-list">
-                    <li><i class="fa-solid fa-music"></i> Tengeneza nyimbo 30</li>
-                    <li><i class="fa-solid fa-microphone-lines"></i> Rekodi sauti yako</li>
-                </ul>
-                <button class="pc-pay-btn p-btn" onclick="switchPage('topup-page')">
-                    <i class="fa-solid fa-arrow-right"></i> Nunua
-                </button>
-            </div>
-        </div>
-
-        <h3 class="benefits-title">Faida za Vifurushi Vyetu</h3>
-        <div class="benefits-grid">
-            <div class="benefit-card">
-                <i class="fa-solid fa-music"></i>
-                <h5>Nyimbo Zako</h5>
-                <p>Tengeneza wimbo kwa AI kwa credits.</p>
-            </div>
-            <div class="benefit-card">
-                <i class="fa-solid fa-download"></i>
-                <h5>Pakua MP3</h5>
-                <p>Pakua na usikilize kazi zako.</p>
-            </div>
-            <div class="benefit-card">
-                <i class="fa-solid fa-microphone-lines"></i>
-                <h5>Voice Cloning</h5>
-                <p>Wimbo utasikika na sauti yako halisi.</p>
-            </div>
-        </div>
-
-        <div class="secure-footer">
-            <i class="fa-solid fa-shield-halved"></i> Malipo ni salama na ya haraka
-        </div>
     </div>
 
 </div>
@@ -663,17 +538,8 @@
         <div class="action-option credit-opt" onclick="openMenuInfo('buy-credit')">
             <i class="fa-solid fa-coins"></i> Nunua Credit (Top Up)
         </div>
-        <div class="action-option" onclick="openMenuInfo('pricing')">
-            <i class="fa-solid fa-tags"></i> Gharama za Huduma & Vifurushi
-        </div>
         <div class="action-option" onclick="openMenuInfo('support')">
             <i class="fa-brands fa-whatsapp"></i> Huduma kwa Wateja (WhatsApp)
-        </div>
-        <div class="action-option" onclick="openMenuInfo('terms')">
-            <i class="fa-solid fa-file-contract"></i> Terms and Services (Masharti)
-        </div>
-        <div class="action-option" onclick="openMenuInfo('about')">
-            <i class="fa-solid fa-circle-info"></i> Kuhusu App Hii
         </div>
         <div class="action-option logout-opt" onclick="openMenuInfo('logout')">
             <i class="fa-solid fa-right-from-bracket"></i> Logout (Toka)
@@ -858,14 +724,8 @@
         closeSettingsMenu();
         if(type === 'buy-credit') {
             switchPage('topup-page');
-        } else if(type === 'pricing') {
-            switchPage('pricing-page');
         } else if(type === 'support') {
             showModernPopup("Huduma kwa Wateja", "WhatsApp: +255 700 000 000\nTunajibu masaa 24.", "info");
-        } else if(type === 'terms') {
-            showModernPopup("Terms and Services", "1. Nyimbo ni mali yako.\n2. Malipo hayarudishwi.\n3. Tumia kwa kufuata sheria.", "info");
-        } else if(type === 'about') {
-            showModernPopup("Kuhusu App", "AI Music App v2.0 - Tengeneza nyimbo za Bongo Flava na Afrobeat.", "info");
         } else if(type === 'logout') {
             showModernPopup("Toka kwenye Akaunti", "Je, unataka kutoka kwenye akaunti yako?", "warning", () => { alert("Umetoka."); });
         }
@@ -955,8 +815,8 @@
                     <div class="spinner-box"></div>
                     <div style="flex:1;">
                         <span class="badge-mpya" style="background:#ff3b30;">Inatengenezwa</span>
-                        <h4 style="font-size: 20px; color: white; margin-bottom: 5px;">${songTitle}</h4>
-                        <p style="font-size: 14px; color: var(--text-muted);" class="loading-dots">
+                        <h4 style="font-size: 24px; color: white; margin-bottom: 5px; font-weight:800;">${songTitle}</h4>
+                        <p style="font-size: 16px; color: var(--text-muted); font-weight:600;" class="loading-dots">
                             Inatengeneza wimbo wako<span>.</span><span>.</span><span>.</span>
                         </p>
                     </div>
