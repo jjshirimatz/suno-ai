@@ -53,9 +53,6 @@
         
         .btn-add-credits { background: var(--accent-purple); color: white; font-size: 15px; padding: 10px 14px; border-radius: 12px; text-decoration: none; font-weight: bold; cursor: pointer; border: none; outline: none; white-space: nowrap; }
         
-        .lang-switch-btn { background: var(--surface-color); border: 1px solid var(--border-color); color: var(--accent-cyan); font-size: 14px; font-weight: 800; padding: 10px 12px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: 0.2s; white-space: nowrap; }
-        .lang-switch-btn:hover { background: rgba(0, 242, 254, 0.1); }
-
         .menu-icon-btn { width: 50px; height: 50px; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--text-main); cursor: pointer; font-size: 24px; transition: 0.2s; flex-shrink: 0; }
         
         .hero-banner { background: linear-gradient(135deg, rgba(26,28,41,1) 0%, rgba(42,24,68,1) 100%); border-radius: 24px; padding: 40px 25px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 35px; }
@@ -163,10 +160,10 @@
         .credit-option-card.selected .radio-circle { border-color: var(--accent-purple); border-width: 4px; }
         .credit-option-card.selected .radio-circle::after { content: ''; width: 14px; height: 14px; background: var(--accent-purple); border-radius: 50%; }
 
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(11, 12, 16, 0.98); backdrop-filter: blur(15px); display: flex; justify-content: space-around; padding: 22px 0 30px 0; border-top: 1px solid var(--border-color); z-index: 100; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--text-muted); font-size: 16px; font-weight: 700; cursor: pointer; background: none; border: none; outline: none; width: 33%; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(11, 12, 16, 0.98); backdrop-filter: blur(15px); display: flex; justify-content: space-around; padding: 15px 0 25px 0; border-top: 1px solid var(--border-color); z-index: 100; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--text-muted); font-size: 15px; font-weight: 700; cursor: pointer; background: none; border: none; outline: none; width: 25%; }
         .nav-item.active { color: var(--accent-purple); font-weight: 900; }
-        .nav-item i { font-size: 30px; }
+        .nav-item i { font-size: 26px; }
 
         .toast-notification {
             position: fixed; top: 30px; left: 50%; transform: translateX(-50%) translateY(-100px);
@@ -254,12 +251,8 @@
                         <h4 id="user-credits-display">5</h4>
                     </div>
                 </div>
-                <!-- Kitufe cha Ongeza Credit kimerejeshwa -->
+                <!-- Kitufe cha Ongeza Credit kiko juu -->
                 <button class="btn-add-credits" onclick="switchPage('topup-page')" data-i18n="add_btn">+ Ongeza</button>
-                <!-- Kitufe cha Lugha -->
-                <button class="lang-switch-btn" onclick="toggleLanguage()">
-                    <i class="fa-solid fa-globe"></i> <span id="lang-btn-label">SW</span>
-                </button>
                 <div class="menu-icon-btn" onclick="openSettingsMenu()"><i class="fa-solid fa-bars"></i></div>
             </div>
         </header>
@@ -542,7 +535,7 @@
     </div>
 </div>
 
-<!-- BOTTOM NAV -->
+<!-- BOTTOM NAV (Imeongezwa Lugha hapa chini) -->
 <nav class="bottom-nav" id="main-bottom-nav">
     <button class="nav-item active" id="nav-home" onclick="switchPage('home-page')">
         <i class="fa-solid fa-house"></i>
@@ -555,6 +548,11 @@
     <button class="nav-item" id="nav-music" onclick="switchPage('music-page')">
         <i class="fa-solid fa-music"></i>
         <span data-i18n="nav_my_songs">Nyimbo Zangu</span>
+    </button>
+    <!-- Kitufe cha Lugha kilichohamishiwa chini -->
+    <button class="nav-item" onclick="toggleLanguage()">
+        <i class="fa-solid fa-globe"></i>
+        <span id="lang-btn-label">EN / SW</span>
     </button>
 </nav>
 
@@ -706,7 +704,7 @@
             }
         });
 
-        document.getElementById('lang-btn-label').innerText = lang === 'sw' ? 'SW' : 'EN';
+        document.getElementById('lang-btn-label').innerText = lang === 'sw' ? 'English' : 'Kiswahili';
 
         if(isVoiceCloningUnlocked) {
             unlockVoiceUI();
