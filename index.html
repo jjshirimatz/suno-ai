@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Music App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --surface-color: #1a1c29;
+            --text-main: #ffffff;
+            --text-muted: #a0a5bc;
+            --accent-cyan: #00f2fe;
+            --accent-purple: #8a2be2;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+
+        body { background-color: var(--bg-color); color: var(--text-main); padding-bottom: 90px; }
+
+        .app-container { max-width: 480px; margin: 0 auto; padding: 15px; }
+
+        .page-section { display: none; animation: fadeIn 0.3s ease-in-out; }
+        .page-section.active-page { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .logo-area { display: flex; align-items: center; gap: 10px; }
+        .logo-icon { font-size: 24px; background: -webkit-linear-gradient(45deg, var(--accent-cyan), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo-text h1 { font-size: 18px; font-weight: 700; }
+        .logo-text p { font-size: 10px; color: var(--text-muted); }
+        
+        .header-actions { display: flex; align-items: center; gap: 8px; }
+        .credits-badge { background: rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 5px 10px; display: flex; align-items: center; gap: 6px; border: 1px solid var(--border-color); }
+        .credits-info p { font-size: 8px; color: var(--text-muted); margin: 0; }
+        .credits-info h4 { font-size: 12px; margin: 0; display: flex; align-items: center; gap: 6px; }
+        .coin-icon { color: #ffd700; font-size: 14px; }
+        
+        .btn-add-credits { background: var(--accent-purple); color: white; font-size: 8px; padding: 3px 6px; border-radius: 8px; text-decoration: none; font-weight: bold; cursor: pointer; border: none; outline: none; }
+        
+        .menu-icon-btn { width: 38px; height: 38px; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--text-main); cursor: pointer; font-size: 16px; transition: 0.2s; }
+        .menu-icon-btn:hover { border-color: var(--accent-purple); }
+
+        .hero-banner { background: linear-gradient(135deg, rgba(26,28,41,1) 0%, rgba(42,24,68,1) 100%); border-radius: 20px; padding: 20px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 25px; }
+        .hero-content { position: relative; z-index: 2; width: 70%; }
+        .hero-title { font-size: 26px; line-height: 1.2; margin-bottom: 10px; }
+        .text-cyan { color: var(--accent-cyan); }
+        .hero-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.4; }
+        
+        .btn-primary { background: var(--accent-purple); color: white; border: none; padding: 12px 20px; border-radius: 25px; font-size: 12px; font-weight: 600; width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4); }
+
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .section-title { font-size: 16px; font-weight: 600; }
+        .view-all { font-size: 12px; color: #4a90e2; text-decoration: none; cursor: pointer; }
+
+        .categories-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 25px; }
+        .category-card { background: var(--surface-color); border-radius: 12px; height: 70px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 8px; position: relative; overflow: hidden; }
+        .category-card span { font-size: 10px; font-weight: 500; z-index: 2; }
+
+        .empty-state-box { background: var(--surface-color); border: 1px dashed var(--border-color); border-radius: 20px; padding: 35px 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 25px; }
+        .empty-state-icon { width: 60px; height: 60px; background: rgba(138, 43, 226, 0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--accent-purple); font-size: 24px; border: 1px solid rgba(138, 43, 226, 0.2); }
+        .empty-state-box h4 { font-size: 16px; font-weight: 600; color: white; }
+        .empty-state-box p { font-size: 12px; color: var(--text-muted); max-width: 260px; line-height: 1.5; }
+
+        .page-header-back { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; padding-top: 10px; }
+        .back-btn { background: var(--surface-color); width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--text-main); cursor: pointer; border: 1px solid var(--border-color); }
+        
+        .input-group { margin-bottom: 20px; }
+        .input-label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--text-muted); }
+        .required-star { color: #ff3b30; margin-left: 3px; }
+        
+        .input-box { width: 100%; height: 45px; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 12px; padding: 0 15px; color: var(--text-main); font-size: 14px; outline: none; transition: 0.3s; }
+        .input-box:focus { border-color: var(--accent-purple); }
+
+        .textarea-box { width: 100%; height: 100px; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; color: var(--text-main); font-size: 14px; resize: none; outline: none; transition: 0.3s; }
+        .textarea-box:focus { border-color: var(--accent-purple); }
+        
+        .input-error { border-color: #ff3b30 !important; box-shadow: 0 0 10px rgba(255, 59, 48, 0.4); }
+
+        .genre-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+        .genre-tag { background: var(--surface-color); border: 1px solid var(--border-color); padding: 8px 15px; border-radius: 20px; font-size: 12px; cursor: pointer; color: var(--text-muted); transition: 0.3s; }
+        .genre-tag.active { background: rgba(138, 43, 226, 0.2); border-color: var(--accent-purple); color: var(--accent-purple); font-weight: bold; }
+        
+        .voice-upload-box { background: var(--surface-color); border: 1px dashed var(--accent-purple); border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: 0.3s; }
+        .voice-upload-box.locked { border-color: rgba(255, 215, 0, 0.3); background: rgba(255, 215, 0, 0.02); cursor: not-allowed; }
+        .voice-icon { font-size: 20px; color: var(--accent-purple); }
+        .voice-upload-box.locked .voice-icon { color: #ffd700; }
+        .voice-text { font-size: 11px; color: var(--text-muted); }
+        .lock-badge { font-size: 10px; background: rgba(255, 215, 0, 0.15); color: #ffd700; padding: 3px 8px; border-radius: 6px; font-weight: 600; margin-top: 4px; display: inline-flex; align-items: center; gap: 5px; }
+
+        .music-list-detailed { display: flex; flex-direction: column; gap: 15px; }
+        .music-card { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 16px; padding: 15px; display: flex; align-items: center; gap: 15px; position: relative; margin-bottom: 15px; }
+        .music-card.playing { border-color: rgba(138, 43, 226, 0.6); }
+        
+        .mc-thumb { width: 80px; height: 80px; border-radius: 12px; object-fit: cover; background: #ff4500; flex-shrink: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; font-weight: bold; font-size: 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .mc-info-area { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+        .mc-header-row { display: flex; justify-content: space-between; align-items: flex-start; }
+        .mc-title-area h4 { font-size: 16px; margin-bottom: 2px; font-weight: 600; color: white; }
+        .mc-title-area p { font-size: 11px; color: var(--text-muted); }
+        
+        .mc-top-actions { display: flex; gap: 15px; color: var(--text-muted); font-size: 16px; align-items: center; }
+        .mc-top-actions i { cursor: pointer; transition: 0.2s; }
+        .mc-top-actions i.fa-heart.liked { color: #ff007f; }
+        
+        .mc-player-row { display: flex; align-items: center; gap: 12px; }
+        .mc-play-btn { width: 36px; height: 36px; border-radius: 50%; background: var(--accent-purple); border: none; display: flex; justify-content: center; align-items: center; color: white; cursor: pointer; font-size: 14px; box-shadow: 0 2px 8px rgba(138, 43, 226, 0.4); flex-shrink: 0; }
+        .mc-time { font-size: 11px; color: var(--text-muted); }
+        .mc-waveform { flex: 1; height: 24px; background: repeating-linear-gradient(90deg, var(--accent-purple) 0px, var(--accent-purple) 2px, transparent 2px, transparent 5px); opacity: 0.8; border-radius: 2px; }
+        
+        .mc-download-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; border: 1px solid rgba(74, 144, 226, 0.4); border-radius: 10px; padding: 8px 14px; color: #4a90e2; font-size: 11px; font-weight: 500; background: transparent; cursor: pointer; flex-shrink: 0; }
+        .mc-download-btn i { font-size: 14px; }
+
+        .music-card.generating { border-style: dashed; border-color: var(--accent-purple); background: rgba(138, 43, 226, 0.03); }
+        .generating-content { display: flex; align-items: center; gap: 15px; width: 100%; }
+        .spinner-box { width: 50px; height: 50px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--accent-purple); animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .badge-mpya { background: #ff3b30; color: white; font-size: 9px; padding: 2px 6px; border-radius: 6px; font-weight: bold; display: inline-block; margin-bottom: 4px; }
+        .loading-dots span { animation: blink 1.4s infinite both; font-weight: bold; }
+        .loading-dots span:nth-child(2) { animation-delay: .2s; }
+        .loading-dots span:nth-child(3) { animation-delay: .4s; }
+        @keyframes blink { 0% { opacity: .2; } 20% { opacity: 1; } 100% { opacity: .2; } }
+
+        /* ----- UI YA ONGEZA CREDIT ----- */
+        .topup-banner { background: linear-gradient(135deg, rgba(26,28,41,1) 0%, rgba(42,24,68,1) 100%); border-radius: 16px; padding: 15px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; }
+        .topup-banner-text h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+        .topup-banner-text p { font-size: 11px; color: var(--text-muted); line-height: 1.3; }
+        .topup-banner-img { font-size: 32px; color: #ffd700; }
+
+        .credits-select-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
+        
+        .credit-option-card { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 16px; padding: 14px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.2s; position: relative; }
+        .credit-option-card.selected { border-color: var(--accent-purple); background: linear-gradient(90deg, rgba(138,43,226,0.15) 0%, rgba(26,28,41,1) 100%); }
+        
+        .coc-left { display: flex; align-items: center; gap: 12px; }
+        .coc-icon { font-size: 28px; color: #ffd700; }
+        .coc-info h4 { font-size: 14px; font-weight: 700; color: white; margin-bottom: 2px; display: flex; align-items: center; gap: 8px; }
+        .coc-info p { font-size: 11px; color: var(--text-muted); }
+
+        .coc-right { display: flex; align-items: center; gap: 10px; }
+        .badge-tag { font-size: 9px; padding: 3px 8px; border-radius: 10px; font-weight: bold; }
+        .badge-tag.purple { background: var(--accent-purple); color: white; }
+        .badge-tag.green { background: #00e676; color: black; }
+
+        .radio-circle { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border-color); display: flex; justify-content: center; align-items: center; }
+        .credit-option-card.selected .radio-circle { border-color: var(--accent-purple); }
+        .credit-option-card.selected .radio-circle::after { content: ''; width: 10px; height: 10px; background: var(--accent-purple); border-radius: 50%; }
+
+        /* ----- UI YA GHARAMA ZA HUDUMA & VIFURUSHI ----- */
+        .pricing-grid-view { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
+        
+        .price-card { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 16px; padding: 12px 8px; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; transition: 0.3s; }
+        .price-card.basic { border-color: rgba(138, 43, 226, 0.4); background: linear-gradient(180deg, rgba(26,28,41,1) 0%, rgba(15,12,26,1) 100%); }
+        .price-card.standard { border-color: rgba(0, 242, 254, 0.4); background: linear-gradient(180deg, rgba(16,28,45,1) 0%, rgba(10,15,28,1) 100%); }
+        .price-card.premium { border-color: rgba(255, 215, 0, 0.6); background: linear-gradient(180deg, rgba(40,30,10,1) 100%); box-shadow: 0 0 15px rgba(255, 215, 0, 0.15); }
+
+        .pc-tier-title { font-size: 10px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 8px; color: white; }
+        .pc-coin-stack { font-size: 26px; color: #ffd700; margin-bottom: 6px; position: relative; }
+        .pc-price { font-size: 13px; font-weight: 700; margin-bottom: 6px; color: white; }
+        .pc-credits-badge { font-size: 9px; padding: 4px 8px; border-radius: 12px; font-weight: 600; margin-bottom: 10px; width: 100%; }
+        .pc-credits-badge.b-badge { background: var(--accent-purple); color: white; }
+        .pc-credits-badge.s-badge { background: #00f2fe; color: black; }
+        .pc-credits-badge.p-badge { background: #ffd700; color: black; }
+
+        .pc-features-list { width: 100%; list-style: none; display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; text-align: left; }
+        .pc-features-list li { font-size: 9px; color: var(--text-muted); display: flex; align-items: flex-start; gap: 4px; line-height: 1.3; }
+        .pc-features-list li i { font-size: 10px; width: 12px; text-align: center; margin-top: 1px; flex-shrink: 0; }
+        .pc-features-list li i.fa-music { color: #ff007f; }
+        .pc-features-list li i.fa-file-lines { color: #00f2fe; }
+        .pc-features-list li i.fa-microphone-lines { color: #ffd700; }
+
+        .pc-pay-btn { width: 100%; padding: 8px 4px; border-radius: 10px; font-size: 9px; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 3px; margin-top: auto; }
+        .pc-pay-btn.b-btn { background: var(--accent-purple); color: white; }
+        .pc-pay-btn.s-btn { background: #00f2fe; color: black; }
+        .pc-pay-btn.p-btn { background: linear-gradient(135deg, #ffd700, #ff8c00); color: black; }
+
+        .benefits-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+        .benefits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
+        .benefit-card { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 14px; padding: 12px 8px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .benefit-card i { font-size: 18px; color: var(--accent-purple); }
+        .benefit-card h5 { font-size: 11px; font-weight: 600; color: white; }
+        .benefit-card p { font-size: 9px; color: var(--text-muted); line-height: 1.3; }
+
+        .secure-footer { display: flex; justify-content: center; align-items: center; gap: 6px; font-size: 10px; color: var(--text-muted); padding-bottom: 20px; }
+        .secure-footer i { color: #00e676; }
+
+        /* ----- POPUPS & OVERLAYS ----- */
+        .custom-popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; pointer-events: none; transition: 0.3s ease; }
+        .custom-popup-overlay.show { opacity: 1; pointer-events: auto; }
+        
+        .custom-popup-card { background: #161925; border: 1px solid rgba(138, 43, 226, 0.3); border-radius: 24px; width: 85%; max-width: 360px; padding: 25px 20px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.6); transform: scale(0.85); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .custom-popup-overlay.show .custom-popup-card { transform: scale(1); }
+        
+        .popup-icon-box { width: 65px; height: 65px; background: rgba(138, 43, 226, 0.15); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px auto; color: var(--accent-purple); font-size: 26px; border: 1px solid rgba(138, 43, 226, 0.3); }
+        .popup-icon-box.warning { background: rgba(255, 59, 48, 0.15); color: #ff3b30; border-color: rgba(255, 59, 48, 0.3); }
+        .popup-icon-box.gold { background: rgba(255, 215, 0, 0.15); color: #ffd700; border-color: rgba(255, 215, 0, 0.3); }
+        .custom-popup-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: white; }
+        .custom-popup-card p { font-size: 13px; color: var(--text-muted); margin-bottom: 22px; line-height: 1.5; text-align: left; max-height: 200px; overflow-y: auto; }
+        .custom-popup-card p.center-text { text-align: center; }
+        
+        .popup-btn-group { display: flex; gap: 10px; }
+        .popup-btn { background: var(--accent-purple); color: white; border: none; padding: 12px; border-radius: 12px; font-size: 14px; font-weight: 600; width: 100%; cursor: pointer; }
+        .popup-btn.danger { background: #ff3b30; }
+        .popup-btn.secondary { background: rgba(255, 255, 255, 0.08); color: var(--text-main); border: 1px solid var(--border-color); }
+        .popup-btn.gold-btn { background: linear-gradient(135deg, #ffd700, #ff8c00); color: #0b0c10; font-weight: 700; }
+
+        .action-sheet-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px); display: flex; justify-content: flex-end; flex-direction: column; z-index: 1000; opacity: 0; pointer-events: none; transition: 0.3s ease; }
+        .action-sheet-overlay.show { opacity: 1; pointer-events: auto; }
+        
+        .action-sheet-content { background: #161925; border-top: 1px solid var(--border-color); border-radius: 24px 24px 0 0; padding: 25px 20px; width: 100%; max-width: 480px; margin: 0 auto; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.1, 0.9, 0.2, 1); }
+        .action-sheet-overlay.show .action-sheet-content { transform: translateY(0); }
+        
+        .action-sheet-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); }
+        .action-sheet-thumb { width: 45px; height: 45px; border-radius: 10px; background: linear-gradient(135deg, #8a2be2, #ff007f); display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; font-size: 12px; }
+        .action-sheet-title h4 { font-size: 15px; font-weight: 600; color: white; margin-bottom: 3px; }
+        .action-sheet-title p { font-size: 11px; color: var(--text-muted); }
+        
+        .action-option { display: flex; align-items: center; gap: 15px; padding: 14px 15px; background: rgba(255, 255, 255, 0.03); border-radius: 12px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; font-size: 14px; font-weight: 500; color: white; border: 1px solid rgba(255,255,255,0.03); }
+        .action-option:hover { background: rgba(138, 43, 226, 0.15); border-color: rgba(138, 43, 226, 0.3); }
+        .action-option i { font-size: 16px; width: 20px; color: var(--accent-purple); }
+        .action-option.credit-opt i { color: #ffd700; }
+        .action-option.delete-opt i { color: #ff3b30; }
+        .action-option.delete-opt:hover { background: rgba(255, 59, 48, 0.15); border-color: rgba(255, 59, 48, 0.3); }
+        .action-option.logout-opt i { color: #ff3b30; }
+
+        .page-header-text { margin-bottom: 20px; }
+        .page-header-text h2 { font-size: 22px; margin-bottom: 5px; }
+        .page-header-text p { font-size: 12px; color: var(--text-muted); }
+
+        .music-tabs { display: flex; gap: 10px; margin-bottom: 20px; position: sticky; top: 0; background: var(--bg-color); padding: 10px 0; z-index: 10; }
+        .music-tab { flex: 1; padding: 10px; border-radius: 20px; text-align: center; font-size: 12px; font-weight: 500; color: var(--text-muted); cursor: pointer; border: 1px solid var(--border-color); display: flex; justify-content: center; align-items: center; gap: 8px; background: transparent; transition: 0.3s; }
+        .music-tab.active { background: var(--accent-purple); color: white; border-color: var(--accent-purple); box-shadow: 0 4px 10px rgba(138, 43, 226, 0.3); }
+
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(11, 12, 16, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 0 20px 0; border-top: 1px solid var(--border-color); z-index: 100; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 5px; color: var(--text-muted); font-size: 10px; cursor: pointer; background: none; border: none; outline: none; }
+        .nav-item.active { color: var(--accent-purple); }
+        .nav-item i { font-size: 18px; }
+
+        /* ----- TOAST NOTIFICATION CSS ----- */
+        .toast-notification {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px);
+            background: rgba(0, 230, 118, 0.95); color: #000; padding: 12px 20px;
+            border-radius: 30px; font-size: 13px; font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 2000;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0;
+            display: flex; align-items: center; gap: 8px; border: 1px solid rgba(255,255,255,0.2);
+        }
+        .toast-notification.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    </style>
+</head>
+<body>
+
+<!-- UJUMBE WA TOAST -->
+<div class="toast-notification" id="app-toast">
+    <i class="fa-solid fa-circle-check"></i> <span id="toast-msg">Wimbo umekamilika!</span>
+</div>
+
+<div class="app-container">
+    
+    <!-- ==================== HOME PAGE ==================== -->
+    <div id="home-page" class="page-section active-page">
+        <header>
+            <div class="logo-area">
+                <i class="fa-solid fa-wave-square logo-icon"></i>
+                <div class="logo-text">
+                    <h1>AI Music</h1>
+                    <p>Tengeneza Nyimbo kwa AI</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="credits-badge">
+                    <i class="fa-solid fa-coins coin-icon"></i>
+                    <div class="credits-info">
+                        <p>Credits</p>
+                        <h4 id="user-credits-display">5</h4>
+                    </div>
+                </div>
+                <button class="btn-add-credits" onclick="switchPage('topup-page')">+ Ongeza</button>
+                <div class="menu-icon-btn" onclick="openSettingsMenu()"><i class="fa-solid fa-bars"></i></div>
+            </div>
+        </header>
+
+        <div class="hero-banner">
+            <div class="hero-content">
+                <h2 class="hero-title">Tengeneza<br>Nyimbo Zako<br><span class="text-cyan">kwa AI</span></h2>
+                <p class="hero-desc">Andika mashairi yako, chagua aina ya muziki au rekodi sauti yako na upate wimbo kamili.</p>
+            </div>
+            <button class="btn-primary" onclick="switchPage('create-page')">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> TENGENEZA WIMBO MPYA <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <div class="section-header">
+            <h3 class="section-title">Aina za Muziki</h3>
+            <a href="#" class="view-all">Tazama Zote <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        
+        <div class="categories-grid">
+            <div class="category-card" style="background: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://via.placeholder.com/100/8B0000/FFFFFF?text=BF'); background-size: cover;">
+                <span>Bongo Flava</span>
+            </div>
+            <div class="category-card" style="background: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://via.placeholder.com/100/4B0082/FFFFFF?text=SG'); background-size: cover;">
+                <span>Singeli</span>
+            </div>
+            <div class="category-card" style="background: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://via.placeholder.com/100/006400/FFFFFF?text=AM'); background-size: cover;">
+                <span>Amapiano</span>
+            </div>
+            <div class="category-card" style="background: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://via.placeholder.com/100/D2691E/FFFFFF?text=AF'); background-size: cover;">
+                <span>Afrobeat</span>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <h3 class="section-title">Nyimbo Zangu Hivi Karibuni</h3>
+            <a onclick="switchPage('music-page')" class="view-all">Tazama Zote <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="music-list-detailed" id="recent-songs-container" style="margin-bottom: 25px;">
+            <!-- Nyimbo zitajiweka hapa kwa Javascript -->
+        </div>
+    </div>
+
+    <!-- ==================== CREATE PAGE ==================== -->
+    <div id="create-page" class="page-section">
+        <div class="page-header-back">
+            <div class="back-btn" onclick="switchPage('home-page')"><i class="fa-solid fa-arrow-left"></i></div>
+            <h2 class="section-title">Tengeneza Wimbo</h2>
+        </div>
+
+        <div class="input-group">
+            <label class="input-label">Andika Jina la Wimbo <span class="required-star">*</span></label>
+            <input type="text" id="song-title-input" class="input-box" placeholder="Mfano: Nitakupenda Milele">
+        </div>
+
+        <div class="input-group">
+            <label class="input-label">Andika Mashairi au Prompt (Maelezo) <span class="required-star">*</span></label>
+            <textarea id="song-prompt-input" class="textarea-box" placeholder="Mfano: Nataka wimbo wa Bongo Flava unaoelezea mapenzi...&#10;[Verse 1]&#10;Moyo wangu..."></textarea>
+        </div>
+
+        <div class="input-group">
+            <label class="input-label">Chagua Aina ya Muziki (Genre)</label>
+            <div class="genre-tags">
+                <div class="genre-tag active" data-genre="Bongo Flava">Bongo Flava</div>
+                <div class="genre-tag" data-genre="Mduara">Mduara</div>
+                <div class="genre-tag" data-genre="Afrobeat">Afrobeat</div>
+                <div class="genre-tag" data-genre="RnB">RnB</div>
+                <div class="genre-tag" data-genre="Amapiano">Amapiano</div>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label class="input-label">Chagua Aina ya Sauti (Vocal Style)</label>
+            <div class="genre-tags">
+                <div class="voice-tag genre-tag active" data-voice="Mwanamke">Sauti ya Mwanamke</div>
+                <div class="voice-tag genre-tag" data-voice="Mwanaume">Sauti ya Mwanaume</div>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label class="input-label">Sauti Yako (Voice Cloning) - Pro Feature</label>
+            <div class="voice-upload-box locked" id="voice-cloning-box" onclick="handleVoiceCloningClick()">
+                <i class="fa-solid fa-lock voice-icon" id="voice-cloning-icon"></i>
+                <span class="voice-text" id="voice-cloning-text">Inapatikana kwa walionunua kifurushi cha Tsh 10,000 pekee</span>
+                <div class="lock-badge" id="voice-lock-badge"><i class="fa-solid fa-crown"></i> Imefungwa (Locked)</div>
+            </div>
+        </div>
+
+        <button class="btn-primary" style="margin-top: 30px;" onclick="checkCreditsAndGenerate()">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> TENGENEZA SASA
+            <span style="background: rgba(0,0,0,0.3); padding: 3px 8px; border-radius: 10px; font-size: 11px;">-1 Credit</span>
+        </button>
+    </div>
+
+    <!-- ==================== NYIMBO ZANGU PAGE ==================== -->
+    <div id="music-page" class="page-section">
+        <header>
+            <div class="logo-area">
+                <i class="fa-solid fa-wave-square logo-icon"></i>
+                <div class="logo-text">
+                    <h1>AI Music</h1>
+                    <p>Tengeneza Nyimbo kwa AI</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="credits-badge">
+                    <i class="fa-solid fa-coins coin-icon"></i>
+                    <div class="credits-info">
+                        <p>Credits</p>
+                        <h4 id="user-credits-display-2">5</h4>
+                    </div>
+                </div>
+                <button class="btn-add-credits" onclick="switchPage('topup-page')">+ Ongeza</button>
+                <div class="menu-icon-btn" onclick="openSettingsMenu()"><i class="fa-solid fa-bars"></i></div>
+            </div>
+        </header>
+
+        <div class="page-header-text">
+            <h2>Nyimbo Zangu</h2>
+            <p>Hapa ni orodha ya nyimbo zako ulizotengeneza</p>
+        </div>
+
+        <div class="music-tabs">
+            <div class="music-tab active" onclick="switchTab('all', this)"><i class="fa-solid fa-music"></i> Zote</div>
+            <div class="music-tab" onclick="switchTab('favorites', this)"><i class="fa-regular fa-heart"></i> Vipendwa</div>
+        </div>
+
+        <div class="music-list-detailed" id="all-songs-container">
+            <!-- Nyimbo zitajiweka hapa kwa Javascript -->
+        </div>
+    </div>
+
+    <!-- ==================== ONGEZA CREDIT PAGE ==================== -->
+    <div id="topup-page" class="page-section">
+        <header>
+            <div class="logo-area">
+                <i class="fa-solid fa-wave-square logo-icon"></i>
+                <div class="logo-text">
+                    <h1>AI Music</h1>
+                    <p>Nunua Credits</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="credits-badge">
+                    <i class="fa-solid fa-coins coin-icon"></i>
+                    <div class="credits-info">
+                        <p>Zilizobaki</p>
+                        <h4 id="topup-page-credits">5</h4>
+                    </div>
+                </div>
+                <div class="menu-icon-btn" onclick="switchPage('home-page')"><i class="fa-solid fa-xmark"></i></div>
+            </div>
+        </header>
+
+        <div class="topup-banner">
+            <div class="topup-banner-text">
+                <h3>Tengeneza Nyimbo Zaidi</h3>
+                <p>Nunua credits na uendelee kufanya ubunifu wako bila kikomo.</p>
+            </div>
+            <div class="topup-banner-img"><i class="fa-solid fa-coins"></i></div>
+        </div>
+
+        <p class="section-title" style="margin-bottom: 12px;">Chagua Kifurushi cha Credits</p>
+
+        <div class="credits-select-list">
+            <div class="credit-option-card selected" id="opt-2000" onclick="selectCreditOption(2000, 5, 'Tsh 2,000', true)">
+                <div class="coc-left">
+                    <div class="coc-icon"><i class="fa-solid fa-coins"></i></div>
+                    <div class="coc-info">
+                        <h4>5 Credits <span class="badge-tag purple">Inapendekezwa</span></h4>
+                        <p>Tengeneza nyimbo 5 kamili</p>
+                    </div>
+                </div>
+                <div class="coc-right">
+                    <h4 style="color:white; font-size:15px;">Tsh 2,000</h4>
+                    <div class="radio-circle"></div>
+                </div>
+            </div>
+
+            <div class="credit-option-card" id="opt-5000" onclick="selectCreditOption(5000, 15, 'Tsh 5,000', false)">
+                <div class="coc-left">
+                    <div class="coc-icon"><i class="fa-solid fa-coins"></i></div>
+                    <div class="coc-info">
+                        <h4>15 Credits <span class="badge-tag green">Save 17%</span></h4>
+                        <p>Tengeneza nyimbo 15 kamili</p>
+                    </div>
+                </div>
+                <div class="coc-right">
+                    <h4 style="color:white; font-size:15px;">Tsh 5,000</h4>
+                    <div class="radio-circle"></div>
+                </div>
+            </div>
+
+            <div class="credit-option-card" id="opt-10000" onclick="selectCreditOption(10000, 30, 'Tsh 10,000', true, true)">
+                <div class="coc-left">
+                    <div class="coc-icon"><i class="fa-solid fa-coins"></i></div>
+                    <div class="coc-info">
+                        <h4>30 Credits <span class="badge-tag green">Save 33%</span></h4>
+                        <p>Tengeneza nyimbo 30 + Sauti Yako</p>
+                    </div>
+                </div>
+                <div class="coc-right">
+                    <h4 style="color:white; font-size:15px;">Tsh 10,000</h4>
+                    <div class="radio-circle"></div>
+                </div>
+            </div>
+        </div>
+
+        <p class="section-title" style="margin-bottom: 10px;">Kamilisha malipo</p>
+        <button class="btn-primary" id="checkout-pay-btn" onclick="executeSelectedPayment()" style="margin-bottom: 15px;">
+            <i class="fa-solid fa-lock"></i> Lipa Tsh 2,000
+        </button>
+
+        <div class="secure-footer">
+            <i class="fa-solid fa-shield-halved"></i> Malipo ni salama na ya haraka
+        </div>
+    </div>
+
+    <!-- ==================== GHARAMA ZA HUDUMA & VIFURUSHI PAGE ==================== -->
+    <div id="pricing-page" class="page-section">
+        <div class="topup-header">
+            <div class="topup-header-left">
+                <div class="back-btn" onclick="switchPage('home-page')"><i class="fa-solid fa-arrow-left"></i></div>
+                <div class="topup-title-area">
+                    <h2>Gharama za Huduma</h2>
+                    <p>Orodha kamili ya vifurushi na bei zake</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="pricing-grid-view">
+            <div class="price-card basic">
+                <div class="pc-tier-title">BASIC</div>
+                <div class="pc-coin-stack"><i class="fa-solid fa-coins"></i></div>
+                <div class="pc-price">Tsh 2,000</div>
+                <div class="pc-credits-badge b-badge">5 Credits</div>
+                <ul class="pc-features-list">
+                    <li><i class="fa-solid fa-music"></i> Tengeneza nyimbo 5</li>
+                    <li><i class="fa-solid fa-file-lines"></i> Aina zote za muziki</li>
+                </ul>
+                <button class="pc-pay-btn b-btn" onclick="switchPage('topup-page')">
+                    <i class="fa-solid fa-arrow-right"></i> Nunua Sasa
+                </button>
+            </div>
+
+            <div class="price-card standard">
+                <div class="pc-tier-title">STANDARD</div>
+                <div class="pc-coin-stack"><i class="fa-solid fa-coins"></i></div>
+                <div class="pc-price">Tsh 5,000</div>
+                <div class="pc-credits-badge s-badge">15 Credits</div>
+                <ul class="pc-features-list">
+                    <li><i class="fa-solid fa-music"></i> Tengeneza nyimbo 15</li>
+                    <li><i class="fa-solid fa-file-lines"></i> Aina zote za muziki</li>
+                </ul>
+                <button class="pc-pay-btn s-btn" onclick="switchPage('topup-page')">
+                    <i class="fa-solid fa-arrow-right"></i> Nunua Sasa
+                </button>
+            </div>
+
+            <div class="price-card premium">
+                <div class="pc-tier-title" style="color:#ffd700;">PREMIUM</div>
+                <div class="pc-coin-stack"><i class="fa-solid fa-coins"><span>AI</span></i></div>
+                <div class="pc-price">Tsh 10,000</div>
+                <div class="pc-credits-badge p-badge">30 Credits</div>
+                <ul class="pc-features-list">
+                    <li><i class="fa-solid fa-music"></i> Tengeneza nyimbo 30</li>
+                    <li><i class="fa-solid fa-file-lines"></i> Aina zote za muziki</li>
+                    <li><i class="fa-solid fa-microphone-lines"></i> Rekodi sauti yako (Sikika wewe)</li>
+                </ul>
+                <button class="pc-pay-btn p-btn" onclick="switchPage('topup-page')">
+                    <i class="fa-solid fa-arrow-right"></i> Nunua Sasa
+                </button>
+            </div>
+        </div>
+
+        <h3 class="benefits-title">Faida za Vifurushi Vyetu</h3>
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <i class="fa-solid fa-music"></i>
+                <h5>Nyimbo Zako</h5>
+                <p>Tengeneza wimbo kwa AI kwa credits.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fa-solid fa-download"></i>
+                <h5>Pakua MP3</h5>
+                <p>Pakua na usikilize kazi zako.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fa-solid fa-microphone-lines"></i>
+                <h5>Voice Cloning</h5>
+                <p>Wimbo utasikika na sauti yako halisi.</p>
+            </div>
+        </div>
+
+        <div class="secure-footer">
+            <i class="fa-solid fa-shield-halved"></i> Malipo ni salama na ya haraka
+        </div>
+    </div>
+
+</div>
+
+<!-- ==================== POPUPS & OVERLAYS ==================== -->
+<div class="custom-popup-overlay" id="custom-modern-popup">
+    <div class="custom-popup-card">
+        <div class="popup-icon-box" id="popup-icon-container">
+            <i class="fa-solid fa-triangle-exclamation" id="popup-icon-element"></i>
+        </div>
+        <h3 id="popup-title-text">Taarifa Muhimu</h3>
+        <p id="popup-message-text" class="center-text">Ujumbe hapa...</p>
+        <div class="popup-btn-group" id="popup-btn-group-container">
+            <button class="popup-btn" id="popup-action-btn" onclick="closeModernPopup()">Sawa</button>
+        </div>
+    </div>
+</div>
+
+<div class="custom-popup-overlay" id="custom-confirm-popup">
+    <div class="custom-popup-card">
+        <div class="popup-icon-box warning">
+            <i class="fa-solid fa-trash-can"></i>
+        </div>
+        <h3>Futa Wimbo</h3>
+        <p id="confirm-message-text" class="center-text">Una uhakika unataka kufuta wimbo huu?</p>
+        <div class="popup-btn-group">
+            <button class="popup-btn secondary" onclick="closeConfirmPopup()">Ghairi</button>
+            <button class="popup-btn danger" id="confirm-action-btn">Ndiyo, Futa</button>
+        </div>
+    </div>
+</div>
+
+<div class="action-sheet-overlay" id="song-action-sheet" onclick="closeActionSheetOnOutside(event)">
+    <div class="action-sheet-content">
+        <div class="action-sheet-header">
+            <div class="action-sheet-thumb"><i class="fa-solid fa-music"></i></div>
+            <div class="action-sheet-title">
+                <h4 id="sheet-song-title">Jina la Wimbo</h4>
+                <p id="sheet-song-info">Aina ya Muziki</p>
+            </div>
+        </div>
+        <div class="action-option" onclick="shareCurrentSong()">
+            <i class="fa-solid fa-share-nodes"></i> Shiriki Wimbo (Share)
+        </div>
+        <div class="action-option delete-opt" onclick="confirmDeleteSong()">
+            <i class="fa-solid fa-trash-can"></i> Futa Wimbo (Delete)
+        </div>
+    </div>
+</div>
+
+<div class="action-sheet-overlay" id="settings-menu-sheet" onclick="closeSettingsOnOutside(event)">
+    <div class="action-sheet-content">
+        <div class="action-sheet-header">
+            <div class="action-sheet-thumb" style="background: linear-gradient(135deg, #00f2fe, #8a2be2);"><i class="fa-solid fa-gear"></i></div>
+            <div class="action-sheet-title">
+                <h4>Menu Kuu & Mipangilio</h4>
+                <p>AI Music App v2.0</p>
+            </div>
+        </div>
+        <div class="action-option credit-opt" onclick="openMenuInfo('buy-credit')">
+            <i class="fa-solid fa-coins"></i> Nunua Credit (Top Up)
+        </div>
+        <div class="action-option" onclick="openMenuInfo('pricing')">
+            <i class="fa-solid fa-tags"></i> Gharama za Huduma & Vifurushi
+        </div>
+        <div class="action-option" onclick="openMenuInfo('support')">
+            <i class="fa-brands fa-whatsapp"></i> Huduma kwa Wateja (WhatsApp)
+        </div>
+        <div class="action-option" onclick="openMenuInfo('terms')">
+            <i class="fa-solid fa-file-contract"></i> Terms and Services (Masharti)
+        </div>
+        <div class="action-option" onclick="openMenuInfo('about')">
+            <i class="fa-solid fa-circle-info"></i> Kuhusu App Hii
+        </div>
+        <div class="action-option logout-opt" onclick="openMenuInfo('logout')">
+            <i class="fa-solid fa-right-from-bracket"></i> Logout (Toka)
+        </div>
+    </div>
+</div>
+
+<!-- ==================== MENU YA CHINI INAYONING'INIA KWENYE KURASA ZOTE ==================== -->
+<nav class="bottom-nav" id="main-bottom-nav">
+    <button class="nav-item active" id="nav-home" onclick="switchPage('home-page')">
+        <i class="fa-solid fa-house"></i>
+        <span>Nyumbani</span>
+    </button>
+    <button class="nav-item" id="nav-create" onclick="switchPage('create-page')">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        <span>Tengeneza</span>
+    </button>
+    <button class="nav-item" id="nav-music" onclick="switchPage('music-page')">
+        <i class="fa-solid fa-music"></i>
+        <span>Nyimbo Zangu</span>
+    </button>
+</nav>
+
+<script>
+    // Variables za Msingi
+    let activeSheetSongId = null;
+    let activeSheetSongTitle = '';
+    let isVoiceCloningUnlocked = false; 
+    let currentCredits = 5; // Nimeongeza ukianza uwe na tano kufidia iliyopotea
+    let mySongs = []; 
+
+    // Audio Player System
+    let audioPlayer = new Audio();
+    let playingBtn = null;
+
+    audioPlayer.addEventListener('ended', function() {
+        if(playingBtn) resetPlayButton(playingBtn);
+    });
+
+    // Anza: Local Storage System
+    window.onload = function() {
+        loadData();
+    };
+
+    function loadData() {
+        const savedCredits = localStorage.getItem('aiMusicCredits');
+        if (savedCredits !== null) currentCredits = parseInt(savedCredits);
+        else currentCredits = 5; // Default credits imepanda
+
+        const savedVoice = localStorage.getItem('aiMusicVoiceUnlocked');
+        if (savedVoice === 'true') {
+            isVoiceCloningUnlocked = true;
+            unlockVoiceUI();
+        }
+
+        const savedSongs = localStorage.getItem('aiMusicSongs');
+        if (savedSongs !== null) {
+            mySongs = JSON.parse(savedSongs);
+        } else {
+            mySongs = [{
+                id: 'song-1', title: 'Mapenzi ya Milele', genre: 'Bongo Flava', voice: 'Mwanamke', isFav: false, time: '3:28'
+            }];
+        }
+        
+        updateCreditsDisplay();
+        renderSongs();
+    }
+
+    function saveData() {
+        localStorage.setItem('aiMusicCredits', currentCredits);
+        localStorage.setItem('aiMusicVoiceUnlocked', isVoiceCloningUnlocked);
+        localStorage.setItem('aiMusicSongs', JSON.stringify(mySongs));
+    }
+
+    function unlockVoiceUI() {
+        const box = document.getElementById('voice-cloning-box');
+        const icon = document.getElementById('voice-cloning-icon');
+        const text = document.getElementById('voice-cloning-text');
+        const badge = document.getElementById('voice-lock-badge');
+        if(box) {
+            box.classList.remove('locked');
+            icon.className = 'fa-solid fa-microphone-lines voice-icon';
+            text.innerText = "Gusa kurekodi au kupakia sauti yako";
+            badge.style.background = "rgba(0, 200, 83, 0.15)";
+            badge.style.color = "#00e676";
+            badge.innerHTML = '<i class="fa-solid fa-check"></i> Imefunguliwa (Unlocked)';
+        }
+    }
+
+    // Toast Notification System
+    let toastTimeout;
+    function showToast(message) {
+        const toast = document.getElementById('app-toast');
+        document.getElementById('toast-msg').innerText = message;
+        toast.classList.add('show');
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+
+    // Payment Selection
+    let selectedPriceAmount = 2000;
+    let selectedCreditsCount = 5;
+    let selectedPriceString = 'Tsh 2,000';
+    let selectedUnlockVoice = false;
+
+    function selectCreditOption(priceNum, creditsCount, priceStr, unlockVoice) {
+        selectedPriceAmount = priceNum;
+        selectedCreditsCount = creditsCount;
+        selectedPriceString = priceStr;
+        selectedUnlockVoice = unlockVoice;
+
+        document.querySelectorAll('.credit-option-card').forEach(card => card.classList.remove('selected'));
+        let cardElement = document.getElementById('opt-' + priceNum);
+        if(cardElement) cardElement.classList.add('selected');
+
+        document.getElementById('checkout-pay-btn').innerHTML = `<i class="fa-solid fa-lock"></i> Lipa ${priceStr}`;
+    }
+
+    function executeSelectedPayment() {
+        currentCredits += selectedCreditsCount;
+        
+        if (selectedUnlockVoice) {
+            isVoiceCloningUnlocked = true;
+            unlockVoiceUI();
+            showModernPopup("Malipo Yametiki!", `Hongera! Umefanikiwa kununua Credits ${selectedCreditsCount} na Voice Cloning imefunguka.`, "success", () => { switchPage('home-page'); });
+        } else {
+            showModernPopup("Malipo Yametiki!", `Umefanikiwa kununua kifurushi cha ${selectedPriceString} na kupata Credits ${selectedCreditsCount}.`, "success", () => { switchPage('home-page'); });
+        }
+        
+        updateCreditsDisplay();
+        saveData(); 
+    }
+
+    function updateCreditsDisplay() {
+        document.getElementById('user-credits-display').innerText = currentCredits;
+        document.getElementById('user-credits-display-2').innerText = currentCredits;
+        document.getElementById('topup-page-credits').innerText = currentCredits;
+    }
+
+    function switchPage(pageId) {
+        const pages = document.querySelectorAll('.page-section');
+        pages.forEach(page => page.classList.remove('active-page'));
+
+        const selectedPage = document.getElementById(pageId);
+        if(selectedPage) selectedPage.classList.add('active-page');
+
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => item.classList.remove('active'));
+        if(pageId === 'home-page') document.getElementById('nav-home').classList.add('active');
+        if(pageId === 'create-page') document.getElementById('nav-create').classList.add('active');
+        if(pageId === 'music-page') {
+            document.getElementById('nav-music').classList.add('active');
+            renderSongs(); 
+        }
+
+        window.scrollTo(0,0);
+    }
+
+    function openSettingsMenu() {
+        document.getElementById('settings-menu-sheet').classList.add('show');
+    }
+
+    function closeSettingsMenu() {
+        document.getElementById('settings-menu-sheet').classList.remove('show');
+    }
+
+    function closeSettingsOnOutside(event) {
+        if (event.target.id === 'settings-menu-sheet') {
+            closeSettingsMenu();
+        }
+    }
+
+    function openMenuInfo(type) {
+        closeSettingsMenu();
+        if(type === 'buy-credit') {
+            switchPage('topup-page');
+        } else if(type === 'pricing') {
+            switchPage('pricing-page');
+        } else if(type === 'support') {
+            showModernPopup("Huduma kwa Wateja", "WhatsApp: +255 700 000 000\nTunajibu masaa 24.", "info");
+        } else if(type === 'terms') {
+            showModernPopup("Terms and Services", "1. Nyimbo ni mali yako.\n2. Malipo hayarudishwi.\n3. Tumia kwa kufuata sheria.", "info");
+        } else if(type === 'about') {
+            showModernPopup("Kuhusu App", "AI Music App v2.0 - Tengeneza nyimbo za Bongo Flava na Afrobeat.", "info");
+        } else if(type === 'logout') {
+            showModernPopup("Toka kwenye Akaunti", "Je, unataka kutoka kwenye akaunti yako?", "warning", () => { alert("Umetoka."); });
+        }
+    }
+
+    function handleVoiceCloningClick() {
+        if (!isVoiceCloningUnlocked) {
+            showModernPopup("Kipengele cha VIP", "Kipengele hiki kinapatikana kwa walionunua kifurushi cha Tsh 10,000 pekee.", "gold", () => { switchPage('topup-page'); });
+        } else {
+            showModernPopup("Voice Cloning", "Gusa kurekodi sauti yako.", "success");
+        }
+    }
+
+    function checkCreditsAndGenerate() {
+        const titleInput = document.getElementById('song-title-input');
+        const promptInput = document.getElementById('song-prompt-input');
+        const titleVal = titleInput.value.trim();
+        const promptVal = promptInput.value.trim();
+        
+        titleInput.classList.remove('input-error');
+        promptInput.classList.remove('input-error');
+
+        if(!titleVal && !promptVal) {
+            titleInput.classList.add('input-error');
+            promptInput.classList.add('input-error');
+            showModernPopup("Taarifa Muhimu", "Tafadhali jaza jina na mashairi ya wimbo.", "warning");
+            return;
+        } else if(!titleVal) {
+            titleInput.classList.add('input-error');
+            showModernPopup("Taarifa Muhimu", "Andika jina la wimbo.", "warning");
+            return;
+        } else if(!promptVal) {
+            promptInput.classList.add('input-error');
+            showModernPopup("Taarifa Muhimu", "Andika mashairi au prompt.", "warning");
+            return;
+        }
+
+        if (currentCredits <= 0) {
+            showZeroCreditPopup();
+            return;
+        }
+
+        startGeneratingSong();
+    }
+
+    function showZeroCreditPopup() {
+        document.getElementById('popup-title-text').innerText = "Credit Zimekwisha";
+        document.getElementById('popup-message-text').innerText = "Credit zako zimekwisha, Nunua credit kuendelea.";
+        
+        const iconBox = document.getElementById('popup-icon-container');
+        iconBox.className = 'popup-icon-box warning';
+        document.getElementById('popup-icon-element').className = 'fa-solid fa-triangle-exclamation';
+        
+        const btnGroup = document.getElementById('popup-btn-group-container');
+        btnGroup.innerHTML = `
+            <button class="popup-btn secondary" onclick="closeModernPopup()">Funga</button>
+            <button class="popup-btn gold-btn" onclick="closeModernPopup(); switchPage('topup-page');">Nunua Credit</button>
+        `;
+        document.getElementById('custom-modern-popup').classList.add('show');
+    }
+
+    function startGeneratingSong() {
+        currentCredits--;
+        updateCreditsDisplay();
+        saveData();
+
+        const titleInput = document.getElementById('song-title-input');
+        const promptInput = document.getElementById('song-prompt-input');
+        const titleVal = titleInput.value.trim();
+
+        const activeGenreTag = document.querySelector('.genre-tag.active:not(.voice-tag)');
+        const activeVoiceTag = document.querySelector('.voice-tag.active');
+        const genre = activeGenreTag ? activeGenreTag.getAttribute('data-genre') : 'Bongo Flava';
+        const voiceType = activeVoiceTag ? activeVoiceTag.getAttribute('data-voice') : 'Mwanamke';
+        
+        let songTitle = titleVal.charAt(0).toUpperCase() + titleVal.slice(1);
+        const songId = 'song-' + Date.now();
+
+        switchPage('home-page');
+
+        const recentContainer = document.getElementById('recent-songs-container');
+        const loadingCardId = 'loading-card-' + Date.now();
+        
+        const loadingHTML = `
+            <div class="music-card generating" id="${loadingCardId}">
+                <div class="generating-content">
+                    <div class="spinner-box"></div>
+                    <div style="flex:1;">
+                        <span class="badge-mpya" style="background:#ff3b30;">Inatengenezwa</span>
+                        <h4 style="font-size: 15px; color: white; margin-bottom: 3px;">${songTitle}</h4>
+                        <p style="font-size: 11px; color: var(--text-muted);" class="loading-dots">
+                            Inatengeneza wimbo wako<span>.</span><span>.</span><span>.</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        const emptyStateHome = document.getElementById('recent-empty-state');
+        if(emptyStateHome) emptyStateHome.remove();
+
+        recentContainer.insertAdjacentHTML('afterbegin', loadingHTML);
+        titleInput.value = ''; 
+        promptInput.value = '';
+
+        setTimeout(() => {
+            const loadingCard = document.getElementById(loadingCardId);
+            if(loadingCard) {
+                loadingCard.remove();
+            }
+            
+            // HII MANTIKI SASA IPO NJE, HAITASHINDIKANA HATA KAMA UKIBADILISHA TAB!
+            const newSong = { id: songId, title: songTitle, genre: genre, voice: voiceType, isFav: false, time: '3:15' };
+            mySongs.unshift(newSong);
+            saveData();
+            renderSongs();
+            
+            showToast("Wimbo wako umekamilika na umehifadhiwa!"); 
+        }, 4000);
+    }
+
+    function createSongHTML(song, isNew = false) {
+        const favClass = song.isFav ? 'fa-solid liked' : 'fa-regular';
+        const badgeHTML = isNew ? `<span class="badge-mpya badge-mpya-active">Mpya</span>` : '';
+        const thumbText = song.title.substring(0, 5);
+
+        return `
+            <div class="music-card" data-song-id="${song.id}" data-song-name="${song.title}" data-is-fav="${song.isFav}">
+                <div class="mc-thumb" style="background: linear-gradient(135deg, #8a2be2, #ff007f);">${thumbText}</div>
+                <div class="mc-info-area">
+                    <div class="mc-header-row">
+                        <div class="mc-title-area">
+                            ${badgeHTML}
+                            <h4>${song.title}</h4>
+                            <p>${song.genre} (${song.voice}) &bull; ${song.time}</p>
+                        </div>
+                        <div class="mc-top-actions">
+                            <i class="${favClass} fa-heart fav-icon" onclick="toggleFavorite(this, '${song.id}')"></i>
+                            <i class="fa-solid fa-ellipsis-vertical" onclick="openActionSheet('${song.id}', '${song.title}', '${song.genre}')"></i>
+                        </div>
+                    </div>
+                    <div class="mc-player-row">
+                        <button class="mc-play-btn" onclick="togglePlay(this)"><i class="fa-solid fa-play"></i></button>
+                        <span class="mc-time">0:00</span>
+                        <div class="mc-waveform"></div>
+                        <span class="mc-time">${song.time}</span>
+                        <button class="mc-download-btn"><i class="fa-solid fa-download"></i> Download</button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    function renderSongs() {
+        const recentContainer = document.getElementById('recent-songs-container');
+        const allContainer = document.getElementById('all-songs-container');
+        
+        // Tunza kadi inayo-load kabla ya kusafisha ili isipotee ukirefresh list
+        let loadingHTML = '';
+        const generatingCard = recentContainer.querySelector('.generating');
+        if(generatingCard) {
+            loadingHTML = generatingCard.outerHTML;
+        }
+
+        recentContainer.innerHTML = '';
+        allContainer.innerHTML = '';
+
+        // Rudisha loading card ikiwa ipo
+        if(loadingHTML) {
+            recentContainer.innerHTML = loadingHTML;
+        }
+
+        if(mySongs.length === 0 && !loadingHTML) {
+            checkEmptyStates();
+            return;
+        }
+
+        // Render Top 3 for Recent
+        const recentSongs = mySongs.slice(0, 3);
+        recentSongs.forEach((song, index) => {
+            recentContainer.innerHTML += createSongHTML(song, index === 0 && !loadingHTML); 
+        });
+
+        // Render All for Music Page
+        mySongs.forEach(song => {
+            allContainer.innerHTML += createSongHTML(song, false);
+        });
+        
+        const activeTab = document.querySelector('.music-tab.active');
+        if(activeTab && activeTab.innerText.includes('Vipendwa')) {
+            switchTab('favorites', activeTab);
+        }
+    }
+
+    let customPopupCallback = null;
+    function showModernPopup(title, msg, type = 'info', callback = null) {
+        document.getElementById('popup-title-text').innerText = title;
+        document.getElementById('popup-message-text').innerText = msg;
+        
+        const iconBox = document.getElementById('popup-icon-container');
+        const iconElem = document.getElementById('popup-icon-element');
+        const btnGroup = document.getElementById('popup-btn-group-container');
+        customPopupCallback = callback;
+
+        if(type === 'warning') {
+            iconBox.className = 'popup-icon-box warning';
+            iconElem.className = 'fa-solid fa-triangle-exclamation';
+            btnGroup.innerHTML = `
+                <button class="popup-btn secondary" onclick="closeModernPopup()">Ghairi</button>
+                <button class="popup-btn danger" onclick="executeWarningAction()">Ndiyo, Toka</button>
+            `;
+        } else if(type === 'gold') {
+            iconBox.className = 'popup-icon-box gold';
+            iconElem.className = 'fa-solid fa-crown';
+            btnGroup.innerHTML = `
+                <button class="popup-btn secondary" onclick="closeModernPopup()">Funga</button>
+                <button class="popup-btn gold-btn" onclick="executeGoldAction()">Lipa Tsh 10,000</button>
+            `;
+        } else {
+            iconBox.className = 'popup-icon-box';
+            iconElem.className = 'fa-solid fa-circle-check';
+            btnGroup.innerHTML = `<button class="popup-btn" onclick="closeModernPopup()">Sawa</button>`;
+        }
+        document.getElementById('custom-modern-popup').classList.add('show');
+    }
+
+    function executeGoldAction() {
+        document.getElementById('custom-modern-popup').classList.remove('show');
+        if (customPopupCallback) { customPopupCallback(); customPopupCallback = null; }
+    }
+
+    function executeWarningAction() {
+        document.getElementById('custom-modern-popup').classList.remove('show');
+        if (customPopupCallback) { customPopupCallback(); customPopupCallback = null; }
+    }
+
+    function closeModernPopup() {
+        document.getElementById('custom-modern-popup').classList.remove('show');
+        customPopupCallback = null;
+    }
+
+    function openActionSheet(songId, songTitle, songInfo) {
+        activeSheetSongId = songId;
+        activeSheetSongTitle = songTitle;
+        document.getElementById('sheet-song-title').innerText = songTitle;
+        document.getElementById('sheet-song-info').innerText = songInfo;
+        document.getElementById('song-action-sheet').classList.add('show');
+    }
+
+    function closeActionSheet() {
+        document.getElementById('song-action-sheet').classList.remove('show');
+    }
+
+    function closeActionSheetOnOutside(event) {
+        if (event.target.id === 'song-action-sheet') { closeActionSheet(); }
+    }
+
+    function shareCurrentSong() {
+        closeActionSheet();
+        showModernPopup("Imefanikiwa!", `Kiungo cha wimbo "${activeSheetSongTitle}" kimenakiliwa!`, "success");
+    }
+
+    function confirmDeleteSong() {
+        closeActionSheet();
+        document.getElementById('confirm-message-text').innerText = `Una uhakika unataka kufuta wimbo "${activeSheetSongTitle}"?`;
+        document.getElementById('confirm-action-btn').onclick = function() { executeDeleteSong(); };
+        document.getElementById('custom-confirm-popup').classList.add('show');
+    }
+
+    function closeConfirmPopup() {
+        document.getElementById('custom-confirm-popup').classList.remove('show');
+    }
+
+    function executeDeleteSong() {
+        closeConfirmPopup();
+        mySongs = mySongs.filter(song => song.id !== activeSheetSongId);
+        saveData();
+        renderSongs();
+        showToast("Wimbo umefutwa kikamilifu.");
+    }
+
+    function checkEmptyStates() {
+        const recentContainer = document.getElementById('recent-songs-container');
+        if(recentContainer.querySelectorAll('.music-card').length === 0 && !document.getElementById('recent-empty-state')) {
+            recentContainer.innerHTML = `
+                <div class="empty-state-box" id="recent-empty-state">
+                    <div class="empty-state-icon"><i class="fa-solid fa-music-slash"></i></div>
+                    <h4>Haujaweka Nyimbo Hata Moja</h4>
+                    <p>Gusa kitufe cha 'Tengeneza Wimbo Mpya' hapo juu ili uanze.</p>
+                </div>
+            `;
+        }
+        const allContainer = document.getElementById('all-songs-container');
+        if(allContainer.querySelectorAll('.music-card').length === 0 && !document.getElementById('all-empty-state')) {
+            allContainer.innerHTML = `
+                <div class="empty-state-box" id="all-empty-state">
+                    <div class="empty-state-icon"><i class="fa-solid fa-music-slash"></i></div>
+                    <h4>Hauna Nyimbo Zilizohifadhiwa</h4>
+                    <p>Nyimbo zako zote zitaonekana hapa.</p>
+                </div>
+            `;
+        }
+    }
+
+    function toggleFavorite(iconElem, songId) {
+        const songIndex = mySongs.findIndex(s => s.id === songId);
+        let isLiked = false;
+        if(songIndex !== -1) {
+            mySongs[songIndex].isFav = !mySongs[songIndex].isFav;
+            isLiked = mySongs[songIndex].isFav;
+            saveData(); 
+        }
+
+        // Tunabadilisha icon na kuificha moja kwa moja bila ku-refresh ukurasa wote mzima ili music isikate.
+        document.querySelectorAll(`[data-song-id="${songId}"]`).forEach(card => {
+            card.setAttribute('data-is-fav', isLiked ? 'true' : 'false');
+            const icon = card.querySelector('.fav-icon');
+            if(isLiked) {
+                icon.classList.remove('fa-regular');
+                icon.classList.add('fa-solid', 'liked');
+            } else {
+                icon.classList.remove('fa-solid', 'liked');
+                icon.classList.add('fa-regular');
+            }
+        });
+
+        const activeTab = document.querySelector('.music-tab.active');
+        if(activeTab && activeTab.innerText.includes('Vipendwa')) {
+             switchTab('favorites', activeTab);
+        }
+    }
+
+    function switchTab(tabType, element = null) {
+        if(element) {
+            document.querySelectorAll('.music-tab').forEach(t => t.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        document.querySelectorAll('#all-songs-container .music-card').forEach(card => {
+            if(tabType === 'favorites') {
+                card.style.display = card.getAttribute('data-is-fav') === 'true' ? 'flex' : 'none';
+            } else {
+                card.style.display = 'flex';
+            }
+        });
+    }
+
+    function togglePlay(btn) {
+        const icon = btn.querySelector('i');
+        const card = btn.closest('.music-card');
+        
+        if(icon.classList.contains('fa-pause')) {
+            audioPlayer.pause();
+            resetPlayButton(btn);
+            return;
+        }
+        
+        if(playingBtn && playingBtn !== btn) {
+            resetPlayButton(playingBtn);
+        }
+        
+        if(audioPlayer.src !== 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3') {
+             audioPlayer.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+        }
+        
+        audioPlayer.play();
+        
+        icon.classList.remove('fa-play');
+        icon.classList.add('fa-pause');
+        btn.style.background = '#ff007f';
+        card.classList.add('playing');
+        playingBtn = btn;
+    }
+
+    function resetPlayButton(btn) {
+        if(!btn) return;
+        const icon = btn.querySelector('i');
+        const card = btn.closest('.music-card');
+        if(icon) {
+            icon.classList.remove('fa-pause');
+            icon.classList.add('fa-play');
+        }
+        btn.style.background = 'var(--accent-purple)';
+        if(card) card.classList.remove('playing');
+        if(playingBtn === btn) playingBtn = null;
+    }
+
+    document.querySelectorAll('.genre-tag:not(.voice-tag)').forEach(tag => {
+        tag.addEventListener('click', function() {
+            document.querySelectorAll('.genre-tag:not(.voice-tag)').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    document.querySelectorAll('.voice-tag').forEach(tag => {
+        tag.addEventListener('click', function() {
+            document.querySelectorAll('.voice-tag').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+</script>
+
+</body>
+</html>
