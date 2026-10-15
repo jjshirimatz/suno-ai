@@ -39,6 +39,134 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* --- LANGUAGE SELECTION SCREEN --- */
+        #language-page {
+            background: linear-gradient(180deg, #021a42 0%, #010a1f 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            position: absolute;
+            top: 0; left: 0; width: 100%; z-index: 1000;
+        }
+
+        #language-page.active-page {
+            display: flex;
+        }
+
+        .lang-hero-img {
+            width: 160px;
+            height: 160px;
+            background: radial-gradient(circle, rgba(0,242,254,0.2) 0%, transparent 70%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .lang-hero-img i {
+            font-size: 80px;
+            color: white;
+            text-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
+        }
+
+        .lang-hero-img::before {
+            content: '\f1ab';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            bottom: 20px;
+            right: 15px;
+            font-size: 40px;
+            color: #fff;
+            background: #007aff;
+            border-radius: 10px;
+            padding: 5px 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .lang-title-area {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .lang-title {
+            font-size: 32px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .lang-subtitle {
+            font-size: 20px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .lang-options-list {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .lang-card {
+            background: linear-gradient(90deg, #032b69 0%, #021a42 100%);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            border-radius: 16px;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            transition: 0.2s;
+        }
+
+        .lang-card:active {
+            transform: scale(0.97);
+            background: linear-gradient(90deg, #043d99 0%, #032b69 100%);
+        }
+
+        .lang-card-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .lang-flag {
+            font-size: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            line-height: 1;
+        }
+
+        .lang-info h4 {
+            font-size: 22px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .lang-info p {
+            font-size: 15px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .lang-card i.fa-chevron-right {
+            color: white;
+            font-size: 20px;
+            opacity: 0.7;
+        }
+
+        /* --- END LANGUAGE SCREEN --- */
+
         header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
         .logo-area { display: flex; align-items: center; gap: 12px; }
         .logo-icon { font-size: 42px; background: -webkit-linear-gradient(45deg, var(--accent-cyan), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -79,7 +207,6 @@
         .page-header-back { display: flex; align-items: center; gap: 18px; margin-bottom: 35px; padding-top: 15px; }
         .back-btn { background: var(--surface-color); width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--text-main); cursor: pointer; border: 1px solid var(--border-color); font-size: 24px; }
         
-        /* UBUNIFU MPYA WA INPUT BOXES NA TEXTAREAS */
         .input-group { margin-bottom: 32px; background: rgba(26, 28, 41, 0.6); padding: 22px; border-radius: 24px; border: 1px solid var(--border-color); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
         .input-label { display: flex; align-items: center; font-size: 19px; font-weight: 800; margin-bottom: 14px; color: #ffffff; letter-spacing: 0.3px; }
         .input-label i { color: var(--accent-cyan); font-size: 20px; margin-right: 10px; }
@@ -164,10 +291,15 @@
         .credit-option-card.selected .radio-circle { border-color: var(--accent-purple); border-width: 4px; }
         .credit-option-card.selected .radio-circle::after { content: ''; width: 14px; height: 14px; background: var(--accent-purple); border-radius: 50%; }
 
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(11, 12, 16, 0.98); backdrop-filter: blur(15px); display: flex; justify-content: space-around; padding: 15px 0 25px 0; border-top: 1px solid var(--border-color); z-index: 100; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--text-muted); font-size: 15px; font-weight: 700; cursor: pointer; background: none; border: none; outline: none; width: 25%; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(11, 12, 16, 0.98); backdrop-filter: blur(15px); display: flex; justify-content: space-around; padding: 15px 0 25px 0; border-top: 1px solid var(--border-color); z-index: 100; display: none;}
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--text-muted); font-size: 15px; font-weight: 700; cursor: pointer; background: none; border: none; outline: none; width: 33.33%; }
         .nav-item.active { color: var(--accent-purple); font-weight: 900; }
         .nav-item i { font-size: 26px; }
+
+        /* WAKATI MAIN CONTENT INAONEKANA */
+        body.main-app-active .bottom-nav {
+            display: flex;
+        }
 
         .toast-notification {
             position: fixed; top: 30px; left: 50%; transform: translateX(-50%) translateY(-100px);
@@ -235,10 +367,60 @@
     <i class="fa-solid fa-circle-check"></i> <span id="toast-msg">Wimbo umekamilika!</span>
 </div>
 
-<div class="app-container">
+<!-- LANGUAGE SELECTION SCREEN (Ukurasa wa Kwanza Kabisa) -->
+<div id="language-page" class="page-section active-page">
+    <div class="lang-hero-img">
+        <i class="fa-solid fa-globe"></i>
+    </div>
+    
+    <div class="lang-title-area">
+        <h2 class="lang-title">Select Language</h2>
+        <p class="lang-subtitle">Chagua Lugha</p>
+    </div>
+
+    <div class="lang-options-list">
+        <!-- Kiingereza -->
+        <div class="lang-card" onclick="selectInitialLanguage('en')">
+            <div class="lang-card-left">
+                <span class="lang-flag">🇬🇧</span>
+                <div class="lang-info">
+                    <h4>English</h4>
+                    <p>Kiingereza</p>
+                </div>
+            </div>
+            <i class="fa-solid fa-chevron-right"></i>
+        </div>
+
+        <!-- Kiswahili -->
+        <div class="lang-card" onclick="selectInitialLanguage('sw')">
+            <div class="lang-card-left">
+                <span class="lang-flag">🇹🇿</span>
+                <div class="lang-info">
+                    <h4>Swahili</h4>
+                    <p>Kiswahili</p>
+                </div>
+            </div>
+            <i class="fa-solid fa-chevron-right"></i>
+        </div>
+
+        <!-- Kifaransa -->
+        <div class="lang-card" onclick="selectInitialLanguage('fr')">
+            <div class="lang-card-left">
+                <span class="lang-flag">🇫🇷</span>
+                <div class="lang-info">
+                    <h4>French</h4>
+                    <p>Kifaransa</p>
+                </div>
+            </div>
+            <i class="fa-solid fa-chevron-right"></i>
+        </div>
+    </div>
+</div>
+
+<div class="app-container" id="main-app-content" style="display: none;">
     
     <!-- HOME PAGE -->
-    <div id="home-page" class="page-section active-page">
+    <div id="home-page" class="page-section">
         <header>
             <div class="logo-area">
                 <i class="fa-solid fa-wave-square logo-icon"></i>
@@ -306,7 +488,6 @@
             <h2 class="section-title" data-i18n="create_song_title">Tengeneza Wimbo</h2>
         </div>
 
-        <!-- INPUT BOX YA JINA LA WIMBO (IMEBORESHWA) -->
         <div class="input-group">
             <label class="input-label">
                 <i class="fa-solid fa-signature"></i>
@@ -316,7 +497,6 @@
             <input type="text" id="song-title-input" class="input-box" placeholder="Mfano: Nitakupenda Milele" data-i18n-placeholder="song_title_placeholder">
         </div>
 
-        <!-- TEXTAREA YA MASHAIRI AU PROMPT (IMEBORESHWA) -->
         <div class="input-group">
             <label class="input-label">
                 <i class="fa-solid fa-pen-nib"></i>
@@ -571,15 +751,11 @@
         <i class="fa-solid fa-music"></i>
         <span data-i18n="nav_my_songs">Nyimbo Zangu</span>
     </button>
-    <button class="nav-item" onclick="toggleLanguage()">
-        <i class="fa-solid fa-globe"></i>
-        <span id="lang-btn-label">EN / SW</span>
-    </button>
 </nav>
 
 <script>
     // ==========================================
-    // MULTI-LANGUAGE SYSTEM (SW & EN)
+    // MULTI-LANGUAGE SYSTEM (SW, EN, FR)
     // ==========================================
     let currentLang = 'sw';
 
@@ -703,12 +879,83 @@
             empty_home_desc: "Tap the 'Create New Song' button above to start.",
             empty_music_title: "No Saved Songs",
             empty_music_desc: "All your generated songs will appear here."
+        },
+        fr: {
+            subtitle: "Générer des Chansons avec l'IA",
+            credits_label: "Crédits",
+            add_btn: "+ Ajouter",
+            hero_title: "Créez<br>Vos Chansons<br><span class=\"text-cyan\">avec l'IA</span>",
+            hero_desc: "Écrivez vos paroles, sélectionnez un genre ou enregistrez votre voix pour obtenir une chanson.",
+            create_new_song_btn: "CRÉER UNE CHANSON",
+            genres_title: "Genres Musicaux",
+            view_all: "Voir Tout",
+            recent_songs_title: "Chansons Récentes",
+            create_song_title: "Créer une Chanson",
+            song_title_label: "Entrez le Titre",
+            song_title_placeholder: "Exemple: Mon Amour",
+            song_prompt_label: "Écrivez les Paroles ou la Description",
+            genre_label: "Sélectionnez le Genre",
+            vocal_label: "Sélectionnez le Style Vocal",
+            voice_female: "Voix Féminine",
+            voice_male: "Voix Masculine",
+            voice_cloning_label: "Clonage Vocal - Fonction Pro",
+            voice_cloning_desc: "Disponible uniquement pour les acheteurs du forfait de 10 000 Tsh",
+            locked_badge: "Verrouillé",
+            unlocked_badge: "Déverrouillé",
+            voice_unlocked_desc: "Appuyez pour enregistrer votre voix",
+            generate_btn: "GÉNÉRER MAINTENANT",
+            credit_cost: "-1 Crédit",
+            my_songs_title: "Mes Chansons",
+            my_songs_desc: "Voici la liste de vos chansons générées",
+            tab_all: "Tout",
+            tab_fav: "Favoris",
+            buy_credits_sub: "Acheter des Crédits",
+            remaining_credits: "Restant",
+            topup_banner_title: "Générez Plus de Chansons",
+            topup_banner_desc: "Achetez des crédits et continuez votre créativité infinie.",
+            select_package_title: "Sélectionnez un Forfait",
+            badge_recommended: "Recommandé",
+            pack_1_desc: "Générez 5 chansons complètes",
+            pack_2_desc: "Générez 15 chansons complètes",
+            pack_3_desc: "Générez 30 chansons + Clonage Vocal",
+            complete_payment: "Effectuer le Paiement",
+            pay_btn_prefix: "Payer",
+            ok_btn: "OK",
+            cancel_btn: "Annuler",
+            delete_song_title: "Supprimer",
+            yes_delete_btn: "Oui, Supprimer",
+            action_share: "Partager la Chanson",
+            action_delete: "Supprimer la Chanson",
+            settings_title: "Menu Principal",
+            menu_topup: "Acheter des Crédits",
+            menu_support: "Support Client (WhatsApp)",
+            menu_logout: "Déconnexion",
+            nav_home: "Accueil",
+            nav_create: "Créer",
+            nav_my_songs: "Mes Chansons",
+            toast_success: "Votre chanson est prête et sauvegardée!",
+            toast_deleted: "Chanson supprimée avec succès.",
+            empty_home_title: "Aucune Chanson Créée",
+            empty_home_desc: "Appuyez sur 'CRÉER UNE CHANSON' pour commencer.",
+            empty_music_title: "Aucune Chanson Sauvegardée",
+            empty_music_desc: "Toutes vos chansons apparaîtront ici."
         }
     };
 
-    function changeLanguage(lang) {
+    function selectInitialLanguage(lang) {
         currentLang = lang;
         localStorage.setItem('aiMusicLang', lang);
+        applyLanguageStrings(lang);
+        
+        // Ficha ukurasa wa lugha na onyesha app kuu
+        document.getElementById('language-page').classList.remove('active-page');
+        document.getElementById('main-app-content').style.display = 'block';
+        document.body.classList.add('main-app-active');
+        
+        switchPage('home-page');
+    }
+
+    function applyLanguageStrings(lang) {
         document.getElementById('html-root').setAttribute('lang', lang);
 
         document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -725,20 +972,10 @@
             }
         });
 
-        document.getElementById('lang-btn-label').innerText = lang === 'sw' ? 'English' : 'Kiswahili';
-
         if(isVoiceCloningUnlocked) {
             unlockVoiceUI();
         }
         renderSongs();
-    }
-
-    function toggleLanguage() {
-        if(currentLang === 'sw') {
-            changeLanguage('en');
-        } else {
-            changeLanguage('sw');
-        }
     }
 
 
@@ -769,11 +1006,22 @@
 
     window.onload = function() {
         const savedLang = localStorage.getItem('aiMusicLang');
+        
         if(savedLang) {
-            changeLanguage(savedLang);
+            // Kama ameshawahi kuchagua lugha awali, ficha ukurasa wa lugha, onyesha app moja kwa moja
+            currentLang = savedLang;
+            document.getElementById('language-page').classList.remove('active-page');
+            document.getElementById('language-page').style.display = 'none';
+            document.getElementById('main-app-content').style.display = 'block';
+            document.body.classList.add('main-app-active');
+            
+            applyLanguageStrings(savedLang);
+            switchPage('home-page');
         } else {
-            changeLanguage('sw');
+            // Kama ni mara ya kwanza, onyesha ukurasa wa kuchagua lugha
+            document.getElementById('language-page').classList.add('active-page');
         }
+
         loadData();
     };
 
@@ -829,7 +1077,7 @@
             text.innerText = translations[currentLang].voice_unlocked_desc;
             badge.style.background = "rgba(0, 200, 83, 0.15)";
             badge.style.color = "#00e676";
-            badge.innerHTML = `<i class="fa-solid fa-check"></i> <span>${translations[currentLang].unlocked_badge}</span>`;
+            badge.innerHTML = `<i class="fa-solid fa-check"></i> <span data-i18n="unlocked_badge">${translations[currentLang].unlocked_badge}</span>`;
         }
     }
 
@@ -865,14 +1113,21 @@
 
     function executeSelectedPayment() {
         currentCredits += selectedCreditsCount;
-        const successTitle = currentLang === 'sw' ? 'Malipo Yametiki!' : 'Payment Successful!';
+        const successTitle = currentLang === 'sw' ? 'Malipo Yametiki!' : (currentLang === 'en' ? 'Payment Successful!' : 'Paiement Réussi!');
         
+        let msg = "";
         if (selectedUnlockVoice) {
             isVoiceCloningUnlocked = true;
             unlockVoiceUI();
-            showModernPopup(successTitle, currentLang === 'sw' ? `Hongera! Umefanikiwa kununua Credits ${selectedCreditsCount} na Voice Cloning imefunguka.` : `Congrats! Successfully bought ${selectedCreditsCount} credits and unlocked Voice Cloning.`, "success", () => { switchPage('home-page'); });
+            if(currentLang === 'sw') msg = `Hongera! Umefanikiwa kununua Credits ${selectedCreditsCount} na Voice Cloning imefunguka.`;
+            else if(currentLang === 'en') msg = `Congrats! Successfully bought ${selectedCreditsCount} credits and unlocked Voice Cloning.`;
+            else msg = `Félicitations! Vous avez acheté ${selectedCreditsCount} crédits et déverrouillé le clonage vocal.`;
+            showModernPopup(successTitle, msg, "success", () => { switchPage('home-page'); });
         } else {
-            showModernPopup(successTitle, currentLang === 'sw' ? `Umefanikiwa kununua kifurushi cha ${selectedPriceString} na kupata Credits ${selectedCreditsCount}.` : `Successfully purchased package for ${selectedPriceString} and got ${selectedCreditsCount} credits.`, "success", () => { switchPage('home-page'); });
+            if(currentLang === 'sw') msg = `Umefanikiwa kununua kifurushi cha ${selectedPriceString} na kupata Credits ${selectedCreditsCount}.`;
+            else if(currentLang === 'en') msg = `Successfully purchased package for ${selectedPriceString} and got ${selectedCreditsCount} credits.`;
+            else msg = `Achat réussi pour ${selectedPriceString}, vous avez obtenu ${selectedCreditsCount} crédits.`;
+            showModernPopup(successTitle, msg, "success", () => { switchPage('home-page'); });
         }
         
         updateCreditsDisplay();
@@ -923,17 +1178,28 @@
         if(type === 'buy-credit') {
             switchPage('topup-page');
         } else if(type === 'support') {
-            showModernPopup(currentLang === 'sw' ? "Huduma kwa Wateja" : "Customer Support", "WhatsApp: +255 700 000 000\n24/7 Support.", "info");
+            showModernPopup(
+                currentLang === 'sw' ? "Huduma kwa Wateja" : (currentLang === 'en' ? "Customer Support" : "Support Client"), 
+                "WhatsApp: +255 700 000 000\n24/7 Support.", "info"
+            );
         } else if(type === 'logout') {
-            showModernPopup(currentLang === 'sw' ? "Toka kwenye Akaunti" : "Logout Account", currentLang === 'sw' ? "Je, unataka kutoka kwenye akaunti yako?" : "Do you want to logout?", "warning", () => { alert(currentLang === 'sw' ? "Umetoka." : "Logged out."); });
+            showModernPopup(
+                currentLang === 'sw' ? "Toka kwenye Akaunti" : (currentLang === 'en' ? "Logout Account" : "Se déconnecter"), 
+                currentLang === 'sw' ? "Je, unataka kutoka kwenye akaunti yako?" : (currentLang === 'en' ? "Do you want to logout?" : "Voulez-vous vous déconnecter?"), 
+                "warning", () => { alert("Logged out."); }
+            );
         }
     }
 
     function handleVoiceCloningClick() {
         if (!isVoiceCloningUnlocked) {
-            showModernPopup(currentLang === 'sw' ? "Kipengele cha VIP" : "VIP Feature", currentLang === 'sw' ? "Kipengele hiki kinapatikana kwa walionunua kifurushi cha Tsh 10,000 pekee." : "This feature is available only for the Tsh 10,000 package buyers.", "gold", () => { switchPage('topup-page'); });
+            showModernPopup(
+                currentLang === 'sw' ? "Kipengele cha VIP" : (currentLang === 'en' ? "VIP Feature" : "Fonction VIP"), 
+                translations[currentLang].voice_cloning_desc, 
+                "gold", () => { switchPage('topup-page'); }
+            );
         } else {
-            showModernPopup("Voice Cloning", currentLang === 'sw' ? "Gusa kurekodi sauti yako." : "Tap to record your voice.", "success");
+            showModernPopup("Voice Cloning", translations[currentLang].voice_unlocked_desc, "success");
         }
     }
 
@@ -946,19 +1212,20 @@
         titleInput.classList.remove('input-error');
         promptInput.classList.remove('input-error');
 
-        const warningTitle = currentLang === 'sw' ? "Taarifa Muhimu" : "Important Notice";
+        const warningTitle = currentLang === 'sw' ? "Taarifa Muhimu" : (currentLang === 'en' ? "Important Notice" : "Avis Important");
+
         if(!titleVal && !promptVal) {
             titleInput.classList.add('input-error');
             promptInput.classList.add('input-error');
-            showModernPopup(warningTitle, currentLang === 'sw' ? "Tafadhali jaza jina na mashairi ya wimbo." : "Please fill in the song title and lyrics.", "warning");
+            showModernPopup(warningTitle, currentLang === 'sw' ? "Tafadhali jaza jina na mashairi ya wimbo." : (currentLang === 'en' ? "Please fill in the song title and lyrics." : "Veuillez remplir le titre et les paroles."), "warning");
             return;
         } else if(!titleVal) {
             titleInput.classList.add('input-error');
-            showModernPopup(warningTitle, currentLang === 'sw' ? "Andika jina la wimbo." : "Enter the song title.", "warning");
+            showModernPopup(warningTitle, currentLang === 'sw' ? "Andika jina la wimbo." : (currentLang === 'en' ? "Enter the song title." : "Entrez le titre de la chanson."), "warning");
             return;
         } else if(!promptVal) {
             promptInput.classList.add('input-error');
-            showModernPopup(warningTitle, currentLang === 'sw' ? "Andika mashairi au prompt." : "Enter lyrics or prompt.", "warning");
+            showModernPopup(warningTitle, currentLang === 'sw' ? "Andika mashairi au prompt." : (currentLang === 'en' ? "Enter lyrics or prompt." : "Entrez les paroles ou la description."), "warning");
             return;
         }
 
@@ -971,16 +1238,17 @@
     }
 
     function showZeroCreditPopup() {
-        document.getElementById('popup-title-text').innerText = currentLang === 'sw' ? "Credit Zimekwisha" : "Out of Credits";
-        document.getElementById('popup-message-text').innerText = currentLang === 'sw' ? "Credit zako zimekwisha, Nunua credit kuendelea." : "Your credits are finished. Top up to continue.";
+        document.getElementById('popup-title-text').innerText = currentLang === 'sw' ? "Credit Zimekwisha" : (currentLang === 'en' ? "Out of Credits" : "Plus de Crédits");
+        document.getElementById('popup-message-text').innerText = currentLang === 'sw' ? "Credit zako zimekwisha, Nunua credit kuendelea." : (currentLang === 'en' ? "Your credits are finished. Top up to continue." : "Vos crédits sont épuisés. Rechargez pour continuer.");
         
         const iconBox = document.getElementById('popup-icon-container');
         iconBox.className = 'popup-icon-box warning';
         document.getElementById('popup-icon-element').className = 'fa-solid fa-triangle-exclamation';
         
         const btnGroup = document.getElementById('popup-btn-group-container');
-        const closeText = currentLang === 'sw' ? "Funga" : "Close";
-        const buyText = currentLang === 'sw' ? "Nunua Credit" : "Buy Credits";
+        const closeText = translations[currentLang].cancel_btn;
+        const buyText = translations[currentLang].buy_credits_sub;
+
         btnGroup.innerHTML = `
             <button class="popup-btn secondary" onclick="closeModernPopup()">${closeText}</button>
             <button class="popup-btn gold-btn" onclick="closeModernPopup(); switchPage('topup-page');">${buyText}</button>
@@ -1009,8 +1277,8 @@
 
         const recentContainer = document.getElementById('recent-songs-container');
         const loadingCardId = 'loading-card-' + Date.now();
-        const generatingText = currentLang === 'sw' ? 'Inatengenezwa' : 'Generating';
-        const generatingSub = currentLang === 'sw' ? 'Inatengeneza wimbo wako' : 'Creating your song';
+        const generatingText = currentLang === 'sw' ? 'Inatengenezwa' : (currentLang === 'en' ? 'Generating' : 'Génération');
+        const generatingSub = currentLang === 'sw' ? 'Inatengeneza wimbo wako' : (currentLang === 'en' ? 'Creating your song' : 'Création de votre chanson');
         
         const loadingHTML = `
             <div class="music-card generating" id="${loadingCardId}">
@@ -1051,10 +1319,10 @@
 
     function createSongHTML(song, isNew = false) {
         const favClass = song.isFav ? 'fa-solid liked' : 'fa-regular';
-        const badgeText = currentLang === 'sw' ? 'Mpya' : 'New';
+        const badgeText = currentLang === 'sw' ? 'Mpya' : (currentLang === 'en' ? 'New' : 'Nouveau');
         const badgeHTML = isNew ? `<span class="badge-mpya badge-mpya-active">${badgeText}</span>` : '';
         const thumbText = song.title.substring(0, 5);
-        const downloadText = currentLang === 'sw' ? 'Download' : 'Download';
+        const downloadText = currentLang === 'fr' ? 'Télécharger' : 'Download';
 
         return `
             <div class="music-card" data-song-id="${song.id}" data-song-name="${song.title}" data-is-fav="${song.isFav}">
@@ -1115,7 +1383,7 @@
         });
         
         const activeTab = document.querySelector('.music-tab.active');
-        if(activeTab && activeTab.innerText.includes(currentLang === 'sw' ? 'Vipendwa' : 'Favorites')) {
+        if(activeTab && (activeTab.innerText.includes('Vipendwa') || activeTab.innerText.includes('Favorites') || activeTab.innerText.includes('Favoris'))) {
             switchTab('favorites', activeTab);
         }
     }
@@ -1130,9 +1398,9 @@
         const btnGroup = document.getElementById('popup-btn-group-container');
         customPopupCallback = callback;
 
-        const cancelText = currentLang === 'sw' ? 'Ghairi' : 'Cancel';
-        const exitText = currentLang === 'sw' ? 'Ndiyo, Toka' : 'Yes, Exit';
-        const pay10kText = currentLang === 'sw' ? 'Lipa Tsh 10,000' : 'Pay Tsh 10,000';
+        const cancelText = translations[currentLang].cancel_btn;
+        const exitText = currentLang === 'sw' ? 'Ndiyo, Toka' : (currentLang === 'en' ? 'Yes, Exit' : 'Oui, Quitter');
+        const pay10kText = currentLang === 'sw' ? 'Lipa Tsh 10,000' : (currentLang === 'en' ? 'Pay Tsh 10,000' : 'Payer Tsh 10,000');
         const okText = translations[currentLang].ok_btn;
 
         if(type === 'warning') {
@@ -1190,13 +1458,14 @@
 
     function shareCurrentSong() {
         closeActionSheet();
-        const msg = currentLang === 'sw' ? `Kiungo cha wimbo "${activeSheetSongTitle}" kimenakiliwa!` : `Link for song "${activeSheetSongTitle}" copied!`;
-        showModernPopup(currentLang === 'sw' ? "Imefanikiwa!" : "Success!", msg, "success");
+        const msg = currentLang === 'sw' ? `Kiungo cha wimbo "${activeSheetSongTitle}" kimenakiliwa!` : (currentLang === 'en' ? `Link for song "${activeSheetSongTitle}" copied!` : `Lien pour la chanson "${activeSheetSongTitle}" copié!`);
+        const title = currentLang === 'sw' ? "Imefanikiwa!" : (currentLang === 'en' ? "Success!" : "Succès!");
+        showModernPopup(title, msg, "success");
     }
 
     function confirmDeleteSong() {
         closeActionSheet();
-        const msg = currentLang === 'sw' ? `Una uhakika unataka kufuta wimbo "${activeSheetSongTitle}"?` : `Are you sure you want to delete song "${activeSheetSongTitle}"?`;
+        const msg = currentLang === 'sw' ? `Una uhakika unataka kufuta wimbo "${activeSheetSongTitle}"?` : (currentLang === 'en' ? `Are you sure you want to delete song "${activeSheetSongTitle}"?` : `Voulez-vous vraiment supprimer la chanson "${activeSheetSongTitle}"?`);
         document.getElementById('confirm-message-text').innerText = msg;
         document.getElementById('confirm-action-btn').onclick = function() { executeDeleteSong(); };
         document.getElementById('custom-confirm-popup').classList.add('show');
@@ -1259,7 +1528,7 @@
         });
 
         const activeTab = document.querySelector('.music-tab.active');
-        if(activeTab && activeTab.innerText.includes(currentLang === 'sw' ? 'Vipendwa' : 'Favorites')) {
+        if(activeTab && (activeTab.innerText.includes('Vipendwa') || activeTab.innerText.includes('Favorites') || activeTab.innerText.includes('Favoris'))) {
              switchTab('favorites', activeTab);
         }
     }
