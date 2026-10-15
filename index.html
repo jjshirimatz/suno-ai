@@ -124,7 +124,7 @@
 
         /* CREATE PAGE INPUTS */
         .page-header-back { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; padding-top: 10px; }
-        .back-btn { background: var(--surface-color); width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--text-main); border: 1px solid var(--border-color); font-size: 18px; }
+        .back-btn { background: var(--surface-color); width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--text-main); border: 1px solid var(--border-color); font-size: 18px; cursor: pointer; }
         
         .input-group { margin-bottom: 22px; background: rgba(26, 28, 41, 0.6); padding: 18px; border-radius: 20px; border: 1px solid var(--border-color); }
         .input-label { display: flex; align-items: center; font-size: 15px; font-weight: 800; margin-bottom: 12px; color: #ffffff; }
@@ -134,16 +134,15 @@
         .input-box { width: 100%; height: 55px; background: #12141c; border: 2px solid rgba(138, 43, 226, 0.4); border-radius: 14px; padding: 0 15px; color: var(--text-main); font-size: 15px; font-weight: 600; outline: none; }
         .textarea-box { width: 100%; height: 120px; background: #12141c; border: 2px solid rgba(138, 43, 226, 0.4); border-radius: 14px; padding: 15px; color: var(--text-main); font-size: 15px; resize: none; outline: none; line-height: 1.5; }
         .input-box:focus, .textarea-box:focus { border-color: var(--accent-cyan); background: #161822; }
-        .input-error { border-color: #ff3b30 !important; }
 
-        /* MABORESHO YA GENRE NA VOCAL STYLES */
+        /* GENRE NA VOCAL STYLES ZILIZOBORESHWA */
         .genre-tags { display: flex; flex-wrap: wrap; gap: 12px; }
         .genre-tag { background: rgba(26, 28, 41, 0.8); border: 1px solid var(--border-color); padding: 12px 18px; border-radius: 14px; font-size: 14px; cursor: pointer; color: var(--text-muted); font-weight: 700; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
         .genre-tag i { font-size: 16px; opacity: 0.7; }
         .genre-tag.active { background: linear-gradient(135deg, rgba(138, 43, 226, 0.2) 0%, rgba(0, 242, 254, 0.1) 100%); border-color: var(--accent-cyan); color: white; box-shadow: 0 4px 15px rgba(0, 242, 254, 0.15); }
         .genre-tag.active i { color: var(--accent-cyan); opacity: 1; }
         
-        .voice-upload-box { background: #12141c; border: 2px dashed var(--accent-purple); border-radius: 16px; padding: 25px 15px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .voice-upload-box { background: #12141c; border: 2px dashed var(--accent-purple); border-radius: 16px; padding: 25px 15px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; }
         .voice-upload-box.locked { border-color: rgba(255, 215, 0, 0.4); }
         .voice-icon { font-size: 32px; color: var(--accent-purple); }
         .voice-upload-box.locked .voice-icon { color: #ffd700; }
@@ -151,7 +150,7 @@
         .lock-badge { font-size: 12px; background: rgba(255, 215, 0, 0.15); color: #ffd700; padding: 6px 12px; border-radius: 10px; font-weight: 800; }
 
         .music-tabs { display: flex; gap: 10px; margin-bottom: 25px; position: sticky; top: 0; background: var(--bg-color); padding: 15px 0; z-index: 10; }
-        .music-tab { flex: 1; padding: 14px; border-radius: 20px; text-align: center; font-size: 15px; font-weight: 800; color: var(--text-muted); border: 1px solid var(--border-color); }
+        .music-tab { flex: 1; padding: 14px; border-radius: 20px; text-align: center; font-size: 15px; font-weight: 800; color: var(--text-muted); border: 1px solid var(--border-color); cursor: pointer; background: transparent; }
         .music-tab.active { background: var(--accent-purple); color: white; border-color: var(--accent-purple); }
         
         .page-header-text { margin-bottom: 25px; }
@@ -163,7 +162,7 @@
         .topup-banner-text p { font-size: 13px; color: var(--text-muted); }
         .topup-banner-img { font-size: 40px; color: #ffd700; }
 
-        .credit-option-card { background: var(--surface-color); border: 2px solid var(--border-color); border-radius: 16px; padding: 18px 15px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .credit-option-card { background: var(--surface-color); border: 2px solid var(--border-color); border-radius: 16px; padding: 18px 15px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; cursor: pointer; }
         .credit-option-card.selected { border-color: var(--accent-purple); background: linear-gradient(90deg, rgba(138,43,226,0.15) 0%, rgba(26,28,41,1) 100%); }
         .coc-left { display: flex; align-items: center; gap: 12px; }
         .coc-icon { font-size: 32px; color: #ffd700; }
@@ -179,12 +178,12 @@
         .credit-option-card.selected .radio-circle::after { content: ''; width: 10px; height: 10px; background: var(--accent-purple); border-radius: 50%; }
 
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(11, 12, 16, 0.98); backdrop-filter: blur(15px); display: flex; justify-content: space-around; padding: 10px 0 15px 0; border-top: 1px solid var(--border-color); z-index: 100; display: none; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); font-size: 12px; font-weight: 700; background: none; border: none; width: 33.33%; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); font-size: 12px; font-weight: 700; background: none; border: none; width: 33.33%; cursor: pointer; }
         .nav-item.active { color: var(--accent-purple); font-weight: 900; }
         .nav-item i { font-size: 22px; }
         body.main-app-active .bottom-nav { display: flex; }
 
-        .toast-notification { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: rgba(0, 230, 118, 0.95); color: #000; padding: 12px 25px; border-radius: 30px; font-size: 15px; font-weight: 800; z-index: 9999; opacity: 0; display: flex; align-items: center; gap: 10px; transition: 0.4s; }
+        .toast-notification { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: rgba(0, 230, 118, 0.95); color: #000; padding: 12px 25px; border-radius: 30px; font-size: 15px; font-weight: 800; z-index: 9999; opacity: 0; display: flex; align-items: center; gap: 10px; transition: 0.4s; pointer-events: none; }
         .toast-notification.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
         .custom-popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; pointer-events: none; transition: 0.3s; }
@@ -198,7 +197,7 @@
         .custom-popup-card h3 { font-size: 22px; margin-bottom: 12px; color: white; }
         .custom-popup-card p { font-size: 15px; color: var(--text-muted); margin-bottom: 25px; line-height: 1.5; }
         .popup-btn-group { display: flex; gap: 10px; }
-        .popup-btn { background: var(--accent-purple); color: white; border: none; padding: 15px; border-radius: 16px; font-size: 16px; font-weight: 800; width: 100%; cursor:pointer; }
+        .popup-btn { background: var(--accent-purple); color: white; border: none; padding: 15px; border-radius: 16px; font-size: 16px; font-weight: 800; width: 100%; cursor: pointer; }
         .popup-btn.danger { background: #ff3b30; }
         .popup-btn.secondary { background: rgba(255, 255, 255, 0.08); color: white; }
         .popup-btn.gold-btn { background: linear-gradient(135deg, #ffd700, #ff8c00); color: black; }
@@ -211,7 +210,7 @@
         .action-sheet-thumb { width: 50px; height: 50px; border-radius: 12px; font-size: 18px; display: flex; justify-content: center; align-items: center; color: white; }
         .action-sheet-title h4 { font-size: 18px; color: white; margin-bottom: 4px; }
         .action-sheet-title p { font-size: 14px; color: var(--text-muted); }
-        .action-option { display: flex; align-items: center; gap: 15px; padding: 16px; background: rgba(255, 255, 255, 0.03); border-radius: 14px; margin-bottom: 10px; font-size: 16px; font-weight: 700; color: white; cursor:pointer;}
+        .action-option { display: flex; align-items: center; gap: 15px; padding: 16px; background: rgba(255, 255, 255, 0.03); border-radius: 14px; margin-bottom: 10px; font-size: 16px; font-weight: 700; color: white; cursor: pointer; }
         .action-option i { font-size: 20px; width: 25px; color: var(--accent-purple); text-align: center; }
         .action-option.delete-opt i { color: #ff3b30; }
 
@@ -484,7 +483,6 @@
 <script>
     let currentLang = 'sw';
     
-    // TAFSIRI ZOTE (ZIMEBORESHWA 100% KWA POPUPS NA PLACEHOLDERS)
     const translations = {
         sw: { 
             subtitle: "Tengeneza Nyimbo kwa AI", credits_label: "Credits", add_btn: "+ Ongeza", 
@@ -495,7 +493,7 @@
             song_title_label: "Jina la Wimbo", song_title_placeholder: "Mfano: Nitakupenda Milele", 
             song_prompt_label: "Mashairi au Prompt", prompt_placeholder: "Mfano: Nataka wimbo wa Bongo Flava unaohusu mapenzi ya dhati...", 
             genre_label: "Aina ya Muziki", vocal_label: "Aina ya Sauti", voice_female: "Mwanamke", voice_male: "Mwanaume", 
-            voice_cloning_label: "Sauti Yako (Cloning)", voice_cloning_desc: "Inapatikana kwa Tsh 10k", 
+            voice_cloning_label: "Sauti Yako (Cloning)", voice_cloning_desc: "Inapatikana kwa Tsh 10k pekee", 
             locked_badge: "Imefungwa", unlocked_badge: "Imefunguliwa", voice_unlocked_desc: "Rekodi sauti yako", 
             generate_btn: "TENGENEZA SASA", credit_cost: "-1 Credit", my_songs_title: "Nyimbo Zangu", 
             my_songs_desc: "Orodha ya nyimbo zako", tab_all: "Zote", tab_fav: "Vipendwa", buy_credits_sub: "Nunua Credits", 
@@ -507,7 +505,6 @@
             menu_topup: "Nunua Credit", menu_support: "Msaada (WhatsApp)", menu_logout: "Toka", 
             nav_home: "Nyumbani", nav_create: "Tengeneza", nav_my_songs: "Zangu",
             
-            // POPUPS NA JUMBE ZA JAVASCRIPT
             err_title: "Taarifa Muhimu", err_fill_all: "Tafadhali jaza jina na mashairi ya wimbo.",
             err_no_title: "Andika jina la wimbo.", err_no_prompt: "Andika mashairi au prompt.",
             err_no_credits: "Credit zako zimekwisha. Nunua credit kuendelea.",
@@ -540,7 +537,6 @@
             menu_topup: "Top Up", menu_support: "Support", menu_logout: "Logout", 
             nav_home: "Home", nav_create: "Create", nav_my_songs: "My Songs",
             
-            // JAVASCRIPT POPUPS
             err_title: "Important Notice", err_fill_all: "Please fill in the song title and lyrics.",
             err_no_title: "Enter the song title.", err_no_prompt: "Enter lyrics or prompt.",
             err_no_credits: "Out of credits. Top up to continue.",
@@ -573,7 +569,6 @@
             menu_topup: "Acheter", menu_support: "Support", menu_logout: "Quitter", 
             nav_home: "Accueil", nav_create: "Créer", nav_my_songs: "Chansons",
             
-            // JAVASCRIPT POPUPS
             err_title: "Avis Important", err_fill_all: "Veuillez remplir le titre et les paroles.",
             err_no_title: "Entrez le titre de la chanson.", err_no_prompt: "Entrez les paroles.",
             err_no_credits: "Crédits épuisés. Rechargez pour continuer.",
@@ -594,29 +589,24 @@
         document.getElementById('language-page').classList.remove('active-page');
         document.getElementById('main-app-content').style.display = 'block';
         document.body.classList.add('main-app-active');
-        switchPage('home-page');
+        switchPage('home-page', true);
     }
 
     function applyLanguageStrings(lang) {
         document.getElementById('html-root').setAttribute('lang', lang);
         const langData = translations[lang];
 
-        // Replace texts
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (langData[key]) el.innerHTML = langData[key];
         });
 
-        // Replace placeholders
         document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
             const key = el.getAttribute('data-i18n-placeholder');
             if (langData[key]) el.setAttribute('placeholder', langData[key]);
         });
         
-        // Update pay button prefix text manually if needed
         document.getElementById('btn-pay-text').innerText = langData.pay_btn_prefix;
-        
-        // Update popup action buttons logic labels
         document.getElementById('popup-btn-ok').innerText = langData.ok_btn;
         document.getElementById('confirm-btn-cancel').innerText = langData.cancel_btn;
         document.getElementById('confirm-action-btn').innerText = langData.yes_delete_btn;
@@ -639,12 +629,32 @@
             document.getElementById('main-app-content').style.display = 'block';
             document.body.classList.add('main-app-active');
             applyLanguageStrings(savedLang);
-            switchPage('home-page');
+            window.history.replaceState({ page: 'home-page' }, "", "#home-page");
         } else {
             document.getElementById('language-page').classList.add('active-page');
+            window.history.replaceState({ page: 'language-page' }, "", "#language-page");
         }
         loadData();
     };
+
+    // BACK BUTTON YA SIMU (HISTORY API)
+    window.addEventListener('popstate', function(event) {
+        const modernPopup = document.getElementById('custom-modern-popup');
+        const confirmPopup = document.getElementById('custom-confirm-popup');
+        const actionSheet = document.getElementById('song-action-sheet');
+        const settingsSheet = document.getElementById('settings-menu-sheet');
+
+        if (modernPopup.classList.contains('show')) { closeModernPopup(); return; }
+        if (confirmPopup.classList.contains('show')) { closeConfirmPopup(); return; }
+        if (actionSheet.classList.contains('show')) { closeActionSheet(); return; }
+        if (settingsSheet.classList.contains('show')) { closeSettingsMenu(); return; }
+
+        if (event.state && event.state.page) {
+            switchPage(event.state.page, false);
+        } else {
+            switchPage('home-page', false);
+        }
+    });
 
     function loadData() {
         try {
@@ -694,7 +704,7 @@
         currentCredits += selectedCreditsCount;
         if (selectedUnlockVoice) { isVoiceCloningUnlocked = true; unlockVoiceUI(); }
         const langData = translations[currentLang];
-        showModernPopup(langData.msg_success_title, langData.payment_success, "success", () => switchPage('home-page'));
+        showModernPopup(langData.msg_success_title, langData.payment_success, "success", () => switchPage('home-page', true));
         updateCreditsDisplay(); saveData(); 
     }
 
@@ -704,14 +714,20 @@
         document.getElementById('topup-page-credits').innerText = currentCredits;
     }
 
-    function switchPage(pageId) {
+    function switchPage(pageId, pushToHistory = true) {
         document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active-page'));
         if(document.getElementById(pageId)) document.getElementById(pageId).classList.add('active-page');
+        
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
         if(pageId === 'home-page') document.getElementById('nav-home').classList.add('active');
         if(pageId === 'create-page') document.getElementById('nav-create').classList.add('active');
         if(pageId === 'music-page') { document.getElementById('nav-music').classList.add('active'); renderSongs(); }
+        
         window.scrollTo(0,0);
+
+        if (pushToHistory) {
+            window.history.pushState({ page: pageId }, "", "#" + pageId);
+        }
     }
 
     function openSettingsMenu() { document.getElementById('settings-menu-sheet').classList.add('show'); }
@@ -721,14 +737,14 @@
     function openMenuInfo(type) {
         closeSettingsMenu();
         const langData = translations[currentLang];
-        if(type === 'buy-credit') switchPage('topup-page');
+        if(type === 'buy-credit') switchPage('topup-page', true);
         else if(type === 'support') showModernPopup(langData.menu_support, langData.msg_support, "info");
         else showModernPopup(langData.msg_logout_title, langData.msg_logout_desc, "warning");
     }
 
     function handleVoiceCloningClick() {
         const langData = translations[currentLang];
-        if (!isVoiceCloningUnlocked) showModernPopup(langData.vip_title, langData.voice_cloning_desc, "gold", () => switchPage('topup-page'));
+        if (!isVoiceCloningUnlocked) showModernPopup(langData.vip_title, langData.voice_cloning_desc, "gold", () => switchPage('topup-page', true));
         else showModernPopup(langData.voice_cloning_label, langData.voice_unlocked_desc, "success");
     }
 
@@ -742,20 +758,19 @@
         if(!promptVal) { showModernPopup(langData.err_title, langData.err_no_prompt, "warning"); return; }
         
         if (currentCredits <= 0) { 
-            showModernPopup(langData.err_title, langData.err_no_credits, "warning", () => switchPage('topup-page')); 
+            showModernPopup(langData.err_title, langData.err_no_credits, "warning", () => switchPage('topup-page', true)); 
             return; 
         }
         
         currentCredits--; updateCreditsDisplay(); saveData();
         const songId = 'song-' + Date.now();
         
-        // Retrieve selected options
         const activeGenreTag = document.querySelector('.genre-tag.active:not(.voice-tag)');
         const activeVoiceTag = document.querySelector('.voice-tag.active');
         const genre = activeGenreTag ? activeGenreTag.getAttribute('data-genre') : 'Bongo Flava';
         const voiceType = activeVoiceTag ? translations[currentLang][activeVoiceTag.getAttribute('data-voice') === 'Male' ? 'voice_male' : 'voice_female'] : translations[currentLang].voice_female;
 
-        switchPage('home-page');
+        switchPage('home-page', true);
         
         const rC = document.getElementById('recent-songs-container');
         const loadingCardId = 'loading-' + songId;
@@ -897,7 +912,6 @@
         if(playingBtn === btn) playingBtn = null;
     }
 
-    // Interactive Genre & Voice Tags
     document.querySelectorAll('.genre-tag:not(.voice-tag)').forEach(tag => { 
         tag.addEventListener('click', function() { 
             document.querySelectorAll('.genre-tag:not(.voice-tag)').forEach(t => t.classList.remove('active')); 
