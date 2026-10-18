@@ -2,1584 +2,353 @@
 <html lang="sw">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b0c10">
-
-<title>AI Music App</title>
+<title>AI Music</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
 :root{
-  --bg:#0b0c10;
-  --surface:#1a1c29;
-  --text:#ffffff;
-  --muted:#a0a5bc;
-  --cyan:#00f2fe;
-  --purple:#8a2be2;
-  --border:rgba(255,255,255,.15);
-}
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Segoe UI,Roboto,Arial,sans-serif;
-  -webkit-tap-highlight-color:transparent;
-}
-
-html,body{
-  width:100%;
-  min-height:100%;
-  background:var(--bg);
-  color:var(--text);
-  overflow-x:hidden;
-}
-
-body{
-  padding-bottom:95px;
-  font-size:15px;
-}
-
-button,input,textarea{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-button:disabled{
-  opacity:.55;
-  cursor:not-allowed;
-}
-
-.app{
-  max-width:600px;
-  margin:auto;
-  padding:15px;
-}
-
-.page{
-  display:none;
-}
-
-.page.active{
-  display:block;
-}
-
-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:8px;
-  margin-bottom:25px;
-}
-
-.logo{
-  display:flex;
-  align-items:center;
-  gap:9px;
-}
-
-.logo>i{
-  font-size:30px;
-  color:var(--cyan);
-}
-
-.logo h1{
-  font-size:21px;
-}
-
-.logo p{
-  font-size:11px;
-  color:var(--muted);
-}
-
-.header-actions{
-  display:flex;
-  align-items:center;
-  gap:7px;
-}
-
-.credits{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  background:#202230;
-  padding:7px 10px;
-  border-radius:20px;
-  border:1px solid var(--border);
-}
-
-.credits i{
-  color:gold;
-}
-
-.credits small{
-  display:block;
-  color:var(--muted);
-  font-size:10px;
-}
-
-.credits strong{
-  font-size:13px;
-}
-
-.small-btn{
-  border:0;
-  background:var(--purple);
-  color:white;
-  border-radius:10px;
-  padding:9px;
-  font-weight:800;
-  font-size:12px;
-}
-
-.icon-btn{
-  border:1px solid var(--border);
-  background:var(--surface);
-  color:white;
-  border-radius:50%;
-  width:38px;
-  height:38px;
-}
-
-.hero{
-  background:linear-gradient(135deg,#1a1c29,#2a1844);
-  border-radius:20px;
-  padding:27px 21px;
-  margin-bottom:28px;
-}
-
-.hero h2{
-  font-size:32px;
-  line-height:1.2;
-  margin-bottom:14px;
-  font-weight:900;
-}
-
-.cyan{
-  color:var(--cyan);
-}
-
-.hero p{
-  color:var(--muted);
-  line-height:1.6;
-  font-size:14px;
-  margin-bottom:24px;
-}
-
-.primary{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  width:100%;
-  background:var(--purple);
-  color:white;
-  border:0;
-  border-radius:24px;
-  padding:16px;
-  font-weight:800;
-  font-size:15px;
-  box-shadow:0 5px 15px #8a2be255;
-}
-
-.section-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:15px;
-  gap:10px;
-}
-
-.section-row h3{
-  font-size:20px;
-}
-
-.link{
-  color:#4a90e2;
-  font-size:13px;
-  font-weight:800;
-  cursor:pointer;
-}
-
-.categories{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:10px;
-  margin-bottom:30px;
-}
-
-.category{
-  height:100px;
-  border-radius:14px;
-  display:flex;
-  align-items:flex-end;
-  justify-content:center;
-  padding:10px 4px;
-  text-align:center;
-  font-size:12px;
-  font-weight:800;
-}
-
-.category:nth-child(1){
-  background:linear-gradient(145deg,#b01839,#270923);
-}
-
-.category:nth-child(2){
-  background:linear-gradient(145deg,#8a2be2,#27134c);
-}
-
-.category:nth-child(3){
-  background:linear-gradient(145deg,#16875b,#07352c);
-}
-
-.category:nth-child(4){
-  background:linear-gradient(145deg,#e17a22,#612312);
-}
-
-.category i{
-  display:block;
-  font-size:27px;
-  margin-bottom:9px;
-}
-
-.back-row{
-  display:flex;
-  align-items:center;
-  gap:15px;
-  margin:10px 0 25px;
-}
-
-.back{
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  border:1px solid var(--border);
-  background:var(--surface);
-  color:white;
-}
-
-.back-row h2{
-  font-size:21px;
-}
-
-.input-group{
-  background:#1a1c2999;
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:18px;
-  margin-bottom:20px;
-}
-
-.input-label{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-weight:800;
-  margin-bottom:13px;
-}
-
-.input-label i{
-  color:var(--cyan);
-}
-
-.required{
-  color:#ff3b30;
-}
-
-.input-box,
-.textarea{
-  width:100%;
-  background:#12141c;
-  border:2px solid #8a2be266;
-  border-radius:14px;
-  color:white;
-  outline:0;
-  padding:15px;
-  font-size:15px;
-}
-
-.input-box{
-  height:55px;
-}
-
-.textarea{
-  height:180px;
-  resize:vertical;
-  line-height:1.5;
-}
-
-.input-box:focus,
-.textarea:focus{
-  border-color:var(--cyan);
-}
-
-.tags{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-}
-
-.tag{
-  border:1px solid var(--border);
-  background:#202230;
-  color:var(--muted);
-  padding:12px 14px;
-  border-radius:14px;
-  font-size:13px;
-  font-weight:800;
-}
-
-.tag.active{
-  border-color:var(--cyan);
-  color:white;
-  background:linear-gradient(135deg,#8a2be244,#00f2fe22);
-}
-
-.tag.active i{
-  color:var(--cyan);
-}
-
-/* CREATION MODES */
-
-.mode-switch{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-bottom:13px;
-}
-
-.mode-btn{
-  background:#12141c;
-  border:2px solid var(--border);
-  color:var(--muted);
-  border-radius:15px;
-  padding:15px 9px;
-  font-size:13px;
-  font-weight:800;
-  text-align:center;
-  line-height:1.5;
-}
-
-.mode-btn i{
-  display:block;
-  font-size:23px;
-  margin-bottom:7px;
-}
-
-.mode-btn.active{
-  border-color:var(--cyan);
-  color:white;
-  background:linear-gradient(135deg,#8a2be244,#00f2fe22);
-}
-
-.mode-btn.active i{
-  color:var(--cyan);
-}
-
-.mode-help{
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.6;
-}
-
-.mode-example{
-  color:var(--cyan);
-  font-size:12px;
-  line-height:1.6;
-  margin-top:10px;
-}
-
-.clone{
-  background:#12141c;
-  border:2px dashed #8a2be2;
-  border-radius:16px;
-  padding:23px;
-  text-align:center;
-  color:var(--muted);
-}
-
-.clone>i{
-  display:block;
-  font-size:30px;
-  color:gold;
-  margin-bottom:10px;
-}
-
-.clone small{
-  display:inline-block;
-  margin-top:10px;
-  background:#ffd70022;
-  color:gold;
-  padding:6px 12px;
-  border-radius:10px;
-}
-
-.page-title{
-  margin-bottom:22px;
-}
-
-.page-title h2{
-  font-size:26px;
-  margin-bottom:7px;
-}
-
-.page-title p{
-  color:var(--muted);
-  font-size:14px;
-}
-
-.tabs{
-  display:flex;
-  gap:10px;
-  margin-bottom:20px;
-}
-
-.tab{
-  flex:1;
-  background:transparent;
-  color:var(--muted);
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:14px;
-  font-weight:800;
-}
-
-.tab.active{
-  background:var(--purple);
-  color:white;
-}
-
-.song-list{
-  display:flex;
-  flex-direction:column;
-  gap:13px;
-  margin-bottom:25px;
-}
-
-.song-card{
-  display:flex;
-  gap:12px;
-  background:var(--surface);
-  border:1px solid var(--border);
-  padding:13px;
-  border-radius:18px;
-  align-items:center;
-  min-width:0;
-}
-
-.thumb{
-  width:59px;
-  height:59px;
-  flex-shrink:0;
-  border-radius:13px;
-  background:linear-gradient(135deg,#8a2be2,#ff007f);
-  display:grid;
-  place-items:center;
-  font-size:23px;
-}
-
-.song-content{
-  flex:1;
-  min-width:0;
-}
-
-.song-top{
-  display:flex;
-  align-items:flex-start;
-  gap:6px;
-  justify-content:space-between;
-}
-
-.song-title{
-  font-size:15px;
-  font-weight:800;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-
-.song-meta{
-  font-size:12px;
-  color:var(--muted);
-  margin-top:3px;
-}
-
-.song-actions{
-  display:flex;
-  gap:13px;
-}
-
-.song-actions button{
-  border:0;
-  background:none;
-  color:var(--muted);
-  font-size:18px;
-}
-
-.song-actions button.liked{
-  color:#ff007f;
-}
-
-.player-row{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  margin-top:11px;
-}
-
-.play-btn{
-  width:37px;
-  height:37px;
-  flex-shrink:0;
-  border-radius:50%;
-  border:0;
-  background:var(--purple);
-  color:white;
-}
-
-.time{
-  font-size:11px;
-  color:var(--muted);
-  font-weight:700;
-}
-
-.wave{
-  flex:1;
-  height:22px;
-  min-width:15px;
-  opacity:.6;
-  background:repeating-linear-gradient(
-    90deg,
-    var(--purple) 0 3px,
-    transparent 3px 6px
-  );
-}
-
-.download{
-  background:none;
-  color:#4a90e2;
-  border:1px solid #4a90e266;
-  border-radius:9px;
-  padding:7px;
-  font-size:12px;
-}
-
-.badge{
-  display:inline-block;
-  background:#ff3b30;
-  color:white;
-  font-size:10px;
-  padding:4px 8px;
-  border-radius:7px;
-  font-weight:800;
-  margin-bottom:6px;
-}
-
-.pending{
-  width:100%;
-  display:flex;
-  align-items:center;
-  gap:15px;
-}
-
-.spinner{
-  width:42px;
-  height:42px;
-  flex-shrink:0;
-  border-radius:50%;
-  border:3px solid #ffffff22;
-  border-top-color:var(--purple);
-  animation:spin 1s linear infinite;
-}
-
-@keyframes spin{
-  to{
-    transform:rotate(360deg);
-  }
-}
-
-.pending h4{
-  font-size:15px;
-  overflow-wrap:anywhere;
-}
-
-.pending p{
-  font-size:12px;
-  color:var(--muted);
-  line-height:1.5;
-  margin-top:5px;
-}
-
-.empty{
-  padding:35px 15px;
-  background:var(--surface);
-  border-radius:18px;
-  text-align:center;
-  color:var(--muted);
-}
-
-.empty i{
-  display:block;
-  font-size:35px;
-  color:var(--purple);
-  margin-bottom:12px;
-}
-
-.topup-banner{
-  background:linear-gradient(135deg,#1a1c29,#2a1844);
-  border-radius:20px;
-  padding:22px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:24px;
-}
-
-.topup-banner h3{
-  font-size:20px;
-}
-
-.topup-banner p{
-  color:var(--muted);
-  font-size:13px;
-  margin-top:6px;
-}
-
-.topup-banner i{
-  font-size:40px;
-  color:gold;
-}
-
-.package{
-  background:var(--surface);
-  border:2px solid var(--border);
-  border-radius:16px;
-  padding:17px 13px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  margin-bottom:12px;
-}
-
-.package.selected{
-  border-color:var(--purple);
-  background:linear-gradient(90deg,#8a2be222,var(--surface));
-}
-
-.package-left{
-  display:flex;
-  gap:10px;
-  align-items:center;
-}
-
-.package-left>i{
-  font-size:29px;
-  color:gold;
-}
-
-.package h4{
-  font-size:15px;
-}
-
-.package p{
-  color:var(--muted);
-  font-size:12px;
-  margin-top:5px;
-}
-
-.package-price{
-  font-weight:800;
-  font-size:14px;
-  white-space:nowrap;
-}
-
-.bottom-nav{
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  background:#0b0c10f5;
-  border-top:1px solid var(--border);
-  display:flex;
-  justify-content:space-around;
-  padding:11px 0 calc(13px + env(safe-area-inset-bottom));
-  z-index:100;
-}
-
-.nav{
-  background:none;
-  border:0;
-  color:var(--muted);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:5px;
-  font-size:12px;
-  font-weight:700;
-  flex:1;
-}
-
-.nav i{
-  font-size:22px;
-}
-
-.nav.active{
-  color:var(--purple);
-}
-
-#language-page{
-  position:fixed;
-  inset:0;
-  background:linear-gradient(180deg,#021a42,#010a1f);
-  z-index:200;
-  display:none;
-  overflow-y:auto;
-  padding:40px 20px;
-  text-align:center;
-}
-
-#language-page.active{
-  display:block;
-}
-
-.language-icon{
-  font-size:65px;
-  margin:35px auto 25px;
-  color:var(--cyan);
-}
-
-#language-page h2{
-  font-size:27px;
-  margin-bottom:8px;
-}
-
-#language-page>p{
-  color:var(--muted);
-  margin-bottom:35px;
-}
-
-.lang-list{
-  max-width:400px;
-  margin:auto;
-}
-
-.lang-card{
-  width:100%;
-  background:linear-gradient(90deg,#032b69,#021a42);
-  border:1px solid #00f2fe33;
-  border-radius:14px;
-  padding:17px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  color:white;
-  margin-bottom:13px;
-  text-align:left;
-}
-
-.lang-card strong{
-  font-size:18px;
-}
-
-.lang-card small{
-  display:block;
-  color:var(--muted);
-  margin-top:4px;
-}
-
-.overlay{
-  position:fixed;
-  inset:0;
-  background:#000d;
-  z-index:500;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-}
-
-.overlay.show{
-  display:flex;
-}
-
-.popup{
-  width:100%;
-  max-width:400px;
-  background:#161925;
-  border:1px solid #8a2be255;
-  border-radius:24px;
-  padding:26px 20px;
-  text-align:center;
-}
-
-.popup>i{
-  font-size:37px;
-  color:var(--purple);
-  margin-bottom:15px;
-}
-
-.popup h3{
-  font-size:22px;
-  margin-bottom:12px;
-}
-
-.popup p{
-  color:var(--muted);
-  line-height:1.6;
-  white-space:pre-line;
-  overflow-wrap:anywhere;
-  margin-bottom:22px;
-}
-
-.popup-buttons{
-  display:flex;
-  gap:10px;
-}
-
-.popup-buttons button{
-  flex:1;
-  border:0;
-  background:var(--purple);
-  color:white;
-  border-radius:15px;
-  padding:14px;
-  font-weight:800;
-}
-
-.popup-buttons .secondary{
-  background:#ffffff19;
-}
-
-.toast{
-  position:fixed;
-  top:20px;
-  left:50%;
-  transform:translate(-50%,-100px);
-  background:#00e676;
-  color:black;
-  border-radius:25px;
-  padding:13px 20px;
-  z-index:1000;
-  transition:.3s;
-  opacity:0;
-  max-width:90%;
-  text-align:center;
-  font-weight:800;
-}
-
-.toast.show{
-  transform:translate(-50%,0);
-  opacity:1;
-}
-
-.sheet{
-  position:fixed;
-  inset:0;
-  background:#000b;
-  z-index:450;
-  display:none;
-  align-items:flex-end;
-}
-
-.sheet.show{
-  display:flex;
-}
-
-.sheet-inner{
-  width:100%;
-  max-width:600px;
-  margin:0 auto;
-  background:#161925;
-  border-radius:24px 24px 0 0;
-  padding:25px 20px calc(25px + env(safe-area-inset-bottom));
-}
-
-.sheet-inner h3{
-  margin-bottom:18px;
-}
-
-.sheet-option{
-  width:100%;
-  border:0;
-  background:#ffffff09;
-  color:white;
-  border-radius:13px;
-  padding:17px;
-  text-align:left;
-  margin-bottom:10px;
-  font-weight:800;
-}
-
-.sheet-option i{
-  color:var(--purple);
-  width:28px;
-}
-
-.sheet-option.danger i{
-  color:#ff3b30;
-}
-
-.task-import{
-  margin-top:18px;
-  background:#ffffff0a;
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:15px;
-}
-
-.task-import p{
-  font-size:12px;
-  color:var(--muted);
-  line-height:1.5;
-  margin-bottom:12px;
-}
-
-.task-import input{
-  width:100%;
-  background:#12141c;
-  color:white;
-  border:1px solid var(--border);
-  padding:13px;
-  border-radius:12px;
-  margin-bottom:10px;
-}
-
+--bg:#0b0c10;
+--card:#1a1c29;
+--muted:#a0a5bc;
+--cyan:#00f2fe;
+--purple:#8a2be2;
+--border:rgba(255,255,255,.14)
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:white;font-family:Arial,Roboto,sans-serif;padding-bottom:95px}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.5}
+.app{max-width:600px;margin:auto;padding:15px}
+.page{display:none}
+.page.active{display:block}
+header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:25px}
+.logo{display:flex;align-items:center;gap:9px}
+.logo i{font-size:28px;color:var(--cyan)}
+.logo h2{font-size:21px;margin:0}
+.logo small{color:var(--muted)}
+.header-actions{display:flex;align-items:center;gap:8px}
+.credit-box{background:#202230;border-radius:20px;padding:8px 11px;font-size:12px}
+.credit-box i{color:gold}
+.small-btn{border:0;border-radius:10px;background:var(--purple);color:white;padding:10px;font-weight:bold}
+.icon-btn{background:#202230;border:1px solid var(--border);color:white;border-radius:50%;width:38px;height:38px}
+.hero{background:linear-gradient(135deg,#1a1c29,#2a1844);border-radius:22px;padding:26px 21px;margin-bottom:26px}
+.hero h1{font-size:32px;line-height:1.2;margin:0 0 14px}
+.hero h1 span{color:var(--cyan)}
+.hero p{color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:22px}
+.primary{width:100%;border:0;background:var(--purple);color:white;border-radius:24px;padding:16px;font-weight:bold;display:flex;justify-content:center;align-items:center;gap:10px}
+.section-heading{display:flex;justify-content:space-between;align-items:center;margin:25px 0 14px}
+.section-heading h3{margin:0;font-size:20px}
+.link{color:#59a0ff;border:0;background:none;font-weight:bold}
+.categories{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.category{border-radius:15px;height:100px;display:flex;align-items:flex-end;justify-content:center;padding:10px 3px;text-align:center;font-size:12px;font-weight:bold}
+.category i{display:block;font-size:27px;margin-bottom:8px}
+.category:nth-child(1){background:linear-gradient(145deg,#b01839,#270923)}
+.category:nth-child(2){background:linear-gradient(145deg,#8a2be2,#27134c)}
+.category:nth-child(3){background:linear-gradient(145deg,#16875b,#07352c)}
+.category:nth-child(4){background:linear-gradient(145deg,#e17a22,#612312)}
+.back-row{display:flex;align-items:center;gap:14px;margin:10px 0 25px}
+.back-row h2{font-size:21px}
+.back-btn{width:44px;height:44px;background:#202230;border:1px solid var(--border);border-radius:50%;color:white}
+.card{background:#171923;border:1px solid var(--border);border-radius:20px;padding:18px;margin-bottom:20px}
+.label{display:flex;align-items:center;gap:8px;font-weight:bold;margin-bottom:14px;font-size:14px}
+.label i{color:var(--cyan)}
+.required{color:#ff3b30}
+.input,.textarea,.select{width:100%;background:#12141c;color:white;border:2px solid #8a2be266;border-radius:14px;padding:15px;outline:none}
+.input{height:55px}
+.textarea{height:175px;resize:vertical;line-height:1.5}
+.input:focus,.textarea:focus,.select:focus{border-color:var(--cyan)}
+.select{height:55px}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:13px}
+.mode-btn{border:2px solid var(--border);background:#12141c;color:var(--muted);border-radius:15px;padding:15px 8px;font-size:13px;font-weight:bold}
+.mode-btn i{display:block;font-size:23px;margin-bottom:8px}
+.mode-btn.active{border-color:var(--cyan);color:white;background:linear-gradient(135deg,#8a2be244,#00f2fe22)}
+.mode-btn.active i{color:var(--cyan)}
+.help{font-size:12px;color:var(--muted);line-height:1.6;margin:10px 0 0}
+.example{font-size:12px;color:var(--cyan);line-height:1.5;margin:12px 0 0}
+.tags{display:flex;flex-wrap:wrap;gap:10px}
+.tag{background:#202230;border:1px solid var(--border);color:var(--muted);padding:12px;border-radius:13px;font-size:13px;font-weight:bold}
+.tag.active{border-color:var(--cyan);color:white;background:#00f2fe19}
+.tag.active i{color:var(--cyan)}
+.clone{text-align:center;border:2px dashed var(--purple);border-radius:15px;padding:23px;color:var(--muted)}
+.clone>i{display:block;font-size:30px;color:gold;margin-bottom:12px}
+.clone small{display:inline-block;background:#ffd70022;color:gold;padding:6px 12px;border-radius:10px;margin-top:10px}
+.tabs{display:flex;gap:10px;margin:20px 0}
+.tab{flex:1;padding:13px;border:1px solid var(--border);background:transparent;color:var(--muted);border-radius:20px;font-weight:bold}
+.tab.active{background:var(--purple);color:white}
+.song-list{display:flex;flex-direction:column;gap:12px;margin:15px 0 25px}
+.song-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:12px;display:flex;align-items:center;gap:11px;min-width:0}
+.thumb{width:55px;height:55px;flex-shrink:0;background:linear-gradient(135deg,var(--purple),#ff007f);border-radius:13px;display:grid;place-items:center;font-size:23px}
+.song-body{flex:1;min-width:0}
+.song-title{font-size:15px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.song-meta{font-size:12px;color:var(--muted);margin-top:5px}
+.song-top{display:flex;align-items:center;justify-content:space-between;gap:7px}
+.song-actions{display:flex;gap:11px}
+.song-actions button{background:none;border:0;color:var(--muted);font-size:17px}
+.song-actions button.liked{color:#ff007f}
+.player{display:flex;align-items:center;gap:8px;margin-top:12px}
+.play{border:0;background:var(--purple);color:white;width:36px;height:36px;flex-shrink:0;border-radius:50%}
+.time{font-size:11px;color:var(--muted);white-space:nowrap}
+.wave{height:20px;flex:1;min-width:8px;background:repeating-linear-gradient(90deg,var(--purple) 0 3px,transparent 3px 6px);opacity:.7}
+.download{border:1px solid #4a90e266;background:none;color:#59a0ff;border-radius:9px;padding:7px}
+.spinner{height:40px;width:40px;flex-shrink:0;border:3px solid #ffffff22;border-top-color:var(--purple);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pending-label{color:var(--cyan);font-size:11px;font-weight:bold;margin-bottom:5px}
+.pending-description{color:var(--muted);font-size:12px;line-height:1.5;margin-top:6px}
+.empty{padding:30px 15px;background:var(--card);border-radius:17px;text-align:center;color:var(--muted)}
+.empty i{display:block;font-size:30px;color:var(--purple);margin-bottom:12px}
+.packages{display:flex;flex-direction:column;gap:12px;margin:20px 0}
+.package{background:var(--card);border:2px solid var(--border);border-radius:16px;padding:17px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.package.active{border-color:var(--purple)}
+.package h4{margin:0 0 5px}
+.package p{margin:0;color:var(--muted);font-size:12px}
+.package strong{white-space:nowrap;font-size:14px}
+.bottom-nav{position:fixed;bottom:0;left:0;width:100%;display:none;justify-content:space-around;background:#0b0c10f5;border-top:1px solid var(--border);padding:12px 0 calc(13px + env(safe-area-inset-bottom));z-index:100}
+.nav{flex:1;background:none;border:0;color:var(--muted);display:flex;align-items:center;flex-direction:column;gap:5px;font-size:12px}
+.nav i{font-size:22px}
+.nav.active{color:var(--purple)}
+#language-page{position:fixed;inset:0;z-index:200;background:linear-gradient(180deg,#021a42,#010a1f);display:none;text-align:center;padding:60px 20px;overflow:auto}
+#language-page.active{display:block}
+#language-page>i{font-size:65px;color:var(--cyan);margin-bottom:25px}
+.lang-btn{display:block;width:100%;max-width:400px;margin:12px auto;background:#032b69;border:1px solid #00f2fe33;color:white;padding:19px;border-radius:14px;text-align:left;font-weight:bold}
+.overlay{position:fixed;inset:0;z-index:500;background:#000d;display:none;align-items:center;justify-content:center;padding:20px}
+.overlay.show{display:flex}
+.popup{width:100%;max-width:400px;background:#161925;border-radius:23px;padding:25px 20px;text-align:center}
+.popup>i{font-size:35px;color:var(--purple)}
+.popup h3{margin:15px 0}
+.popup p{color:var(--muted);line-height:1.6;white-space:pre-line;overflow-wrap:anywhere}
+.popup-buttons{display:flex;gap:10px;margin-top:22px}
+.popup-buttons button{flex:1;background:var(--purple);border:0;color:white;border-radius:14px;padding:13px;font-weight:bold}
+.popup-buttons .secondary{background:#ffffff19}
+.toast{position:fixed;top:18px;left:50%;transform:translate(-50%,-100px);opacity:0;transition:.3s;background:#00e676;color:black;border-radius:25px;padding:13px 18px;font-weight:bold;z-index:1000;max-width:90%;text-align:center}
+.toast.show{transform:translate(-50%,0);opacity:1}
+.sheet{position:fixed;inset:0;z-index:450;background:#000b;display:none;align-items:flex-end}
+.sheet.show{display:flex}
+.sheet-inner{width:100%;max-width:600px;margin:auto;background:#161925;border-radius:24px 24px 0 0;padding:25px 20px calc(25px + env(safe-area-inset-bottom))}
+.sheet-option{display:block;width:100%;padding:17px;background:#ffffff09;color:white;border:0;border-radius:12px;text-align:left;margin-top:10px}
+.sheet-option i{width:30px;color:var(--purple)}
 @media(max-width:380px){
-  .categories{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .logo h1{
-    font-size:18px;
-  }
-
-  .song-card{
-    gap:9px;
-    padding:10px;
-  }
-
-  .thumb{
-    width:49px;
-    height:49px;
-  }
-
-  .song-title{
-    font-size:14px;
-  }
+.categories{grid-template-columns:repeat(2,1fr)}
+.logo h2{font-size:18px}
+.thumb{width:46px;height:46px}
+.song-card{padding:9px;gap:8px}
 }
 </style>
 </head>
 
 <body>
 
-<!-- LANGUAGE PAGE -->
-
 <div id="language-page">
-
-  <div class="language-icon">
-    <i class="fa-solid fa-globe"></i>
-  </div>
-
-  <h2>Select Language</h2>
-  <p>Chagua Lugha</p>
-
-  <div class="lang-list">
-
-    <button class="lang-card" onclick="selectLanguage('en')">
-      <span>
-        🇬🇧 &nbsp;<strong>English</strong>
-        <small>Kiingereza</small>
-      </span>
-      <i class="fa-solid fa-chevron-right"></i>
-    </button>
-
-    <button class="lang-card" onclick="selectLanguage('sw')">
-      <span>
-        🇹🇿 &nbsp;<strong>Swahili</strong>
-        <small>Kiswahili</small>
-      </span>
-      <i class="fa-solid fa-chevron-right"></i>
-    </button>
-
-    <button class="lang-card" onclick="selectLanguage('fr')">
-      <span>
-        🇫🇷 &nbsp;<strong>French</strong>
-        <small>Kifaransa</small>
-      </span>
-      <i class="fa-solid fa-chevron-right"></i>
-    </button>
-
-  </div>
-
+<i class="fa-solid fa-globe"></i>
+<h2>Select Language</h2>
+<p>Chagua Lugha</p>
+<button class="lang-btn" onclick="selectLanguage('en')">🇬🇧 English</button>
+<button class="lang-btn" onclick="selectLanguage('sw')">🇹🇿 Kiswahili</button>
+<button class="lang-btn" onclick="selectLanguage('fr')">🇫🇷 Français</button>
 </div>
 
 <div class="app" id="app" style="display:none">
 
-<!-- HOME -->
-
 <section class="page" id="home-page">
-
 <header>
-
-  <div class="logo">
-    <i class="fa-solid fa-wave-square"></i>
-    <div>
-      <h1>AI Music</h1>
-      <p data-t="subtitle">Tengeneza Nyimbo kwa AI</p>
-    </div>
-  </div>
-
-  <div class="header-actions">
-
-    <div class="credits">
-      <i class="fa-solid fa-coins"></i>
-      <div>
-        <small>Credits</small>
-        <strong>—</strong>
-      </div>
-    </div>
-
-    <button class="small-btn" onclick="switchPage('topup-page')" data-t="add">
-      + Ongeza
-    </button>
-
-    <button class="icon-btn" onclick="openSettings()">
-      <i class="fa-solid fa-bars"></i>
-    </button>
-
-  </div>
-
+<div class="logo">
+<i class="fa-solid fa-wave-square"></i>
+<div><h2>AI Music</h2><small data-t="subtitle"></small></div>
+</div>
+<div class="header-actions">
+<div class="credit-box"><i class="fa-solid fa-coins"></i> Credits —</div>
+<button class="small-btn" onclick="switchPage('topup-page')" data-t="add"></button>
+<button class="icon-btn" onclick="openSettings()"><i class="fa-solid fa-bars"></i></button>
+</div>
 </header>
 
 <div class="hero">
-
-  <h2 data-t-html="hero">
-    Tengeneza<br>
-    Nyimbo Zako<br>
-    <span class="cyan">kwa AI</span>
-  </h2>
-
-  <p data-t="heroDesc">
-    Andika mashairi yako au eleza wazo la wimbo na AI itakutengenezea muziki.
-  </p>
-
-  <button class="primary" onclick="switchPage('create-page')">
-    <i class="fa-solid fa-wand-magic-sparkles"></i>
-    <span data-t="newSong">TENGENEZA WIMBO MPYA</span>
-    <i class="fa-solid fa-arrow-right"></i>
-  </button>
-
+<h1 data-html="hero"></h1>
+<p data-t="heroDesc"></p>
+<button class="primary" onclick="switchPage('create-page')">
+<i class="fa-solid fa-wand-magic-sparkles"></i>
+<span data-t="newSong"></span>
+<i class="fa-solid fa-arrow-right"></i>
+</button>
 </div>
 
-<div class="section-row">
-  <h3 data-t="genres">Aina za Muziki</h3>
-  <span class="link" onclick="switchPage('create-page')" data-t="viewAll">
-    Tazama Zote →
-  </span>
+<div class="section-heading">
+<h3 data-t="genres"></h3>
+<button class="link" onclick="switchPage('create-page')" data-t="viewAll"></button>
 </div>
 
 <div class="categories">
-
-  <div class="category">
-    <div>
-      <i class="fa-solid fa-fire"></i>
-      Bongo Flava
-    </div>
-  </div>
-
-  <div class="category">
-    <div>
-      <i class="fa-solid fa-drum"></i>
-      Singeli
-    </div>
-  </div>
-
-  <div class="category">
-    <div>
-      <i class="fa-solid fa-record-vinyl"></i>
-      Amapiano
-    </div>
-  </div>
-
-  <div class="category">
-    <div>
-      <i class="fa-solid fa-music"></i>
-      Afrobeat
-    </div>
-  </div>
-
+<div class="category"><div><i class="fa-solid fa-fire"></i>Bongo Flava</div></div>
+<div class="category"><div><i class="fa-solid fa-drum"></i>Singeli</div></div>
+<div class="category"><div><i class="fa-solid fa-record-vinyl"></i>Amapiano</div></div>
+<div class="category"><div><i class="fa-solid fa-music"></i>Afrobeat</div></div>
 </div>
 
-<div class="section-row">
-  <h3 data-t="recent">Nyimbo Zangu Hivi Karibuni</h3>
-  <span class="link" onclick="switchPage('music-page')" data-t="viewAll">
-    Tazama Zote →
-  </span>
+<div class="section-heading">
+<h3 data-t="recent"></h3>
+<button class="link" onclick="switchPage('music-page')" data-t="viewAll"></button>
 </div>
-
 <div class="song-list" id="recent-songs"></div>
-
 </section>
-
-<!-- CREATE SONG -->
 
 <section class="page" id="create-page">
-
 <div class="back-row">
-
-  <button class="back" onclick="switchPage('home-page')">
-    <i class="fa-solid fa-arrow-left"></i>
-  </button>
-
-  <h2 data-t="create">Tengeneza Wimbo</h2>
-
+<button class="back-btn" onclick="switchPage('home-page')"><i class="fa-solid fa-arrow-left"></i></button>
+<h2 data-t="create"></h2>
 </div>
 
-<!-- MODE SELECTOR -->
-
-<div class="input-group">
-
-  <label class="input-label">
-    <i class="fa-solid fa-sliders"></i>
-    <span data-t="chooseMode">Chagua Namna ya Kutengeneza</span>
-  </label>
-
-  <div class="mode-switch">
-
-    <button
-      class="mode-btn active"
-      id="automatic-mode-btn"
-      onclick="selectCreationMode('automatic')">
-
-      <i class="fa-solid fa-wand-magic-sparkles"></i>
-
-      <span data-t="autoMode">AI Itunge Wimbo</span>
-
-    </button>
-
-    <button
-      class="mode-btn"
-      id="custom-mode-btn"
-      onclick="selectCreationMode('custom')">
-
-      <i class="fa-solid fa-pen-nib"></i>
-
-      <span data-t="customMode">Mashairi Yangu</span>
-
-    </button>
-
-  </div>
-
-  <p class="mode-help" id="mode-help">
-    Andika wazo la wimbo. AI itatunga mashairi na muziki yenyewe.
-  </p>
-
+<div class="card">
+<div class="label"><i class="fa-solid fa-sliders"></i><span data-t="chooseMode"></span></div>
+<div class="mode-grid">
+<button class="mode-btn active" id="auto-btn" onclick="setMode('automatic')">
+<i class="fa-solid fa-wand-magic-sparkles"></i><span data-t="autoMode"></span>
+</button>
+<button class="mode-btn" id="custom-btn" onclick="setMode('custom')">
+<i class="fa-solid fa-pen-nib"></i><span data-t="customMode"></span>
+</button>
+</div>
+<p class="help" id="mode-help"></p>
 </div>
 
-<!-- SONG TITLE -->
-
-<div class="input-group">
-
-  <label class="input-label">
-    <i class="fa-solid fa-signature"></i>
-    <span data-t="songTitle">Andika Jina la Wimbo</span>
-    <span class="required">*</span>
-  </label>
-
-  <input
-    class="input-box"
-    id="song-title-input"
-    maxlength="150"
-    placeholder="Mfano: Nitakupenda Milele">
-
+<div class="card">
+<label class="label" for="song-title"><i class="fa-solid fa-signature"></i><span data-t="songTitle"></span><span class="required">*</span></label>
+<input id="song-title" class="input" maxlength="150">
 </div>
 
-<!-- PROMPT / LYRICS -->
-
-<div class="input-group">
-
-  <label class="input-label">
-    <i class="fa-solid fa-pen-nib"></i>
-    <span id="prompt-label">Eleza Wimbo Unaoutaka</span>
-    <span class="required">*</span>
-  </label>
-
-  <textarea
-    class="textarea"
-    id="song-prompt-input"
-    maxlength="5000"
-    placeholder="Mfano: Tengeneza wimbo wa mapenzi kwa Kiswahili kuhusu kijana anayempenda Neema."></textarea>
-
-  <p class="mode-example" id="mode-example">
-    Mfano: Wimbo wa mapenzi kuhusu Neema, kwa Kiswahili, wenye hisia za furaha.
-  </p>
-
+<div class="card">
+<label class="label" for="song-prompt"><i class="fa-solid fa-pen-nib"></i><span id="prompt-label"></span><span class="required">*</span></label>
+<textarea id="song-prompt" class="textarea" maxlength="5000"></textarea>
+<p class="example" id="prompt-example"></p>
 </div>
 
-<!-- GENRE -->
-
-<div class="input-group">
-
-  <label class="input-label">
-    <i class="fa-solid fa-guitar"></i>
-    <span data-t="genre">Aina ya Muziki</span>
-  </label>
-
-  <div class="tags" id="genre-tags">
-
-    <button class="tag active" data-genre="Bongo Flava">
-      <i class="fa-solid fa-fire"></i> Bongo Flava
-    </button>
-
-    <button class="tag" data-genre="Mduara">
-      <i class="fa-solid fa-drum"></i> Mduara
-    </button>
-
-    <button class="tag" data-genre="Afrobeat">
-      <i class="fa-solid fa-earth-africa"></i> Afrobeat
-    </button>
-
-    <button class="tag" data-genre="RnB">
-      <i class="fa-solid fa-heart"></i> RnB
-    </button>
-
-    <button class="tag" data-genre="Amapiano">
-      <i class="fa-solid fa-compact-disc"></i> Amapiano
-    </button>
-
-  </div>
-
+<div class="card">
+<label class="label" for="song-language"><i class="fa-solid fa-globe"></i><span data-t="songLanguage"></span></label>
+<select class="select" id="song-language">
+<option value="Swahili">🇹🇿 Kiswahili / Swahili</option>
+<option value="English">🇬🇧 English</option>
+<option value="French">🇫🇷 Français / French</option>
+<option value="Spanish">🇪🇸 Español / Spanish</option>
+<option value="Portuguese">🇵🇹 Português / Portuguese</option>
+<option value="Arabic">🇸🇦 العربية / Arabic</option>
+<option value="Hindi">🇮🇳 हिन्दी / Hindi</option>
+<option value="Other">🌍 Other</option>
+</select>
+<p class="help" data-t="languageHelp"></p>
 </div>
 
-<!-- VOICE -->
-
-<div class="input-group">
-
-  <label class="input-label">
-    <i class="fa-solid fa-microphone"></i>
-    <span data-t="vocal">Chagua Aina ya Sauti</span>
-  </label>
-
-  <div class="tags" id="voice-tags">
-
-    <button class="tag active" data-voice="Female">
-      <i class="fa-solid fa-person-dress"></i>
-      <span data-t="female">Mwanamke</span>
-    </button>
-
-    <button class="tag" data-voice="Male">
-      <i class="fa-solid fa-person"></i>
-      <span data-t="male">Mwanaume</span>
-    </button>
-
-  </div>
-
+<div class="card">
+<div class="label"><i class="fa-solid fa-guitar"></i><span data-t="genre"></span></div>
+<div class="tags" id="genre-tags">
+<button class="tag active" data-genre="Bongo Flava">🔥 Bongo Flava</button>
+<button class="tag" data-genre="Mduara">🥁 Mduara</button>
+<button class="tag" data-genre="Afrobeat">🌍 Afrobeat</button>
+<button class="tag" data-genre="RnB">❤️ RnB</button>
+<button class="tag" data-genre="Amapiano">💿 Amapiano</button>
+</div>
 </div>
 
-<!-- VOICE CLONING -->
-
-<div class="input-group">
-
-  <label class="input-label">
-    <i class="fa-solid fa-crown"></i>
-    <span data-t="cloning">Sauti Yako (Cloning)</span>
-  </label>
-
-  <div class="clone" onclick="showPopup('VIP','Voice cloning bado haijaunganishwa na API.')">
-
-    <i class="fa-solid fa-lock"></i>
-
-    <span data-t="cloneDesc">
-      Inapatikana kwa Tsh 10k pekee
-    </span>
-
-    <br>
-
-    <small>
-      <i class="fa-solid fa-crown"></i>
-      <span data-t="locked">Imefungwa</span>
-    </small>
-
-  </div>
-
+<div class="card">
+<div class="label"><i class="fa-solid fa-microphone"></i><span data-t="vocal"></span></div>
+<div class="tags" id="voice-tags">
+<button class="tag active" data-voice="Female"><i class="fa-solid fa-person-dress"></i> <span data-t="female"></span></button>
+<button class="tag" data-voice="Male"><i class="fa-solid fa-person"></i> <span data-t="male"></span></button>
+</div>
 </div>
 
-<!-- GENERATE BUTTON -->
+<div class="card">
+<div class="label"><i class="fa-solid fa-crown"></i><span data-t="cloning"></span></div>
+<div class="clone" onclick="showPopup('Voice Cloning',tr('cloneUnavailable'))">
+<i class="fa-solid fa-lock"></i>
+<span data-t="cloneDesc"></span><br>
+<small>👑 <span data-t="locked"></span></small>
+</div>
+</div>
 
 <button class="primary" id="generate-btn" onclick="generateSong()">
-
-  <i class="fa-solid fa-wand-magic-sparkles"></i>
-
-  <span data-t="generate">TENGENEZA SASA</span>
-
-  <span style="background:#0005;padding:5px 8px;border-radius:8px;font-size:12px">
-    -1 Credit
-  </span>
-
+<i class="fa-solid fa-wand-magic-sparkles"></i>
+<span data-t="generate"></span>
+<span style="background:#0005;border-radius:8px;padding:5px 8px;font-size:12px">-1 Credit</span>
 </button>
-
 </section>
-
-<!-- MY SONGS -->
 
 <section class="page" id="music-page">
-
 <header>
-
-  <div class="logo">
-    <i class="fa-solid fa-wave-square"></i>
-    <div>
-      <h1>AI Music</h1>
-      <p data-t="subtitle">Tengeneza Nyimbo kwa AI</p>
-    </div>
-  </div>
-
-  <div class="header-actions">
-
-    <div class="credits">
-      <i class="fa-solid fa-coins"></i>
-      <div>
-        <small>Credits</small>
-        <strong>—</strong>
-      </div>
-    </div>
-
-    <button class="small-btn" onclick="switchPage('topup-page')" data-t="add">
-      + Ongeza
-    </button>
-
-    <button class="icon-btn" onclick="openSettings()">
-      <i class="fa-solid fa-bars"></i>
-    </button>
-
-  </div>
-
+<div class="logo"><i class="fa-solid fa-wave-square"></i><div><h2>AI Music</h2><small data-t="subtitle"></small></div></div>
+<div class="header-actions">
+<div class="credit-box"><i class="fa-solid fa-coins"></i> Credits —</div>
+<button class="small-btn" onclick="switchPage('topup-page')" data-t="add"></button>
+</div>
 </header>
-
-<div class="page-title">
-  <h2 data-t="mySongs">Nyimbo Zangu</h2>
-  <p data-t="mySongsDesc">
-    Hapa ni orodha ya nyimbo zako ulizotengeneza
-  </p>
-</div>
-
+<h2 data-t="mySongs"></h2>
+<p style="color:var(--muted)" data-t="mySongsDesc"></p>
 <div class="tabs">
-
-  <button class="tab active" data-tab="all" onclick="changeTab('all')">
-    <i class="fa-solid fa-music"></i>
-    <span data-t="all">Zote</span>
-  </button>
-
-  <button class="tab" data-tab="favorites" onclick="changeTab('favorites')">
-    <i class="fa-regular fa-heart"></i>
-    <span data-t="favorites">Vipendwa</span>
-  </button>
-
+<button class="tab active" data-tab="all" onclick="setTab('all')">♫ <span data-t="all"></span></button>
+<button class="tab" data-tab="favorites" onclick="setTab('favorites')">♡ <span data-t="favorites"></span></button>
 </div>
-
 <div class="song-list" id="all-songs"></div>
-
-<div class="task-import">
-
-  <p data-t="importHelp">
-    Una Task ID ya wimbo uliokamilika MusicAPI?
-    Iweke hapa ili kurejesha wimbo bila kuutengeneza tena.
-  </p>
-
-  <input id="import-task-id" placeholder="MusicAPI Task ID">
-
-  <button class="primary" onclick="importTask()" style="padding:12px">
-    <i class="fa-solid fa-rotate"></i>
-    <span data-t="restore">REJESHA WIMBO</span>
-  </button>
-
-</div>
-
 </section>
-
-<!-- TOP UP -->
 
 <section class="page" id="topup-page">
-
 <header>
-
-  <div class="logo">
-    <i class="fa-solid fa-wave-square"></i>
-    <div>
-      <h1>AI Music</h1>
-      <p data-t="buy">Nunua Credits</p>
-    </div>
-  </div>
-
-  <button class="icon-btn" onclick="switchPage('home-page')">
-    <i class="fa-solid fa-xmark"></i>
-  </button>
-
+<div class="logo"><i class="fa-solid fa-wave-square"></i><div><h2>AI Music</h2><small data-t="buy"></small></div></div>
+<button class="icon-btn" onclick="switchPage('home-page')"><i class="fa-solid fa-xmark"></i></button>
 </header>
-
-<div class="topup-banner">
-
-  <div>
-    <h3 data-t="more">Tengeneza Zaidi</h3>
-    <p data-t="buyDesc">
-      Nunua credits na uendelee kufanya ubunifu.
-    </p>
-  </div>
-
-  <i class="fa-solid fa-coins"></i>
-
+<div class="hero">
+<h2 data-t="more"></h2>
+<p data-t="buyDesc"></p>
 </div>
-
-<h3 style="margin-bottom:15px" data-t="package">
-  Chagua Kifurushi
-</h3>
-
-<div class="package selected" data-price="2000" onclick="selectPackage(2000)">
-
-  <div class="package-left">
-    <i class="fa-solid fa-coins"></i>
-    <div>
-      <h4>5 Credits</h4>
-      <p>Nyimbo 5</p>
-    </div>
-  </div>
-
-  <div class="package-price">Tsh 2,000</div>
-
+<h3 data-t="package"></h3>
+<div class="packages">
+<div class="package active" data-price="2000" onclick="selectPackage(2000)">
+<div><h4>🪙 5 Credits</h4><p>5 Songs</p></div><strong>Tsh 2,000</strong>
 </div>
-
 <div class="package" data-price="5000" onclick="selectPackage(5000)">
-
-  <div class="package-left">
-    <i class="fa-solid fa-coins"></i>
-    <div>
-      <h4>15 Credits</h4>
-      <p>Nyimbo 15</p>
-    </div>
-  </div>
-
-  <div class="package-price">Tsh 5,000</div>
-
+<div><h4>🪙 15 Credits</h4><p>15 Songs</p></div><strong>Tsh 5,000</strong>
 </div>
-
 <div class="package" data-price="10000" onclick="selectPackage(10000)">
-
-  <div class="package-left">
-    <i class="fa-solid fa-coins"></i>
-    <div>
-      <h4>30 Credits</h4>
-      <p>Nyimbo 30 + Sauti Yako</p>
-    </div>
-  </div>
-
-  <div class="package-price">Tsh 10,000</div>
-
+<div><h4>👑 30 Credits</h4><p>30 Songs + Voice Cloning</p></div><strong>Tsh 10,000</strong>
 </div>
-
-<button
-  class="primary"
-  onclick="showPopup('Malipo','Malipo bado hayajaunganishwa. Credits hazitaongezwa mpaka malipo yathibitishwe.')">
-
-  <i class="fa-solid fa-lock"></i>
-  <span id="pay-text">LIPA TSH 2,000</span>
-
+</div>
+<button class="primary" onclick="showPopup(tr('payment'),tr('paymentUnavailable'))">
+<i class="fa-solid fa-lock"></i>
+<span id="pay-text">LIPA TSH 2,000</span>
 </button>
-
 </section>
-
 </div>
 
-<!-- BOTTOM NAVIGATION -->
-
-<nav class="bottom-nav" id="bottom-nav" style="display:none">
-
-  <button class="nav active" data-page="home-page" onclick="switchPage('home-page')">
-    <i class="fa-solid fa-house"></i>
-    <span data-t="home">Nyumbani</span>
-  </button>
-
-  <button class="nav" data-page="create-page" onclick="switchPage('create-page')">
-    <i class="fa-solid fa-wand-magic-sparkles"></i>
-    <span data-t="createNav">Tengeneza</span>
-  </button>
-
-  <button class="nav" data-page="music-page" onclick="switchPage('music-page')">
-    <i class="fa-solid fa-music"></i>
-    <span data-t="mine">Zangu</span>
-  </button>
-
+<nav class="bottom-nav" id="bottom-nav">
+<button class="nav active" data-page="home-page" onclick="switchPage('home-page')"><i class="fa-solid fa-house"></i><span data-t="home"></span></button>
+<button class="nav" data-page="create-page" onclick="switchPage('create-page')"><i class="fa-solid fa-wand-magic-sparkles"></i><span data-t="createNav"></span></button>
+<button class="nav" data-page="music-page" onclick="switchPage('music-page')"><i class="fa-solid fa-music"></i><span data-t="mine"></span></button>
 </nav>
 
-<!-- POPUP -->
-
 <div class="overlay" id="popup-overlay">
-
-  <div class="popup">
-
-    <i class="fa-solid fa-circle-info"></i>
-
-    <h3 id="popup-title">Taarifa</h3>
-
-    <p id="popup-message"></p>
-
-    <div class="popup-buttons" id="popup-buttons"></div>
-
-  </div>
-
+<div class="popup">
+<i class="fa-solid fa-circle-info"></i>
+<h3 id="popup-title"></h3>
+<p id="popup-message"></p>
+<div class="popup-buttons" id="popup-buttons"></div>
 </div>
-
-<!-- SETTINGS -->
+</div>
 
 <div class="sheet" id="settings-sheet" onclick="if(event.target===this)closeSheets()">
-
-  <div class="sheet-inner">
-
-    <h3 data-t="settings">Mipangilio</h3>
-
-    <button class="sheet-option" onclick="closeSheets();switchPage('topup-page')">
-      <i class="fa-solid fa-coins"></i>
-      <span data-t="buy">Nunua Credits</span>
-    </button>
-
-    <button class="sheet-option" onclick="closeSheets();showPopup('Msaada','Huduma ya WhatsApp itaunganishwa hivi karibuni.')">
-      <i class="fa-brands fa-whatsapp"></i>
-      Msaada (WhatsApp)
-    </button>
-
-    <button class="sheet-option" onclick="closeSheets();showPopup('Akaunti','Mfumo wa akaunti bado haujaunganishwa.')">
-      <i class="fa-solid fa-right-from-bracket"></i>
-      Toka
-    </button>
-
-  </div>
-
+<div class="sheet-inner">
+<h3 data-t="settings"></h3>
+<button class="sheet-option" onclick="closeSheets();switchPage('topup-page')"><i class="fa-solid fa-coins"></i><span data-t="buy"></span></button>
+<button class="sheet-option" onclick="closeSheets();showPopup(tr('settings'),tr('accountUnavailable'))"><i class="fa-solid fa-user"></i><span data-t="account"></span></button>
+<button class="sheet-option" onclick="closeSheets();document.getElementById('language-page').classList.add('active')"><i class="fa-solid fa-globe"></i><span data-t="changeLanguage"></span></button>
+</div>
 </div>
 
-<!-- SONG OPTIONS -->
-
 <div class="sheet" id="song-sheet" onclick="if(event.target===this)closeSheets()">
-
-  <div class="sheet-inner">
-
-    <h3 id="sheet-title">Wimbo</h3>
-
-    <button class="sheet-option" onclick="shareSelectedSong()">
-      <i class="fa-solid fa-share-nodes"></i>
-      Shiriki
-    </button>
-
-    <button class="sheet-option danger" onclick="deleteSelectedSong()">
-      <i class="fa-solid fa-trash-can"></i>
-      Futa
-    </button>
-
-  </div>
-
+<div class="sheet-inner">
+<h3 id="sheet-song-title"></h3>
+<button class="sheet-option" onclick="shareSelectedSong()"><i class="fa-solid fa-share-nodes"></i><span data-t="share"></span></button>
+<button class="sheet-option" onclick="deleteSelectedSong()"><i class="fa-solid fa-trash-can"></i><span data-t="delete"></span></button>
+</div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -1587,1910 +356,928 @@ header{
 <script>
 "use strict";
 
-/* =====================================
-   CONFIGURATION
-===================================== */
+const GENERATE_URL="/.netlify/functions/generate";
+const STATUS_URL="/.netlify/functions/status";
 
-const GENERATE_ENDPOINT = "/.netlify/functions/generate";
-const STATUS_ENDPOINT = "/.netlify/functions/status";
+const SONGS_KEY="aiMusicSongsV2";
+const TASKS_KEY="aiMusicPendingTasksV2";
 
-const SONGS_KEY = "aiMusicSongsV2";
-const TASKS_KEY = "aiMusicPendingTasksV2";
+const POLL_INTERVAL=15000;
+const MAX_POLLS=40;
 
-const POLL_MS = 15000;
-const MAX_ATTEMPTS = 40;
+let songs=[];
+let tasks=[];
+let lang="sw";
+let mode="automatic";
+let currentTab="all";
+let generating=false;
+let currentSongId=null;
+let selectedSongId=null;
+let selectedPrice=2000;
 
-let songs = [];
-let tasks = [];
+const audio=new Audio();
+audio.preload="metadata";
 
-let lang = "sw";
-let selectedTab = "all";
-let selectedSongId = null;
+const polling=new Set();
 
-let generating = false;
-let selectedPrice = 2000;
-let activeSongId = null;
-
-let creationMode = "automatic";
-
-const activePolls = new Set();
-
-const audio = new Audio();
-audio.preload = "metadata";
-
-/* =====================================
-   TRANSLATIONS
-===================================== */
-
-const translations = {
-
-  sw: {
-    subtitle: "Tengeneza Nyimbo kwa AI",
-    add: "+ Ongeza",
-    hero: 'Tengeneza<br>Nyimbo Zako<br><span class="cyan">kwa AI</span>',
-    heroDesc: "Andika mashairi yako au eleza wazo la wimbo na AI itakutengenezea muziki.",
-    newSong: "TENGENEZA WIMBO MPYA",
-    genres: "Aina za Muziki",
-    viewAll: "Tazama Zote →",
-    recent: "Nyimbo Zangu Hivi Karibuni",
-    create: "Tengeneza Wimbo",
-    chooseMode: "Chagua Namna ya Kutengeneza",
-    autoMode: "AI Itunge Wimbo",
-    customMode: "Mashairi Yangu",
-    songTitle: "Andika Jina la Wimbo",
-    genre: "Aina ya Muziki",
-    vocal: "Chagua Aina ya Sauti",
-    female: "Mwanamke",
-    male: "Mwanaume",
-    cloning: "Sauti Yako (Cloning)",
-    cloneDesc: "Inapatikana kwa Tsh 10k pekee",
-    locked: "Imefungwa",
-    generate: "TENGENEZA SASA",
-    mySongs: "Nyimbo Zangu",
-    mySongsDesc: "Hapa ni orodha ya nyimbo zako ulizotengeneza",
-    all: "Zote",
-    favorites: "Vipendwa",
-    importHelp: "Una Task ID ya wimbo uliokamilika MusicAPI? Iweke hapa ili kurejesha wimbo bila kuutengeneza tena.",
-    restore: "REJESHA WIMBO",
-    buy: "Nunua Credits",
-    more: "Tengeneza Zaidi",
-    buyDesc: "Nunua credits na uendelee kufanya ubunifu.",
-    package: "Chagua Kifurushi",
-    home: "Nyumbani",
-    createNav: "Tengeneza",
-    mine: "Zangu",
-    settings: "Mipangilio",
-    noSongs: "Bado hakuna nyimbo.",
-    processing: "AI inatengeneza wimbo wako...",
-    checking: "Inaangalia matokeo ya MusicAPI...",
-    waiting: "Bado tunasubiri matokeo. Jaribu kufungua app tena."
-  },
-
-  en: {
-    subtitle: "Generate AI Songs",
-    add: "+ Top Up",
-    hero: 'Create<br>Your Songs<br><span class="cyan">with AI</span>',
-    heroDesc: "Write lyrics or describe a song idea and generate music with AI.",
-    newSong: "CREATE SONG",
-    genres: "Genres",
-    viewAll: "View All →",
-    recent: "Recent Songs",
-    create: "Create Song",
-    chooseMode: "Choose Creation Mode",
-    autoMode: "AI Writes Song",
-    customMode: "My Lyrics",
-    songTitle: "Song Title",
-    genre: "Music Genre",
-    vocal: "Vocal Style",
-    female: "Female",
-    male: "Male",
-    cloning: "Voice Cloning",
-    cloneDesc: "Available for Tsh 10k",
-    locked: "Locked",
-    generate: "GENERATE NOW",
-    mySongs: "My Songs",
-    mySongsDesc: "Your generated songs",
-    all: "All",
-    favorites: "Favorites",
-    importHelp: "Have a MusicAPI task ID? Enter it here to restore an existing song.",
-    restore: "RESTORE SONG",
-    buy: "Buy Credits",
-    more: "Generate More",
-    buyDesc: "Buy credits to continue.",
-    package: "Select Package",
-    home: "Home",
-    createNav: "Create",
-    mine: "My Songs",
-    settings: "Settings",
-    noSongs: "No songs yet.",
-    processing: "AI is generating your song...",
-    checking: "Checking MusicAPI results...",
-    waiting: "Still waiting. Reopen the app later."
-  },
-
-  fr: {
-    subtitle: "Générer des chansons",
-    add: "+ Ajouter",
-    hero: 'Créez<br>Vos Chansons<br><span class="cyan">avec l’IA</span>',
-    heroDesc: "Écrivez des paroles ou décrivez votre chanson.",
-    newSong: "CRÉER UNE CHANSON",
-    genres: "Genres",
-    viewAll: "Voir Tout →",
-    recent: "Chansons récentes",
-    create: "Créer une chanson",
-    chooseMode: "Mode de création",
-    autoMode: "IA écrit la chanson",
-    customMode: "Mes paroles",
-    songTitle: "Titre de la chanson",
-    genre: "Genre musical",
-    vocal: "Type de voix",
-    female: "Femme",
-    male: "Homme",
-    cloning: "Clonage vocal",
-    cloneDesc: "Disponible pour Tsh 10k",
-    locked: "Verrouillé",
-    generate: "GÉNÉRER",
-    mySongs: "Mes chansons",
-    mySongsDesc: "Vos chansons générées",
-    all: "Toutes",
-    favorites: "Favoris",
-    importHelp: "Entrez un ID de tâche MusicAPI pour récupérer une chanson.",
-    restore: "RÉCUPÉRER",
-    buy: "Acheter des crédits",
-    more: "Créer davantage",
-    buyDesc: "Achetez des crédits pour continuer.",
-    package: "Choisir un forfait",
-    home: "Accueil",
-    createNav: "Créer",
-    mine: "Chansons",
-    settings: "Paramètres",
-    noSongs: "Aucune chanson.",
-    processing: "Création de votre chanson...",
-    checking: "Vérification MusicAPI...",
-    waiting: "Toujours en attente."
-  }
-
+const translations={
+sw:{
+subtitle:"Tengeneza Nyimbo kwa AI",
+add:"+ Ongeza",
+hero:'Tengeneza<br>Nyimbo Zako<br><span>kwa AI</span>',
+heroDesc:"Andika mashairi yako au eleza wazo la wimbo. AI itakutengenezea muziki.",
+newSong:"TENGENEZA WIMBO MPYA",
+genres:"Aina za Muziki",
+viewAll:"Tazama Zote →",
+recent:"Nyimbo Zangu Hivi Karibuni",
+create:"Tengeneza Wimbo",
+chooseMode:"Chagua Namna ya Kutengeneza",
+autoMode:"AI Itunge Wimbo",
+customMode:"Mashairi Yangu",
+songTitle:"Jina la Wimbo",
+songTitleExample:"Mfano: Nitakupenda Milele",
+autoHelp:"Andika wazo la wimbo. AI itatunga mashairi na muziki yenyewe.",
+customHelp:"Andika mashairi yako. AI itaimba maneno uliyoandika.",
+autoLabel:"Eleza Wimbo Unaoutaka",
+customLabel:"Andika Mashairi Yako",
+autoPlaceholder:"Mfano: Tengeneza wimbo wa mapenzi kuhusu kijana anayempenda Neema. Uwe wa Bongo Flava.",
+customPlaceholder:"[Verse 1]\nNeema wangu nakupenda\nWewe ndiye wa maisha yangu\n\n[Chorus]\nNakupenda Neema\nNitakupenda milele",
+autoExample:"Eleza hadithi, hisia na aina ya muziki unaoutaka.",
+customExample:"Tumia [Verse 1], [Chorus] na [Verse 2] kupanga mashairi.",
+songLanguage:"Lugha ya Wimbo",
+languageHelp:"Hii ni lugha ya wimbo, si lugha ya muonekano wa app.",
+genre:"Aina ya Muziki",
+vocal:"Aina ya Sauti",
+female:"Mwanamke",
+male:"Mwanaume",
+cloning:"Sauti Yako (Cloning)",
+cloneDesc:"Inapatikana kwa Tsh 10k pekee",
+locked:"Imefungwa",
+generate:"TENGENEZA SASA",
+mySongs:"Nyimbo Zangu",
+mySongsDesc:"Nyimbo ulizotengeneza zinaonekana hapa moja kwa moja.",
+all:"Zote",
+favorites:"Vipendwa",
+buy:"Nunua Credits",
+more:"Tengeneza Zaidi",
+buyDesc:"Nunua credits ili kuendelea kutengeneza muziki.",
+package:"Chagua Kifurushi",
+home:"Nyumbani",
+createNav:"Tengeneza",
+mine:"Zangu",
+settings:"Mipangilio",
+account:"Akaunti",
+changeLanguage:"Badilisha Lugha",
+share:"Shiriki",
+delete:"Futa",
+noSongs:"Bado hakuna nyimbo.",
+processing:"AI inatengeneza wimbo wako...",
+checking:"Inaangalia matokeo...",
+waiting:"Bado tunasubiri matokeo. App itaendelea kuangalia ukifungua tena.",
+failed:"Utengenezaji umeshindikana.",
+remove:"Ondoa",
+ready:"Wimbo umekamilika!",
+required:"Jaza jina na maelezo au mashairi.",
+testPassword:"Weka nenosiri la majaribio:",
+submitted:"Ombi limepokelewa. Wimbo unatengenezwa...",
+payment:"Malipo",
+paymentUnavailable:"Malipo bado hayajaunganishwa.",
+accountUnavailable:"Akaunti bado hazijaunganishwa.",
+cloneUnavailable:"Voice cloning bado haijaunganishwa.",
+confirmDelete:"Unataka kufuta wimbo huu?",
+cancel:"Ghairi",
+ok:"Sawa",
+deleted:"Wimbo umefutwa.",
+copied:"Kiungo kimenakiliwa.",
+audioError:"Imeshindikana kucheza wimbo.",
+requestError:"Ombi limeshindikana.",
+noTaskId:"MusicAPI haijarudisha Task ID."
+},
+en:{
+subtitle:"Generate AI Songs",
+add:"+ Top Up",
+hero:'Create<br>Your Songs<br><span>with AI</span>',
+heroDesc:"Write your own lyrics or describe your song idea and let AI create music.",
+newSong:"CREATE NEW SONG",
+genres:"Music Genres",
+viewAll:"View All →",
+recent:"Recent Songs",
+create:"Create Song",
+chooseMode:"Choose Creation Mode",
+autoMode:"AI Writes Song",
+customMode:"My Lyrics",
+songTitle:"Song Title",
+songTitleExample:"Example: Love Forever",
+autoHelp:"Describe your song idea. AI will write the lyrics and create music.",
+customHelp:"Write your own lyrics. AI will sing the words you provide.",
+autoLabel:"Describe Your Song",
+customLabel:"Write Your Lyrics",
+autoPlaceholder:"Example: Create a romantic song about a young man who loves Neema. Use Bongo Flava style.",
+customPlaceholder:"[Verse 1]\nYou are the light of my life\nYou make my heart feel alive\n\n[Chorus]\nI will love you forever",
+autoExample:"Describe the story, mood and musical style.",
+customExample:"Use [Verse 1], [Chorus] and [Verse 2] to organize your lyrics.",
+songLanguage:"Song Language",
+languageHelp:"Choose the language of the song, independently of the app language.",
+genre:"Music Genre",
+vocal:"Vocal Style",
+female:"Female",
+male:"Male",
+cloning:"Voice Cloning",
+cloneDesc:"Available for Tsh 10k",
+locked:"Locked",
+generate:"GENERATE NOW",
+mySongs:"My Songs",
+mySongsDesc:"Your generated songs appear here automatically.",
+all:"All",
+favorites:"Favorites",
+buy:"Buy Credits",
+more:"Create More Music",
+buyDesc:"Buy credits to continue generating songs.",
+package:"Choose Package",
+home:"Home",
+createNav:"Create",
+mine:"My Songs",
+settings:"Settings",
+account:"Account",
+changeLanguage:"Change Language",
+share:"Share",
+delete:"Delete",
+noSongs:"No songs yet.",
+processing:"AI is generating your song...",
+checking:"Checking results...",
+waiting:"Still waiting for results. The app will check again when reopened.",
+failed:"Song generation failed.",
+remove:"Remove",
+ready:"Your song is ready!",
+required:"Enter a song title and description or lyrics.",
+testPassword:"Enter the test password:",
+submitted:"Request accepted. Your song is being generated...",
+payment:"Payment",
+paymentUnavailable:"Payments are not connected yet.",
+accountUnavailable:"User accounts are not connected yet.",
+cloneUnavailable:"Voice cloning is not connected yet.",
+confirmDelete:"Delete this song?",
+cancel:"Cancel",
+ok:"OK",
+deleted:"Song deleted.",
+copied:"Link copied.",
+audioError:"Unable to play this song.",
+requestError:"Request failed.",
+noTaskId:"MusicAPI did not return a Task ID."
+},
+fr:{
+subtitle:"Créer des chansons avec l'IA",
+add:"+ Ajouter",
+hero:'Créez<br>Vos Chansons<br><span>avec l’IA</span>',
+heroDesc:"Écrivez vos paroles ou décrivez votre idée de chanson.",
+newSong:"CRÉER UNE CHANSON",
+genres:"Genres Musicaux",
+viewAll:"Voir Tout →",
+recent:"Chansons Récentes",
+create:"Créer une Chanson",
+chooseMode:"Mode de Création",
+autoMode:"L'IA écrit",
+customMode:"Mes Paroles",
+songTitle:"Titre de la Chanson",
+songTitleExample:"Exemple : Amour Éternel",
+autoHelp:"Décrivez votre idée. L'IA écrira les paroles et créera la musique.",
+customHelp:"Écrivez vos paroles. L'IA les chantera.",
+autoLabel:"Décrivez Votre Chanson",
+customLabel:"Écrivez Vos Paroles",
+autoPlaceholder:"Exemple : Créez une chanson romantique sur un homme amoureux de Neema.",
+customPlaceholder:"[Verse 1]\nTu es la lumière de ma vie\nMon cœur est à toi\n\n[Chorus]\nJe t'aimerai toujours",
+autoExample:"Décrivez l'histoire, l'ambiance et le style musical.",
+customExample:"Utilisez [Verse 1], [Chorus] et [Verse 2].",
+songLanguage:"Langue de la Chanson",
+languageHelp:"Choisissez la langue de la chanson indépendamment de l'application.",
+genre:"Genre Musical",
+vocal:"Type de Voix",
+female:"Femme",
+male:"Homme",
+cloning:"Clonage Vocal",
+cloneDesc:"Disponible pour Tsh 10k",
+locked:"Verrouillé",
+generate:"GÉNÉRER",
+mySongs:"Mes Chansons",
+mySongsDesc:"Vos chansons apparaissent ici automatiquement.",
+all:"Toutes",
+favorites:"Favoris",
+buy:"Acheter des Crédits",
+more:"Créer Plus de Musique",
+buyDesc:"Achetez des crédits pour continuer.",
+package:"Choisir un Forfait",
+home:"Accueil",
+createNav:"Créer",
+mine:"Mes Chansons",
+settings:"Paramètres",
+account:"Compte",
+changeLanguage:"Changer de Langue",
+share:"Partager",
+delete:"Supprimer",
+noSongs:"Aucune chanson.",
+processing:"L'IA crée votre chanson...",
+checking:"Vérification des résultats...",
+waiting:"Toujours en attente. L'application vérifiera à nouveau.",
+failed:"La création a échoué.",
+remove:"Retirer",
+ready:"Votre chanson est prête !",
+required:"Saisissez un titre et une description ou des paroles.",
+testPassword:"Entrez le mot de passe de test :",
+submitted:"Demande acceptée. Votre chanson est en cours de création...",
+payment:"Paiement",
+paymentUnavailable:"Les paiements ne sont pas encore disponibles.",
+accountUnavailable:"Les comptes ne sont pas encore disponibles.",
+cloneUnavailable:"Le clonage vocal n'est pas encore disponible.",
+confirmDelete:"Supprimer cette chanson ?",
+cancel:"Annuler",
+ok:"OK",
+deleted:"Chanson supprimée.",
+copied:"Lien copié.",
+audioError:"Impossible de lire la chanson.",
+requestError:"La demande a échoué.",
+noTaskId:"MusicAPI n'a pas renvoyé d'identifiant."
+}
 };
 
-/* =====================================
-   HELPERS
-===================================== */
-
-function tr(key) {
-  return translations[lang]?.[key] ||
-         translations.sw[key] ||
-         key;
+function tr(key){
+return translations[lang]?.[key]||translations.sw[key]||key;
 }
 
-function escapeHTML(value) {
-  return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
+function el(id){return document.getElementById(id)}
+
+function escapeHTML(value){
+return String(value??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#39;");
 }
 
-function validURL(value) {
-  try {
-    const url = new URL(value);
-
-    if (
-      url.protocol === "https:" ||
-      url.protocol === "http:"
-    ) {
-      return url.href;
-    }
-
-    return "";
-
-  } catch {
-    return "";
-  }
+function validURL(value){
+try{
+const u=new URL(value);
+return ["https:","http:"].includes(u.protocol)?u.href:"";
+}catch{return ""}
 }
 
-function formatTime(seconds) {
-
-  const number = Number(seconds);
-
-  if (
-    !Number.isFinite(number) ||
-    number < 0
-  ) {
-    return "--:--";
-  }
-
-  const total = Math.floor(number);
-
-  const minutes = Math.floor(total / 60);
-  const remaining = total % 60;
-
-  return minutes + ":" + String(remaining).padStart(2, "0");
+function formatTime(value){
+const n=Number(value);
+if(!Number.isFinite(n)||n<0)return "--:--";
+return Math.floor(n/60)+":"+String(Math.floor(n%60)).padStart(2,"0");
 }
 
-/* =====================================
-   STORAGE
-===================================== */
-
-function save() {
-
-  try {
-
-    localStorage.setItem(
-      SONGS_KEY,
-      JSON.stringify(songs)
-    );
-
-    localStorage.setItem(
-      TASKS_KEY,
-      JSON.stringify(tasks)
-    );
-
-  } catch (error) {
-    console.warn("Storage error:", error);
-  }
+function save(){
+try{
+localStorage.setItem(SONGS_KEY,JSON.stringify(songs));
+localStorage.setItem(TASKS_KEY,JSON.stringify(tasks));
+}catch(error){console.warn("Storage:",error)}
 }
 
-function load() {
-
-  try {
-
-    const storedSongs = JSON.parse(
-      localStorage.getItem(SONGS_KEY) || "[]"
-    );
-
-    const storedTasks = JSON.parse(
-      localStorage.getItem(TASKS_KEY) || "[]"
-    );
-
-    songs = Array.isArray(storedSongs)
-      ? storedSongs.filter(item => item && validURL(item.audioUrl))
-      : [];
-
-    tasks = Array.isArray(storedTasks)
-      ? storedTasks.filter(item => item && item.task_id)
-      : [];
-
-  } catch (error) {
-
-    console.warn("Load error:", error);
-
-    songs = [];
-    tasks = [];
-
-  }
+function load(){
+try{
+const s=JSON.parse(localStorage.getItem(SONGS_KEY)||"[]");
+const t=JSON.parse(localStorage.getItem(TASKS_KEY)||"[]");
+songs=Array.isArray(s)?s.filter(x=>x&&validURL(x.audioUrl)):[];
+tasks=Array.isArray(t)?t.filter(x=>x&&x.task_id):[];
+}catch(error){
+console.warn("Load:",error);
+songs=[];
+tasks=[];
+}
 }
 
-/* =====================================
-   LANGUAGE
-===================================== */
-
-function applyLanguage() {
-
-  document.documentElement.lang = lang;
-
-  document.querySelectorAll("[data-t]").forEach(element => {
-    element.textContent = tr(element.dataset.t);
-  });
-
-  document.querySelectorAll("[data-t-html]").forEach(element => {
-    element.innerHTML = tr(element.dataset.tHtml);
-  });
-
-  updateCreationModeUI();
-
-  renderSongs();
+function applyLanguage(){
+document.documentElement.lang=lang;
+document.querySelectorAll("[data-t]").forEach(node=>{
+node.textContent=tr(node.dataset.t);
+});
+document.querySelectorAll("[data-html]").forEach(node=>{
+node.innerHTML=tr(node.dataset.html);
+});
+el("song-title").placeholder=tr("songTitleExample");
+updateModeUI();
+updatePayText();
+renderSongs();
 }
 
-function selectLanguage(value) {
-
-  lang = translations[value] ? value : "sw";
-
-  localStorage.setItem("aiMusicLang", lang);
-
-  document.getElementById("language-page")
-    .classList.remove("active");
-
-  document.getElementById("app").style.display = "block";
-
-  document.getElementById("bottom-nav").style.display = "flex";
-
-  applyLanguage();
-
-  switchPage("home-page", false);
+function selectLanguage(value){
+lang=translations[value]?value:"sw";
+try{localStorage.setItem("aiMusicLang",lang)}catch{}
+el("language-page").classList.remove("active");
+el("app").style.display="block";
+el("bottom-nav").style.display="flex";
+applyLanguage();
+switchPage("home-page",false);
 }
 
-/* =====================================
-   NAVIGATION
-===================================== */
-
-function switchPage(page, push = true) {
-
-  document.querySelectorAll(".page").forEach(element => {
-    element.classList.remove("active");
-  });
-
-  const target = document.getElementById(page);
-
-  if (!target) {
-    return;
-  }
-
-  target.classList.add("active");
-
-  document.querySelectorAll(".nav").forEach(element => {
-
-    element.classList.toggle(
-      "active",
-      element.dataset.page === page
-    );
-
-  });
-
-  if (page === "music-page") {
-    renderSongs();
-  }
-
-  window.scrollTo(0, 0);
-
-  if (push) {
-    history.pushState(
-      { page: page },
-      "",
-      "#" + page
-    );
-  }
+function switchPage(id,push=true){
+const page=el(id);
+if(!page)return;
+document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+page.classList.add("active");
+document.querySelectorAll(".nav").forEach(x=>{
+x.classList.toggle("active",x.dataset.page===id);
+});
+if(id==="music-page")renderSongs();
+window.scrollTo(0,0);
+if(push&&location.hash!=="#"+id){
+history.pushState({page:id},"","#"+id);
+}
 }
 
-window.addEventListener("popstate", event => {
-
-  closeSheets();
-
-  switchPage(
-    event.state?.page || "home-page",
-    false
-  );
-
+window.addEventListener("popstate",event=>{
+closeSheets();
+switchPage(event.state?.page||"home-page",false);
 });
 
-/* =====================================
-   GENRE / VOICE SELECTOR
-===================================== */
-
-function setupTags(container) {
-
-  document.querySelectorAll(
-    "#" + container + " .tag"
-  ).forEach(tag => {
-
-    tag.addEventListener("click", () => {
-
-      document.querySelectorAll(
-        "#" + container + " .tag"
-      ).forEach(item => {
-
-        item.classList.remove("active");
-
-      });
-
-      tag.classList.add("active");
-
-    });
-
-  });
+function setupTags(id){
+el(id).querySelectorAll(".tag").forEach(button=>{
+button.addEventListener("click",()=>{
+el(id).querySelectorAll(".tag").forEach(x=>x.classList.remove("active"));
+button.classList.add("active");
+});
+});
 }
 
-function getSelected(container, attribute, fallback) {
-
-  const selected = document.querySelector(
-    "#" + container + " .tag.active"
-  );
-
-  if (!selected) {
-    return fallback;
-  }
-
-  return selected.dataset[attribute] || fallback;
+function selectedTag(id,name,fallback){
+return el(id).querySelector(".tag.active")?.dataset[name]||fallback;
 }
 
-/* =====================================
-   AUTOMATIC / CUSTOM MODE
-===================================== */
-
-function selectCreationMode(mode) {
-
-  if (mode === "custom") {
-    creationMode = "custom";
-  } else {
-    creationMode = "automatic";
-  }
-
-  updateCreationModeUI();
+function setMode(value){
+mode=value==="custom"?"custom":"automatic";
+updateModeUI();
 }
 
-function updateCreationModeUI() {
-
-  const automatic = creationMode === "automatic";
-
-  const autoButton = document.getElementById(
-    "automatic-mode-btn"
-  );
-
-  const customButton = document.getElementById(
-    "custom-mode-btn"
-  );
-
-  const help = document.getElementById("mode-help");
-
-  const label = document.getElementById("prompt-label");
-
-  const input = document.getElementById("song-prompt-input");
-
-  const example = document.getElementById("mode-example");
-
-  if (
-    !autoButton ||
-    !customButton ||
-    !help ||
-    !label ||
-    !input ||
-    !example
-  ) {
-    return;
-  }
-
-  autoButton.classList.toggle("active", automatic);
-
-  customButton.classList.toggle("active", !automatic);
-
-  if (lang === "en") {
-
-    if (automatic) {
-
-      help.textContent =
-        "Describe your song idea. AI will write the lyrics and create music.";
-
-      label.textContent =
-        "Describe Your Song";
-
-      input.placeholder =
-        "Example: Create a Swahili love song about Neema in Bongo Flava style.";
-
-      example.textContent =
-        "Describe the story, language, mood and genre.";
-
-    } else {
-
-      help.textContent =
-        "Write your own lyrics. AI will sing the lyrics you provide.";
-
-      label.textContent =
-        "Write Your Lyrics";
-
-      input.placeholder =
-        "[Verse 1]\nNeema, you are my sunshine...\n\n[Chorus]\nI will love you forever...";
-
-      example.textContent =
-        "Use [Verse 1], [Chorus] and [Verse 2] to organize lyrics.";
-
-    }
-
-  } else if (lang === "fr") {
-
-    if (automatic) {
-
-      help.textContent =
-        "Décrivez votre idée. L'IA écrira les paroles et la musique.";
-
-      label.textContent =
-        "Décrivez votre chanson";
-
-      input.placeholder =
-        "Exemple : Une chanson d'amour en swahili sur Neema.";
-
-      example.textContent =
-        "Décrivez le sujet, la langue et l'ambiance.";
-
-    } else {
-
-      help.textContent =
-        "Écrivez vos paroles. L'IA les chantera.";
-
-      label.textContent =
-        "Écrivez vos paroles";
-
-      input.placeholder =
-        "[Verse 1]\nMes paroles...\n\n[Chorus]\nMon refrain...";
-
-      example.textContent =
-        "Utilisez [Verse 1], [Chorus] et [Verse 2].";
-
-    }
-
-  } else {
-
-    if (automatic) {
-
-      help.textContent =
-        "Andika wazo la wimbo. AI itatunga mashairi na muziki yenyewe.";
-
-      label.textContent =
-        "Eleza Wimbo Unaoutaka";
-
-      input.placeholder =
-        "Mfano: Tengeneza wimbo wa mapenzi kwa Kiswahili kuhusu kijana anayempenda Neema. Uwe wa Bongo Flava.";
-
-      example.textContent =
-        "Mfano: Wimbo wa mapenzi kuhusu Neema, kwa Kiswahili, wenye hisia za furaha.";
-
-    } else {
-
-      help.textContent =
-        "Andika mashairi yako mwenyewe. AI itaimba maneno uliyoandika.";
-
-      label.textContent =
-        "Andika Mashairi Yako";
-
-      input.placeholder =
-        "[Verse 1]\nNeema wangu nakupenda\nWewe ndiye wa maisha yangu\n\n[Chorus]\nNakupenda Neema\nNitakupenda milele";
-
-      example.textContent =
-        "Tumia [Verse 1], [Chorus] na [Verse 2] kupanga mashairi yako.";
-
-    }
-
-  }
+function updateModeUI(){
+const automatic=mode==="automatic";
+el("auto-btn").classList.toggle("active",automatic);
+el("custom-btn").classList.toggle("active",!automatic);
+el("mode-help").textContent=tr(automatic?"autoHelp":"customHelp");
+el("prompt-label").textContent=tr(automatic?"autoLabel":"customLabel");
+el("song-prompt").placeholder=tr(automatic?"autoPlaceholder":"customPlaceholder");
+el("prompt-example").textContent=tr(automatic?"autoExample":"customExample");
 }
 
-/* =====================================
-   POPUP
-===================================== */
+function showPopup(title,message,confirm=null){
+el("popup-title").textContent=title;
+el("popup-message").textContent=String(message||"");
+const box=el("popup-buttons");
+box.replaceChildren();
 
-function showPopup(title, message, callback = null) {
-
-  document.getElementById("popup-title").textContent = title;
-
-  document.getElementById("popup-message").textContent = message;
-
-  const buttons = document.getElementById("popup-buttons");
-
-  buttons.replaceChildren();
-
-  if (callback) {
-
-    const cancel = document.createElement("button");
-
-    cancel.className = "secondary";
-    cancel.textContent = "Ghairi";
-    cancel.onclick = closePopup;
-
-    buttons.appendChild(cancel);
-
-  }
-
-  const okay = document.createElement("button");
-
-  okay.textContent = "Sawa";
-
-  okay.onclick = () => {
-
-    closePopup();
-
-    if (callback) {
-      callback();
-    }
-
-  };
-
-  buttons.appendChild(okay);
-
-  document.getElementById("popup-overlay")
-    .classList.add("show");
+if(confirm){
+const cancel=document.createElement("button");
+cancel.className="secondary";
+cancel.textContent=tr("cancel");
+cancel.onclick=closePopup;
+box.appendChild(cancel);
 }
 
-function closePopup() {
-
-  document.getElementById("popup-overlay")
-    .classList.remove("show");
-
+const ok=document.createElement("button");
+ok.textContent=tr("ok");
+ok.onclick=()=>{
+closePopup();
+if(confirm)confirm();
+};
+box.appendChild(ok);
+el("popup-overlay").classList.add("show");
 }
 
-/* =====================================
-   TOAST
-===================================== */
+function closePopup(){
+el("popup-overlay").classList.remove("show");
+}
 
 let toastTimer;
-
-function showToast(message) {
-
-  const element = document.getElementById("toast");
-
-  element.textContent = message;
-
-  element.classList.add("show");
-
-  clearTimeout(toastTimer);
-
-  toastTimer = setTimeout(() => {
-
-    element.classList.remove("show");
-
-  }, 3500);
+function toast(message){
+const node=el("toast");
+node.textContent=message;
+node.classList.add("show");
+clearTimeout(toastTimer);
+toastTimer=setTimeout(()=>node.classList.remove("show"),3500);
 }
 
-/* =====================================
-   API REQUEST
-===================================== */
-
-async function requestJSON(url, options = {}) {
-
-  const response = await fetch(url, {
-    cache: "no-store",
-    ...options
-  });
-
-  const responseText = await response.text();
-
-  let data;
-
-  try {
-
-    data = JSON.parse(responseText);
-
-  } catch {
-
-    throw new Error(
-      "Backend haijarudisha JSON sahihi."
-    );
-
-  }
-
-  if (!response.ok || data.success === false) {
-
-    const errorMessage =
-      typeof data.error === "string"
-        ? data.error
-        : "Ombi limeshindikana (" + response.status + ")";
-
-    throw new Error(errorMessage);
-
-  }
-
-  return data;
+async function requestJSON(url,options={}){
+const response=await fetch(url,{cache:"no-store",...options});
+const text=await response.text();
+let data;
+try{data=JSON.parse(text)}
+catch{throw new Error("Backend did not return valid JSON.")}
+if(!response.ok||data.success===false){
+throw new Error(typeof data.error==="string"?data.error:tr("requestError")+" ("+response.status+")");
+}
+return data;
 }
 
-/* =====================================
-   GENERATE SONG
-===================================== */
+async function generateSong(){
+const title=el("song-title").value.trim();
+const prompt=el("song-prompt").value.trim();
 
-async function generateSong() {
-
-  const title = document.getElementById(
-    "song-title-input"
-  ).value.trim();
-
-  const prompt = document.getElementById(
-    "song-prompt-input"
-  ).value.trim();
-
-  if (!title || !prompt) {
-
-    showPopup(
-      "Taarifa",
-      "Jaza jina la wimbo na maelezo au mashairi."
-    );
-
-    return;
-  }
-
-  if (generating) {
-
-    showToast("Ombi linaendelea...");
-
-    return;
-  }
-
-  const password = window.prompt(
-    "Weka nenosiri la majaribio:"
-  );
-
-  if (password === null || !password.trim()) {
-    return;
-  }
-
-  const genre = getSelected(
-    "genre-tags",
-    "genre",
-    "Bongo Flava"
-  );
-
-  const voice = getSelected(
-    "voice-tags",
-    "voice",
-    "Female"
-  );
-
-  generating = true;
-
-  const button = document.getElementById("generate-btn");
-
-  button.disabled = true;
-
-  try {
-
-    const data = await requestJSON(
-      GENERATE_ENDPOINT,
-      {
-        method: "POST",
-
-        headers: {
-          "Content-Type": "application/json",
-          "x-test-password": password
-        },
-
-        body: JSON.stringify({
-          title: title,
-          prompt: prompt,
-          genre: genre,
-          voice: voice,
-          mode: creationMode
-        })
-      }
-    );
-
-    const taskId = String(data.task_id || "");
-
-    if (!taskId) {
-
-      throw new Error(
-        "MusicAPI haijarudisha Task ID."
-      );
-
-    }
-
-    const existingTask = tasks.some(
-      item => item.task_id === taskId
-    );
-
-    if (!existingTask) {
-
-      tasks.unshift({
-        task_id: taskId,
-        title: title,
-        genre: genre,
-        voice: voice,
-        mode: creationMode,
-        createdAt: Date.now(),
-        status: "processing"
-      });
-
-    }
-
-    save();
-
-    renderSongs();
-
-    document.getElementById(
-      "song-title-input"
-    ).value = "";
-
-    document.getElementById(
-      "song-prompt-input"
-    ).value = "";
-
-    switchPage("home-page");
-
-    showToast(
-      "MusicAPI imepokea ombi la wimbo!"
-    );
-
-    pollTask(taskId);
-
-  } catch (error) {
-
-    showPopup(
-      "MusicAPI",
-      error.message || "Imeshindikana kutengeneza wimbo."
-    );
-
-  } finally {
-
-    generating = false;
-
-    button.disabled = false;
-
-  }
+if(!title||!prompt){
+showPopup("AI Music",tr("required"));
+return;
 }
-
-/* =====================================
-   RESTORE TASK
-===================================== */
-
-function addExistingTask(taskId) {
-
-  taskId = String(taskId || "").trim();
-
-  if (!/^[a-zA-Z0-9_-]{8,100}$/.test(taskId)) {
-    return false;
-  }
-
-  const existsInTasks = tasks.some(
-    item => item.task_id === taskId
-  );
-
-  const existsInSongs = songs.some(
-    item => item.taskId === taskId
-  );
-
-  if (existsInTasks || existsInSongs) {
-    return true;
-  }
-
-  tasks.unshift({
-    task_id: taskId,
-    title: "MusicAPI Song",
-    genre: "AI Music",
-    voice: "",
-    createdAt: Date.now(),
-    status: "processing"
-  });
-
-  save();
-
-  renderSongs();
-
-  pollTask(taskId, true);
-
-  return true;
-}
-
-function importTask() {
-
-  const input = document.getElementById(
-    "import-task-id"
-  );
-
-  const taskId = input.value.trim();
-
-  if (!addExistingTask(taskId)) {
-
-    showPopup(
-      "Task ID",
-      "Weka Task ID kamili na sahihi."
-    );
-
-    return;
-  }
-
-  input.value = "";
-
-  showToast(
-    "Inaangalia wimbo uliopo MusicAPI..."
-  );
-}
-
-/* =====================================
-   PARSE STATUS RESPONSE
-===================================== */
-
-function parseResult(payload) {
-
-  const root = payload || {};
-
-  const state = String(
-    root.status ||
-    root.state ||
-    root.data?.status ||
-    root.result?.status ||
-    ""
-  ).toLowerCase();
-
-  const failedStates = [
-    "failed",
-    "error",
-    "failure",
-    "cancelled",
-    "canceled"
-  ];
-
-  if (failedStates.includes(state)) {
-
-    return {
-      state: "failed",
-      error: root.message ||
-             root.error ||
-             "MusicAPI imeshindwa kutengeneza wimbo.",
-      songs: []
-    };
-
-  }
-
-  const found = [];
-
-  const visited = new WeakSet();
-
-  function scan(value, depth = 0) {
-
-    if (!value || depth > 7) {
-      return;
-    }
-
-    if (Array.isArray(value)) {
-
-      value.forEach(item => {
-        scan(item, depth + 1);
-      });
-
-      return;
-    }
-
-    if (typeof value !== "object") {
-      return;
-    }
-
-    if (visited.has(value)) {
-      return;
-    }
-
-    visited.add(value);
-
-    const url = validURL(
-      value.audioUrl ||
-      value.audio_url ||
-      value.music_url ||
-      value.musicUrl ||
-      value.song_url ||
-      value.stream_url ||
-      value.play_url ||
-      value.audio
-    );
-
-    if (url) {
-
-      const alreadyFound = found.some(
-        item => item.audioUrl === url
-      );
-
-      if (!alreadyFound) {
-
-        found.push({
-          title: value.title ||
-                 value.song_name ||
-                 "",
-          audioUrl: url,
-          duration: Number(
-            value.duration ||
-            value.duration_seconds ||
-            0
-          )
-        });
-
-      }
-
-    }
-
-    Object.entries(value).forEach(entry => {
-
-      const key = entry[0];
-      const child = entry[1];
-
-      if (
-        child &&
-        typeof child === "object" &&
-        key !== "metadata"
-      ) {
-        scan(child, depth + 1);
-      }
-
-    });
-  }
-
-  scan(root.songs || root);
-
-  if (found.length > 0) {
-
-    return {
-      state: "completed",
-      songs: found
-    };
-
-  }
-
-  return {
-    state: "processing",
-    songs: []
-  };
-}
-
-/* =====================================
-   CHECK TASK
-===================================== */
-
-async function checkTaskOnce(taskId) {
-
-  const data = await requestJSON(
-    STATUS_ENDPOINT +
-    "?task_id=" +
-    encodeURIComponent(taskId)
-  );
-
-  const result = parseResult(data);
-
-  const task = tasks.find(
-    item => item.task_id === taskId
-  );
-
-  if (!task) {
-    return true;
-  }
-
-  if (result.state === "failed") {
-
-    task.status = "failed";
-
-    save();
-
-    renderSongs();
-
-    showPopup(
-      "MusicAPI",
-      result.error
-    );
-
-    return true;
-  }
-
-  if (result.state === "completed") {
-
-    const existingUrls = new Set(
-      songs.map(item => item.audioUrl)
-    );
-
-    result.songs.forEach((item, index) => {
-
-      if (existingUrls.has(item.audioUrl)) {
-        return;
-      }
-
-      songs.unshift({
-        id: taskId + "-" + index,
-        taskId: taskId,
-        title: item.title || task.title,
-        genre: task.genre || "AI Music",
-        voice: task.voice || "",
-        audioUrl: item.audioUrl,
-        duration: item.duration || 0,
-        time: item.duration
-          ? formatTime(item.duration)
-          : "--:--",
-        isFav: false,
-        createdAt: Date.now()
-      });
-
-      existingUrls.add(item.audioUrl);
-
-    });
-
-    tasks = tasks.filter(
-      item => item.task_id !== taskId
-    );
-
-    save();
-
-    renderSongs();
-
-    showToast(
-      "Wimbo umekamilika! Bonyeza Play."
-    );
-
-    return true;
-  }
-
-  task.status = "processing";
-
-  save();
-
-  renderSongs();
-
-  return false;
-}
-
-/* =====================================
-   POLLING
-===================================== */
-
-function wait(milliseconds) {
-
-  return new Promise(resolve => {
-    setTimeout(resolve, milliseconds);
-  });
-
-}
-
-async function pollTask(taskId, immediate = false) {
-
-  if (!taskId) {
-    return;
-  }
-
-  if (activePolls.has(taskId)) {
-    return;
-  }
-
-  activePolls.add(taskId);
-
-  try {
-
-    for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
-
-      const taskExists = tasks.some(
-        item => item.task_id === taskId
-      );
-
-      if (!taskExists) {
-        return;
-      }
-
-      if (attempt > 0 || !immediate) {
-        await wait(POLL_MS);
-      }
-
-      try {
-
-        const completed = await checkTaskOnce(taskId);
-
-        if (completed) {
-          return;
-        }
-
-      } catch (error) {
-
-        console.warn(
-          "Task status error:",
-          error.message
-        );
-
-        const task = tasks.find(
-          item => item.task_id === taskId
-        );
-
-        if (task) {
-
-          task.status = "checking";
-
-          save();
-
-          renderSongs();
-
-        }
-
-      }
-    }
-
-    const task = tasks.find(
-      item => item.task_id === taskId
-    );
-
-    if (task) {
-
-      task.status = "waiting";
-
-      save();
-
-      renderSongs();
-
-    }
-
-  } finally {
-
-    activePolls.delete(taskId);
-
-  }
-}
-
-function resumeTasks() {
-
-  tasks
-    .filter(item => item.status !== "failed")
-    .forEach(item => {
-      pollTask(item.task_id, true);
-    });
-
-}
-
-document.addEventListener(
-  "visibilitychange",
-  () => {
-
-    if (!document.hidden) {
-      resumeTasks();
-    }
-
-  }
-);
-
-window.addEventListener(
-  "online",
-  resumeTasks
-);
-
-/* =====================================
-   SONG CARDS
-===================================== */
-
-function songHTML(song) {
-
-  const id = escapeHTML(song.id);
-
-  const title = escapeHTML(
-    song.title || "AI Music"
-  );
-
-  const genre = escapeHTML(
-    song.genre || "AI Music"
-  );
-
-  const time = escapeHTML(
-    song.time || "--:--"
-  );
-
-  const liked = Boolean(song.isFav);
-
-  return `
-    <div class="song-card" data-song-id="${id}">
-
-      <div class="thumb">
-        <i class="fa-solid fa-music"></i>
-      </div>
-
-      <div class="song-content">
-
-        <div class="song-top">
-
-          <div style="min-width:0;flex:1">
-
-            <h4 class="song-title">
-              ${title}
-            </h4>
-
-            <p class="song-meta">
-              ${genre} • ${time}
-            </p>
-
-          </div>
-
-          <div class="song-actions">
-
-            <button
-              class="${liked ? "liked" : ""}"
-              data-action="favorite"
-              data-id="${id}">
-
-              <i class="${liked ? "fa-solid" : "fa-regular"} fa-heart"></i>
-
-            </button>
-
-            <button
-              data-action="options"
-              data-id="${id}">
-
-              <i class="fa-solid fa-ellipsis-vertical"></i>
-
-            </button>
-
-          </div>
-
-        </div>
-
-        <div class="player-row">
-
-          <button
-            class="play-btn"
-            data-action="play"
-            data-id="${id}">
-
-            <i class="fa-solid fa-play"></i>
-
-          </button>
-
-          <span class="time elapsed">0:00</span>
-
-          <div class="wave"></div>
-
-          <span class="time">${time}</span>
-
-          <button
-            class="download"
-            data-action="download"
-            data-id="${id}">
-
-            <i class="fa-solid fa-download"></i>
-
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
-  `;
-}
-
-function pendingHTML(task) {
-
-  let status = tr("processing");
-
-  if (task.status === "waiting") {
-    status = tr("waiting");
-  }
-
-  if (task.status === "checking") {
-    status = tr("checking");
-  }
-
-  if (task.status === "failed") {
-    status = "Imeshindikana. Hakiki MusicAPI.";
-  }
-
-  const icon = task.status === "failed"
-    ? '<div class="thumb"><i class="fa-solid fa-triangle-exclamation"></i></div>'
-    : '<div class="spinner"></div>';
-
-  const removeButton = task.status === "failed"
-    ? `<button class="download" data-action="remove-task" data-id="${escapeHTML(task.task_id)}" style="margin-top:9px">Ondoa</button>`
-    : "";
-
-  return `
-    <div class="song-card">
-
-      <div class="pending">
-
-        ${icon}
-
-        <div style="min-width:0;flex:1">
-
-          <span class="badge">
-            ${task.status === "failed" ? "FAILED" : "PROCESSING"}
-          </span>
-
-          <h4>
-            ${escapeHTML(task.title || "AI Music")}
-          </h4>
-
-          <p>
-            ${escapeHTML(status)}
-          </p>
-
-          ${removeButton}
-
-        </div>
-
-      </div>
-
-    </div>
-  `;
-}
-
-/* =====================================
-   RENDER SONGS
-===================================== */
-
-function renderSongs() {
-
-  const recent = document.getElementById(
-    "recent-songs"
-  );
-
-  const all = document.getElementById(
-    "all-songs"
-  );
-
-  if (!recent || !all) {
-    return;
-  }
-
-  const pending = tasks.map(
-    item => pendingHTML(item)
-  ).join("");
-
-  const recentSongs = songs
-    .slice(0, 3)
-    .map(item => songHTML(item))
-    .join("");
-
-  let visibleSongs = songs;
-
-  if (selectedTab === "favorites") {
-
-    visibleSongs = songs.filter(
-      item => item.isFav
-    );
-
-  }
-
-  const empty = `
-    <div class="empty">
-      <i class="fa-solid fa-music"></i>
-      <p>${escapeHTML(tr("noSongs"))}</p>
-    </div>
-  `;
-
-  const recentContent = pending + recentSongs;
-
-  recent.innerHTML = recentContent || empty;
-
-  const allContent =
-    (selectedTab === "all" ? pending : "") +
-    visibleSongs.map(item => songHTML(item)).join("");
-
-  all.innerHTML = allContent || empty;
-
-  updatePlayerButtons();
-}
-
-function changeTab(tab) {
-
-  selectedTab = tab;
-
-  document.querySelectorAll(".tab").forEach(element => {
-
-    element.classList.toggle(
-      "active",
-      element.dataset.tab === tab
-    );
-
-  });
-
-  renderSongs();
-}
-
-/* =====================================
-   AUDIO PLAYER
-===================================== */
-
-async function playSong(id) {
-
-  const song = songs.find(
-    item => item.id === id
-  );
-
-  if (!song) {
-    return;
-  }
-
-  if (
-    activeSongId === id &&
-    !audio.paused
-  ) {
-
-    audio.pause();
-
-    updatePlayerButtons();
-
-    return;
-  }
-
-  if (activeSongId !== id) {
-
-    audio.pause();
-
-    audio.src = song.audioUrl;
-
-    audio.load();
-
-    activeSongId = id;
-
-  }
-
-  try {
-
-    await audio.play();
-
-    updatePlayerButtons();
-
-  } catch (error) {
-
-    showPopup(
-      "Audio",
-      "Imeshindikana kucheza audio: " + error.message
-    );
-
-    updatePlayerButtons();
-
-  }
-}
-
-function updatePlayerButtons() {
-
-  document.querySelectorAll(".play-btn").forEach(button => {
-
-    const playing =
-      button.dataset.id === activeSongId &&
-      !audio.paused;
-
-    const icon = button.querySelector("i");
-
-    if (icon) {
-
-      icon.className = playing
-        ? "fa-solid fa-pause"
-        : "fa-solid fa-play";
-
-    }
-
-    button.style.background = playing
-      ? "#ff007f"
-      : "var(--purple)";
-
-  });
-}
-
-audio.addEventListener(
-  "play",
-  updatePlayerButtons
-);
-
-audio.addEventListener(
-  "pause",
-  updatePlayerButtons
-);
-
-audio.addEventListener("ended", () => {
-
-  activeSongId = null;
-
-  updatePlayerButtons();
-
+if(generating)return;
+
+const password=window.prompt(tr("testPassword"));
+if(password===null||!password.trim())return;
+
+const genre=selectedTag("genre-tags","genre","Bongo Flava");
+const voice=selectedTag("voice-tags","voice","Female");
+const songLanguage=el("song-language").value;
+
+generating=true;
+el("generate-btn").disabled=true;
+
+try{
+const result=await requestJSON(GENERATE_URL,{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+"x-test-password":password
+},
+body:JSON.stringify({
+title,
+prompt,
+genre,
+voice,
+mode,
+songLanguage
+})
 });
 
-audio.addEventListener("timeupdate", () => {
+const taskId=String(result.task_id||result.taskId||"");
+if(!taskId)throw new Error(tr("noTaskId"));
 
-  document.querySelectorAll(".song-card").forEach(card => {
+if(!tasks.some(t=>t.task_id===taskId)&&!songs.some(s=>s.taskId===taskId)){
+tasks.unshift({
+task_id:taskId,
+title,
+genre,
+voice,
+songLanguage,
+createdAt:Date.now(),
+status:"processing"
+});
+}
 
-    if (card.dataset.songId === activeSongId) {
+save();
+renderSongs();
 
-      const elapsed = card.querySelector(".elapsed");
+el("song-title").value="";
+el("song-prompt").value="";
 
-      if (elapsed) {
+switchPage("home-page");
+toast(tr("submitted"));
 
-        elapsed.textContent = formatTime(
-          audio.currentTime
-        );
+pollTask(taskId,true);
 
-      }
-    }
+}catch(error){
+showPopup("MusicAPI",error.message||tr("requestError"));
+}finally{
+generating=false;
+el("generate-btn").disabled=false;
+}
+}
 
-  });
+function parseResult(payload){
+const root=payload||{};
+const state=String(root.status||root.state||root.data?.status||"").toLowerCase();
 
+if(["failed","failure","error","cancelled","canceled"].includes(state)){
+return {state:"failed",error:root.error||root.message||tr("failed"),songs:[]};
+}
+
+const found=[];
+const seen=new WeakSet();
+
+function scan(value,depth=0){
+if(!value||depth>8)return;
+if(Array.isArray(value)){
+value.forEach(x=>scan(x,depth+1));
+return;
+}
+if(typeof value!=="object"||seen.has(value))return;
+seen.add(value);
+
+const url=validURL(
+value.audioUrl||
+value.audio_url||
+value.music_url||
+value.musicUrl||
+value.song_url||
+value.stream_url||
+value.play_url||
+value.audio
+);
+
+if(url&&!found.some(x=>x.audioUrl===url)){
+found.push({
+title:value.title||value.song_name||"",
+audioUrl:url,
+duration:Number(value.duration||value.duration_seconds||0)
+});
+}
+
+Object.entries(value).forEach(([key,child])=>{
+if(child&&typeof child==="object"&&key!=="metadata"){
+scan(child,depth+1);
+}
+});
+}
+
+scan(root.songs||root);
+
+return {
+state:found.length?"completed":"processing",
+songs:found
+};
+}
+
+async function checkTask(taskId){
+const response=await requestJSON(
+STATUS_URL+"?task_id="+encodeURIComponent(taskId)
+);
+
+const result=parseResult(response);
+const task=tasks.find(t=>t.task_id===taskId);
+if(!task)return true;
+
+if(result.state==="failed"){
+task.status="failed";
+save();
+renderSongs();
+return true;
+}
+
+if(result.state==="completed"){
+const existing=new Set(songs.map(s=>s.audioUrl));
+
+result.songs.forEach((item,index)=>{
+if(existing.has(item.audioUrl))return;
+
+songs.unshift({
+id:taskId+"-"+index,
+taskId,
+title:item.title||task.title,
+genre:task.genre||"AI Music",
+voice:task.voice||"",
+songLanguage:task.songLanguage||"",
+audioUrl:item.audioUrl,
+duration:item.duration||0,
+time:item.duration?formatTime(item.duration):"--:--",
+isFav:false,
+createdAt:Date.now()
 });
 
-audio.addEventListener("loadedmetadata", () => {
-
-  const song = songs.find(
-    item => item.id === activeSongId
-  );
-
-  if (
-    song &&
-    Number.isFinite(audio.duration) &&
-    audio.duration > 0
-  ) {
-
-    song.duration = audio.duration;
-
-    song.time = formatTime(audio.duration);
-
-    save();
-
-  }
+existing.add(item.audioUrl);
 });
 
-/* =====================================
-   DOWNLOAD
-===================================== */
-
-function downloadSong(id) {
-
-  const song = songs.find(
-    item => item.id === id
-  );
-
-  if (!song) {
-    return;
-  }
-
-  const url = validURL(song.audioUrl);
-
-  if (!url) {
-    return;
-  }
-
-  const link = document.createElement("a");
-
-  link.href = url;
-
-  link.download = (song.title || "AI Music") + ".mp3";
-
-  link.target = "_blank";
-
-  link.rel = "noopener noreferrer";
-
-  document.body.appendChild(link);
-
-  link.click();
-
-  link.remove();
+tasks=tasks.filter(t=>t.task_id!==taskId);
+save();
+renderSongs();
+toast(tr("ready"));
+return true;
 }
 
-/* =====================================
-   FAVORITES
-===================================== */
-
-function toggleFavorite(id) {
-
-  const song = songs.find(
-    item => item.id === id
-  );
-
-  if (!song) {
-    return;
-  }
-
-  song.isFav = !song.isFav;
-
-  save();
-
-  renderSongs();
+task.status="processing";
+save();
+renderSongs();
+return false;
 }
 
-/* =====================================
-   SONG OPTIONS
-===================================== */
-
-function openSongOptions(id) {
-
-  const song = songs.find(
-    item => item.id === id
-  );
-
-  if (!song) {
-    return;
-  }
-
-  selectedSongId = id;
-
-  document.getElementById(
-    "sheet-title"
-  ).textContent = song.title;
-
-  document.getElementById(
-    "song-sheet"
-  ).classList.add("show");
+function sleep(ms){
+return new Promise(resolve=>setTimeout(resolve,ms));
 }
 
-async function shareSelectedSong() {
+async function pollTask(taskId,immediate=false){
+if(!taskId||polling.has(taskId))return;
+polling.add(taskId);
 
-  const song = songs.find(
-    item => item.id === selectedSongId
-  );
+try{
+for(let attempt=0;attempt<MAX_POLLS;attempt++){
+if(!tasks.some(t=>t.task_id===taskId))return;
 
-  closeSheets();
-
-  if (!song) {
-    return;
-  }
-
-  try {
-
-    if (navigator.share) {
-
-      await navigator.share({
-        title: song.title,
-        url: song.audioUrl
-      });
-
-    } else if (navigator.clipboard) {
-
-      await navigator.clipboard.writeText(
-        song.audioUrl
-      );
-
-      showToast("Kiungo kimenakiliwa!");
-
-    } else {
-
-      showPopup(
-        "Share",
-        song.audioUrl
-      );
-
-    }
-
-  } catch (error) {
-
-    if (error.name !== "AbortError") {
-      console.warn(error);
-    }
-
-  }
+if(attempt>0||!immediate){
+await sleep(POLL_INTERVAL);
 }
 
-function deleteSelectedSong() {
-
-  const id = selectedSongId;
-
-  closeSheets();
-
-  showPopup(
-    "Futa Wimbo",
-    "Una uhakika unataka kufuta wimbo huu kwenye app?",
-    () => {
-
-      if (activeSongId === id) {
-
-        audio.pause();
-
-        audio.removeAttribute("src");
-
-        activeSongId = null;
-
-      }
-
-      songs = songs.filter(
-        item => item.id !== id
-      );
-
-      save();
-
-      renderSongs();
-
-      showToast("Wimbo umefutwa.");
-
-    }
-  );
+if(document.hidden){
+await sleep(POLL_INTERVAL);
 }
 
-/* =====================================
-   SETTINGS
-===================================== */
-
-function openSettings() {
-
-  document.getElementById(
-    "settings-sheet"
-  ).classList.add("show");
-
+try{
+const finished=await checkTask(taskId);
+if(finished)return;
+}catch(error){
+console.warn("MusicAPI status:",error.message);
+const task=tasks.find(t=>t.task_id===taskId);
+if(task){
+task.status="checking";
+save();
+renderSongs();
+}
+}
 }
 
-function closeSheets() {
-
-  document.querySelectorAll(".sheet").forEach(element => {
-
-    element.classList.remove("show");
-
-  });
-
+const task=tasks.find(t=>t.task_id===taskId);
+if(task){
+task.status="waiting";
+save();
+renderSongs();
+}
+}finally{
+polling.delete(taskId);
+}
 }
 
-/* =====================================
-   TOP UP
-===================================== */
-
-function selectPackage(price) {
-
-  selectedPrice = price;
-
-  document.querySelectorAll(".package").forEach(element => {
-
-    element.classList.toggle(
-      "selected",
-      Number(element.dataset.price) === price
-    );
-
-  });
-
-  document.getElementById(
-    "pay-text"
-  ).textContent = "LIPA TSH " + price.toLocaleString("en-US");
+function resumeTasks(){
+tasks.filter(t=>t.status!=="failed").forEach(t=>{
+pollTask(t.task_id,true);
+});
 }
 
-/* =====================================
-   BUTTON EVENTS
-===================================== */
+document.addEventListener("visibilitychange",()=>{
+if(!document.hidden)resumeTasks();
+});
+window.addEventListener("online",resumeTasks);
 
-document.addEventListener("click", event => {
+function songHTML(song){
+const id=escapeHTML(song.id);
+const title=escapeHTML(song.title||"AI Music");
+const genre=escapeHTML(song.genre||"AI Music");
+const duration=escapeHTML(song.time||"--:--");
+const fav=Boolean(song.isFav);
 
-  const button = event.target.closest(
-    "[data-action]"
-  );
+return `
+<div class="song-card" data-song-id="${id}">
+<div class="thumb"><i class="fa-solid fa-music"></i></div>
+<div class="song-body">
+<div class="song-top">
+<div style="min-width:0;flex:1">
+<div class="song-title">${title}</div>
+<div class="song-meta">${genre} • ${duration}</div>
+</div>
+<div class="song-actions">
+<button data-action="favorite" data-id="${id}" class="${fav?"liked":""}" aria-label="Favorite">
+<i class="${fav?"fa-solid":"fa-regular"} fa-heart"></i>
+</button>
+<button data-action="options" data-id="${id}" aria-label="Options">
+<i class="fa-solid fa-ellipsis-vertical"></i>
+</button>
+</div>
+</div>
+<div class="player">
+<button class="play" data-action="play" data-id="${id}">
+<i class="fa-solid fa-play"></i>
+</button>
+<span class="time elapsed">0:00</span>
+<div class="wave"></div>
+<span class="time">${duration}</span>
+<button class="download" data-action="download" data-id="${id}">
+<i class="fa-solid fa-download"></i>
+</button>
+</div>
+</div>
+</div>`;
+}
 
-  if (!button) {
-    return;
-  }
+function pendingHTML(task){
+let message=tr("processing");
+if(task.status==="checking")message=tr("checking");
+if(task.status==="waiting")message=tr("waiting");
+if(task.status==="failed")message=tr("failed");
 
-  const action = button.dataset.action;
+const failed=task.status==="failed";
 
-  const id = button.dataset.id;
+return `
+<div class="song-card">
+${failed
+?'<div class="thumb"><i class="fa-solid fa-triangle-exclamation"></i></div>'
+:'<div class="spinner"></div>'}
+<div class="song-body">
+<div class="pending-label">${failed?"FAILED":"PROCESSING"}</div>
+<div class="song-title">${escapeHTML(task.title||"AI Music")}</div>
+<div class="pending-description">${escapeHTML(message)}</div>
+${failed
+?`<button class="download" data-action="remove-task" data-id="${escapeHTML(task.task_id)}" style="margin-top:9px">${escapeHTML(tr("remove"))}</button>`
+:""}
+</div>
+</div>`;
+}
 
-  if (action === "play") {
-    playSong(id);
-  }
+function renderSongs(){
+const recent=el("recent-songs");
+const all=el("all-songs");
+if(!recent||!all)return;
 
-  if (action === "download") {
-    downloadSong(id);
-  }
+const pending=tasks.map(pendingHTML).join("");
+const recentHTML=songs.slice(0,3).map(songHTML).join("");
+const empty=`<div class="empty"><i class="fa-solid fa-music"></i>${escapeHTML(tr("noSongs"))}</div>`;
 
-  if (action === "favorite") {
-    toggleFavorite(id);
-  }
+recent.innerHTML=(pending+recentHTML)||empty;
 
-  if (action === "options") {
-    openSongOptions(id);
-  }
+const visible=currentTab==="favorites"
+?songs.filter(s=>s.isFav)
+:songs;
 
-  if (action === "remove-task") {
+all.innerHTML=((currentTab==="all"?pending:"")+visible.map(songHTML).join(""))||empty;
+updatePlayerButtons();
+}
 
-    tasks = tasks.filter(
-      item => item.task_id !== id
-    );
+function setTab(tab){
+currentTab=tab==="favorites"?"favorites":"all";
+document.querySelectorAll(".tab").forEach(x=>{
+x.classList.toggle("active",x.dataset.tab===currentTab);
+});
+renderSongs();
+}
 
-    save();
+async function playSong(id){
+const song=songs.find(s=>s.id===id);
+if(!song)return;
 
-    renderSongs();
+if(currentSongId===id&&!audio.paused){
+audio.pause();
+return;
+}
 
-  }
+if(currentSongId!==id){
+audio.pause();
+audio.src=song.audioUrl;
+audio.load();
+currentSongId=id;
+}
 
+try{
+await audio.play();
+}catch(error){
+showPopup("Audio",tr("audioError")+" "+error.message);
+}
+updatePlayerButtons();
+}
+
+function updatePlayerButtons(){
+document.querySelectorAll(".play").forEach(button=>{
+const playing=button.dataset.id===currentSongId&&!audio.paused;
+const icon=button.querySelector("i");
+if(icon)icon.className="fa-solid fa-"+(playing?"pause":"play");
+button.style.background=playing?"#ff007f":"var(--purple)";
+});
+}
+
+audio.addEventListener("play",updatePlayerButtons);
+audio.addEventListener("pause",updatePlayerButtons);
+audio.addEventListener("ended",()=>{
+currentSongId=null;
+updatePlayerButtons();
 });
 
-/* =====================================
-   INITIALIZE APP
-===================================== */
+audio.addEventListener("timeupdate",()=>{
+document.querySelectorAll(".song-card").forEach(card=>{
+if(card.dataset.songId===currentSongId){
+const elapsed=card.querySelector(".elapsed");
+if(elapsed)elapsed.textContent=formatTime(audio.currentTime);
+}
+});
+});
 
-function initializeApp() {
+audio.addEventListener("loadedmetadata",()=>{
+const song=songs.find(s=>s.id===currentSongId);
+if(song&&Number.isFinite(audio.duration)&&audio.duration>0){
+song.duration=audio.duration;
+song.time=formatTime(audio.duration);
+save();
+}
+});
 
-  load();
-
-  setupTags("genre-tags");
-
-  setupTags("voice-tags");
-
-  const savedLanguage = localStorage.getItem(
-    "aiMusicLang"
-  );
-
-  if (
-    savedLanguage &&
-    translations[savedLanguage]
-  ) {
-
-    selectLanguage(savedLanguage);
-
-  } else {
-
-    document.getElementById(
-      "language-page"
-    ).classList.add("active");
-
-  }
-
-  resumeTasks();
-
-  renderSongs();
+function downloadSong(id){
+const song=songs.find(s=>s.id===id);
+if(!song)return;
+const url=validURL(song.audioUrl);
+if(!url)return;
+const a=document.createElement("a");
+a.href=url;
+a.download=(song.title||"AI Music")+".mp3";
+a.target="_blank";
+a.rel="noopener noreferrer";
+document.body.appendChild(a);
+a.click();
+a.remove();
 }
 
-if (document.readyState === "loading") {
+function toggleFavorite(id){
+const song=songs.find(s=>s.id===id);
+if(!song)return;
+song.isFav=!song.isFav;
+save();
+renderSongs();
+}
 
-  document.addEventListener(
-    "DOMContentLoaded",
-    initializeApp
-  );
+function openSongOptions(id){
+const song=songs.find(s=>s.id===id);
+if(!song)return;
+selectedSongId=id;
+el("sheet-song-title").textContent=song.title;
+el("song-sheet").classList.add("show");
+}
 
-} else {
+async function shareSelectedSong(){
+const song=songs.find(s=>s.id===selectedSongId);
+closeSheets();
+if(!song)return;
 
-  initializeApp();
+try{
+if(navigator.share){
+await navigator.share({title:song.title,url:song.audioUrl});
+}else if(navigator.clipboard){
+await navigator.clipboard.writeText(song.audioUrl);
+toast(tr("copied"));
+}else{
+showPopup(tr("share"),song.audioUrl);
+}
+}catch(error){
+if(error.name!=="AbortError")console.warn(error);
+}
+}
 
+function deleteSelectedSong(){
+const id=selectedSongId;
+closeSheets();
+showPopup(tr("delete"),tr("confirmDelete"),()=>{
+if(currentSongId===id){
+audio.pause();
+audio.removeAttribute("src");
+currentSongId=null;
+}
+songs=songs.filter(s=>s.id!==id);
+save();
+renderSongs();
+toast(tr("deleted"));
+});
+}
+
+function openSettings(){
+el("settings-sheet").classList.add("show");
+}
+
+function closeSheets(){
+document.querySelectorAll(".sheet").forEach(x=>x.classList.remove("show"));
+}
+
+function updatePayText(){
+const prefix=lang==="en"?"PAY TSH ":lang==="fr"?"PAYER TSH ":"LIPA TSH ";
+el("pay-text").textContent=prefix+selectedPrice.toLocaleString("en-US");
+}
+
+function selectPackage(price){
+selectedPrice=price;
+document.querySelectorAll(".package").forEach(x=>{
+x.classList.toggle("active",Number(x.dataset.price)===price);
+});
+updatePayText();
+}
+
+document.addEventListener("click",event=>{
+const button=event.target.closest("[data-action]");
+if(!button)return;
+const action=button.dataset.action;
+const id=button.dataset.id;
+
+if(action==="play")playSong(id);
+if(action==="download")downloadSong(id);
+if(action==="favorite")toggleFavorite(id);
+if(action==="options")openSongOptions(id);
+
+if(action==="remove-task"){
+tasks=tasks.filter(t=>t.task_id!==id);
+save();
+renderSongs();
+}
+});
+
+function initialize(){
+load();
+setupTags("genre-tags");
+setupTags("voice-tags");
+
+let savedLanguage=null;
+try{savedLanguage=localStorage.getItem("aiMusicLang")}catch{}
+
+if(savedLanguage&&translations[savedLanguage]){
+selectLanguage(savedLanguage);
+}else{
+el("language-page").classList.add("active");
+}
+
+resumeTasks();
+renderSongs();
+}
+
+if(document.readyState==="loading"){
+document.addEventListener("DOMContentLoaded",initialize);
+}else{
+initialize();
 }
 </script>
-
 </body>
-     </html>
+                                     </html>
