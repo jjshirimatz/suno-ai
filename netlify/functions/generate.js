@@ -1,8 +1,6 @@
-exports.handler = async (event) => {
+"use strict";
 
-  // ==========================================
-  // JSON RESPONSE
-  // ==========================================
+exports.handler = async (event) => {
 
   const json = (statusCode, data) => ({
     statusCode,
@@ -13,10 +11,6 @@ exports.handler = async (event) => {
     body: JSON.stringify(data)
   });
 
-  // ==========================================
-  // ALLOW POST ONLY
-  // ==========================================
-
   if (event.httpMethod !== "POST") {
     return json(405, {
       success: false,
@@ -26,33 +20,15 @@ exports.handler = async (event) => {
 
   try {
 
-    // ==========================================
-    // ENVIRONMENT VARIABLES
-    // ==========================================
-
     const apiKey = process.env.MUSICAPI_KEY;
     const testPassword = process.env.MUSIC_TEST_PASSWORD;
 
     if (!apiKey || !testPassword) {
-
-      console.error(
-        "Backend configuration missing",
-        {
-          apiKeyConfigured: Boolean(apiKey),
-          testPasswordConfigured: Boolean(testPassword)
-        }
-      );
-
       return json(500, {
         success: false,
         error: "Backend configuration haijakamilika"
       });
-
     }
-
-    // ==========================================
-    // TEST PASSWORD VERIFICATION
-    // ==========================================
 
     const suppliedPassword =
       event.headers?.["x-test-password"] ||
@@ -62,49 +38,27 @@ exports.handler = async (event) => {
       !suppliedPassword ||
       suppliedPassword !== testPassword
     ) {
-
-      console.warn(
-        "Unauthorized generation request"
-      );
-
       return json(403, {
         success: false,
-        error: "Huna ruhusa ya kutengeneza wimbo"
+        error: "Nenosiri la majaribio si sahihi"
       });
-
     }
 
-    // ==========================================
-    // READ REQUEST BODY
-    // ==========================================
-
-    let requestBody;
+    let body;
 
     try {
-
-      requestBody = JSON.parse(
-        event.body || "{}"
-      );
-
-    } catch (error) {
-
+      body = JSON.parse(event.body || "{}");
+    } catch {
       return json(400, {
         success: false,
         error: "Taarifa zilizotumwa si sahihi"
       });
-
     }
 
-    const {
-      title,
-      prompt,
-      genre,
-      voice
-    } = requestBody;
-
-    // ==========================================
-    // VALIDATION
-    // ==========================================
+    const title = body.title;
+    const prompt = body.prompt;
+    const genre = body.genre;
+    const voice = body.voice;
 
     if (
       typeof title !== "string" ||
@@ -112,29 +66,21 @@ exports.handler = async (event) => {
       !title.trim() ||
       !prompt.trim()
     ) {
-
       return json(400, {
         success: false,
         error: "Jaza jina na mashairi ya wimbo"
       });
-
     }
 
     if (
       title.length > 150 ||
       prompt.length > 5000
     ) {
-
       return json(400, {
         success: false,
         error: "Maandishi ni marefu kupita kiasi"
       });
-
     }
-
-    // ==========================================
-    // MUSIC GENRES
-    // ==========================================
 
     const allowedGenres = [
       "Bongo Flava",
@@ -149,283 +95,152 @@ exports.handler = async (event) => {
         ? genre
         : "Bongo Flava";
 
-    // ==========================================
-    // VOCAL GENDER
-    // ==========================================
-
     const vocalGender =
       voice === "Male" ? "m" : "f";
 
-    // ==========================================
-    // MUSICAPI PAYLOAD
-    // ==========================================
-
     const payload = {
-
       task_type: "create_music",
-
       custom_mode: true,
-
       mv: "sonic-v6",
-
       title: title.trim(),
-
       prompt: prompt.trim(),
-
       tags: selectedGenre,
-
       vocal_gender: vocalGender,
-
       make_instrumental: false
-
     };
-
-    // ==========================================
-    // SEND REQUEST TO MUSICAPI
-    // ==========================================
-
-    console.log(
-      "MusicAPI: Sending generation request"
-    );
-
-    console.log(
-      "MusicAPI model:",
-      payload.mv
-    );
-
-    console.log(
-      "MusicAPI genre:",
-      selectedGenre
-    );
 
     const controller = new AbortController();
 
-    const timeout = setTimeout(() => {
-      controller.abort();
-    }, 20000);
+    const timeout = setTimeout(
+      () => controller.abort(),
+      25000
+    );
 
     let response;
 
     try {
-
       response = await fetch(
         "https://api.musicapi.ai/api/v1/sonic/create",
         {
           method: "POST",
-
           headers: {
-            "Authorization": `Bearer ${apiKey}`,
+            Authorization: `Bearer ${apiKey}`,
             "Content-Type": "application/json",
-            "Accept": "application/json"
+            Accept: "application/json"
           },
-
           body: JSON.stringify(payload),
-
           signal: controller.signal
         }
       );
-
     } finally {
-
       clearTimeout(timeout);
-
     }
 
-    // ==========================================
-    // READ MUSICAPI RESPONSE
-    // ==========================================
-
-    const rawResponse =
-      await response.text();
+    const raw = await response.text();
 
     let data;
 
     try {
-
-      data = JSON.parse(rawResponse);
-
-    } catch (error) {
-
-      console.error(
-        "MusicAPI invalid JSON response",
-        {
-          httpStatus: response.status
-        }
-      );
-
+      data = JSON.parse(raw);
+    } catch {
       return json(502, {
         success: false,
-        error: "MusicAPI imerudisha jibu lisilo sahihi",
-        http_status: response.status
+        error: "MusicAPI imerudisha jibu lisilo JSON"
       });
-
     }
 
-    // ==========================================
-    // MUSICAPI DIAGNOSTIC LOGS
-    // ==========================================
-
-    console.log(
-      "MusicAPI HTTP status:",
-      response.status
-    );
-
-    console.log(
-      "MusicAPI response code:",
-      data.code ?? null
-    );
-
-    console.log(
-      "MusicAPI task ID present:",
-      Boolean(data.task_id)
-    );
-
-    // IMPORTANT:
-    // Log safe diagnostic fields only.
-    // Do not log API keys or request headers.
-
-    const apiErrorMessage =
-      typeof data.message === "string"
-        ? data.message.slice(0, 500)
-        : typeof data.error === "string"
-          ? data.error.slice(0, 500)
-          : typeof data.detail === "string"
-            ? data.detail.slice(0, 500)
-            : null;
-
-    // ==========================================
-    // HANDLE MUSICAPI HTTP ERRORS
-    // ==========================================
+    console.log("MusicAPI generation:", {
+      httpStatus: response.status,
+      apiCode: data.code ?? null,
+      hasTaskId: Boolean(
+        data.task_id ||
+        data.data?.task_id
+      )
+    });
 
     if (!response.ok) {
 
-      console.error(
-        "MusicAPI request rejected:",
-        {
-          httpStatus: response.status,
-          apiCode: data.code ?? null,
-          apiMessage: apiErrorMessage
-        }
-      );
+      const apiMessage = String(
+        data.message ||
+        data.error ||
+        data.detail ||
+        ""
+      ).toLowerCase();
 
-      let errorMessage =
-        "MusicAPI imekataa ombi";
+      if (
+        apiMessage.includes("credit") ||
+        apiMessage.includes("balance") ||
+        apiMessage.includes("subscribe")
+      ) {
+        return json(402, {
+          success: false,
+          error:
+            "Credits za MusicAPI hazitoshi kutengeneza wimbo mpya. Ongeza credits kwenye MusicAPI.",
+          http_status: response.status
+        });
+      }
 
       if (response.status === 401) {
+        return json(502, {
+          success: false,
+          error: "MusicAPI API key si sahihi"
+        });
+      }
 
-        errorMessage =
-          "MusicAPI authentication imeshindikana. Hakiki API key.";
-
-      } else if (response.status === 403) {
-
-        errorMessage =
-          "MusicAPI imezuia ombi (403). Angalia Netlify Logs kwa sababu halisi.";
-
-      } else if (response.status === 402) {
-
-        errorMessage =
-          "MusicAPI inahitaji credits au malipo.";
-
-      } else if (response.status === 429) {
-
-        errorMessage =
-          "MusicAPI imefikia kikomo cha maombi. Jaribu baadaye.";
-
-      } else if (response.status >= 500) {
-
-        errorMessage =
-          "MusicAPI ina tatizo la seva. Jaribu baadaye.";
-
+      if (response.status === 429) {
+        return json(429, {
+          success: false,
+          error: "MusicAPI imefikia kikomo cha maombi. Jaribu baadaye."
+        });
       }
 
       return json(502, {
         success: false,
-        error: errorMessage,
+        error: "MusicAPI imekataa ombi",
         http_status: response.status,
         api_code: data.code ?? null
       });
-
     }
 
-    // ==========================================
-    // CHECK TASK ID
-    // ==========================================
+    const taskId =
+      data.task_id ||
+      data.data?.task_id ||
+      data.result?.task_id;
 
     if (
-      !data.task_id ||
-      typeof data.task_id !== "string"
+      !taskId ||
+      typeof taskId !== "string"
     ) {
-
-      console.error(
-        "MusicAPI did not return task ID",
-        {
-          httpStatus: response.status,
-          apiCode: data.code ?? null,
-          apiMessage: apiErrorMessage
-        }
-      );
-
       return json(502, {
         success: false,
-        error: "MusicAPI haijaanzisha wimbo",
-        http_status: response.status,
-        api_code: data.code ?? null
+        error: "MusicAPI haijarudisha Task ID"
       });
-
     }
 
-    // ==========================================
-    // GENERATION ACCEPTED
-    // ==========================================
-
-    console.log(
-      "MusicAPI generation task accepted"
-    );
-
     return json(200, {
-
       success: true,
-
-      task_id: data.task_id,
-
-      message:
-        "Wimbo wako umeanza kutengenezwa",
-
+      task_id: taskId,
+      message: "Wimbo umeanza kutengenezwa",
       model: "sonic-v6"
-
     });
 
   } catch (error) {
 
-    // ==========================================
-    // BACKEND ERROR HANDLING
-    // ==========================================
-
     if (error.name === "AbortError") {
-
-      console.error(
-        "MusicAPI request timeout"
-      );
-
       return json(504, {
         success: false,
-        error: "MusicAPI imechelewa kujibu. Jaribu tena baadaye."
+        error: "MusicAPI imechelewa kujibu. Angalia Usage Details kabla ya kujaribu tena."
       });
-
     }
 
     console.error(
-      "Backend error:",
-      error instanceof Error
-        ? error.name
-        : "Unknown error"
+      "Generate backend error:",
+      error.name
     );
 
     return json(500, {
       success: false,
       error: "Tatizo limetokea kwenye backend"
     });
-
   }
-
 };
