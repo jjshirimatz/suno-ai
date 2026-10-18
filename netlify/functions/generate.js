@@ -146,7 +146,7 @@ exports.handler = async (event) => {
       });
     }
 
-    if (data.code !== 200 || !data.task_id) {
+  if (!data.task_id) {
       console.error("MusicAPI did not return a successful task");
 
       return json(502, {
