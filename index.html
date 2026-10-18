@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#0b0c10">
 <title>AI Music</title>
 
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
@@ -190,12 +191,8 @@ height:175px;
 resize:vertical;
 line-height:1.5
 }
-.style-textarea{
-height:135px;
-}
-.input:focus,
-.textarea:focus,
-.select:focus{
+.style-textarea{height:135px}
+.input:focus,.textarea:focus,.select:focus{
 border-color:var(--cyan)
 }
 .select{height:55px}
@@ -345,11 +342,6 @@ color:var(--muted);
 font-size:17px
 }
 .song-actions button.liked{color:#ff007f}
-
-/* ===================================
-   NEW MUSIC PLAYER
-=================================== */
-
 .player{
 display:flex;
 align-items:center;
@@ -410,10 +402,7 @@ border-radius:50%;
 background:var(--cyan);
 border:3px solid white
 }
-.progress:disabled{
-opacity:.55;
-cursor:default
-}
+.progress:disabled{opacity:.55;cursor:default}
 .download{
 border:1px solid #4a90e266;
 background:none;
@@ -426,7 +415,6 @@ flex-shrink:0
 color:var(--cyan);
 border-color:var(--cyan)
 }
-
 .spinner{
 height:40px;
 width:40px;
@@ -661,8 +649,6 @@ color:var(--purple)
 
 <div class="app" id="app" style="display:none">
 
-<!-- HOME PAGE -->
-
 <section class="page" id="home-page">
 <header>
 <div class="logo">
@@ -722,8 +708,6 @@ color:var(--purple)
 <div class="song-list" id="recent-songs"></div>
 </section>
 
-<!-- CREATE PAGE -->
-
 <section class="page" id="create-page">
 
 <div class="back-row">
@@ -754,19 +738,14 @@ color:var(--purple)
 <p class="help" id="mode-help"></p>
 </div>
 
-<!-- TITLE: CUSTOM MODE ONLY -->
-
 <div class="card" id="title-card" style="display:none">
 <label class="label" for="song-title">
 <i class="fa-solid fa-signature"></i>
 <span data-t="songTitle"></span>
 <span class="required">*</span>
 </label>
-
 <input id="song-title" class="input" maxlength="80">
 </div>
-
-<!-- SONG DESCRIPTION OR LYRICS -->
 
 <div class="card">
 <label class="label" for="song-prompt">
@@ -783,8 +762,6 @@ maxlength="5000"
 
 <p class="example" id="prompt-example"></p>
 </div>
-
-<!-- SONG LANGUAGE -->
 
 <div class="card">
 <label class="label" for="song-language">
@@ -806,8 +783,6 @@ maxlength="5000"
 <p class="help" data-t="languageHelp"></p>
 </div>
 
-<!-- MUSIC STYLE: FREE TEXT -->
-
 <div class="card">
 <label class="label" for="music-style">
 <i class="fa-solid fa-guitar"></i>
@@ -824,8 +799,6 @@ maxlength="600"
 <p class="example" data-t="styleExample"></p>
 <p class="help" data-t="styleHelp"></p>
 </div>
-
-<!-- VOCAL GENDER -->
 
 <div class="card">
 <div class="label">
@@ -845,8 +818,6 @@ maxlength="600"
 </button>
 </div>
 </div>
-
-<!-- VOICE CLONING -->
 
 <div class="card">
 <div class="label">
@@ -870,8 +841,6 @@ maxlength="600"
 </button>
 
 </section>
-
-<!-- MY SONGS PAGE -->
 
 <section class="page" id="music-page">
 <header>
@@ -906,8 +875,6 @@ maxlength="600"
 
 <div class="song-list" id="all-songs"></div>
 </section>
-
-<!-- TOP UP PAGE -->
 
 <section class="page" id="topup-page">
 <header>
@@ -965,8 +932,6 @@ maxlength="600"
 
 </div>
 
-<!-- BOTTOM NAVIGATION -->
-
 <nav class="bottom-nav" id="bottom-nav">
 <button class="nav active" data-page="home-page" onclick="switchPage('home-page')">
 <i class="fa-solid fa-house"></i>
@@ -984,8 +949,6 @@ maxlength="600"
 </button>
 </nav>
 
-<!-- POPUP -->
-
 <div class="overlay" id="popup-overlay">
 <div class="popup">
 <i class="fa-solid fa-circle-info"></i>
@@ -994,8 +957,6 @@ maxlength="600"
 <div class="popup-buttons" id="popup-buttons"></div>
 </div>
 </div>
-
-<!-- SETTINGS -->
 
 <div class="sheet" id="settings-sheet" onclick="if(event.target===this)closeSheets()">
 <div class="sheet-inner">
@@ -1018,11 +979,14 @@ maxlength="600"
 </div>
 </div>
 
-<!-- SONG OPTIONS -->
-
 <div class="sheet" id="song-sheet" onclick="if(event.target===this)closeSheets()">
 <div class="sheet-inner">
 <h3 id="sheet-song-title"></h3>
+
+<button class="sheet-option" onclick="downloadSelectedSong()">
+<i class="fa-solid fa-download"></i>
+<span data-t="download"></span>
+</button>
 
 <button class="sheet-option" onclick="shareSelectedSong()">
 <i class="fa-solid fa-share-nodes"></i>
@@ -1042,24 +1006,25 @@ maxlength="600"
 "use strict";
 
 // ==========================================
-// API ENDPOINTS
+// API
 // ==========================================
 
 const GENERATE_URL="/.netlify/functions/generate";
 const STATUS_URL="/.netlify/functions/status";
+const DOWNLOAD_URL="/.netlify/functions/download";
 
 // ==========================================
-// LOCAL STORAGE
+// STORAGE
 // ==========================================
 
 const SONGS_KEY="aiMusicSongsV2";
 const TASKS_KEY="aiMusicPendingTasksV2";
 
-const POLL_INTERVAL=15000;
-const MAX_POLLS=40;
+const POLL_INTERVAL=8000;
+const MAX_POLLS=90;
 
 // ==========================================
-// APP STATE
+// STATE
 // ==========================================
 
 let songs=[];
@@ -1071,9 +1036,10 @@ let generating=false;
 let currentSongId=null;
 let selectedSongId=null;
 let selectedPrice=2000;
+let audioLoading=false;
 
 const audio=new Audio();
-audio.preload="metadata";
+audio.preload="auto";
 
 const polling=new Set();
 const downloading=new Set();
@@ -1135,9 +1101,11 @@ settings:"Mipangilio",
 account:"Akaunti",
 changeLanguage:"Badilisha Lugha",
 share:"Shiriki",
+download:"Pakua",
 delete:"Futa",
 noSongs:"Bado hakuna nyimbo.",
 processing:"AI inatengeneza wimbo wako...",
+submitting:"Inatuma ombi la kutengeneza wimbo...",
 checking:"Inaangalia matokeo...",
 waiting:"Bado tunasubiri matokeo. App itaendelea kuangalia ukifungua tena.",
 failed:"Utengenezaji umeshindikana.",
@@ -1145,7 +1113,7 @@ remove:"Ondoa",
 ready:"Wimbo umekamilika!",
 required:"Jaza maelezo ya wimbo na Music Style. Ukiwa kwenye Mashairi Yangu, jaza pia jina la wimbo.",
 testPassword:"Weka nenosiri la majaribio:",
-submitted:"Ombi limepokelewa. Wimbo unatengenezwa...",
+submitted:"Ombi linatumwa. Tafadhali subiri...",
 payment:"Malipo",
 paymentUnavailable:"Malipo bado hayajaunganishwa.",
 accountUnavailable:"Akaunti bado hazijaunganishwa.",
@@ -1161,8 +1129,9 @@ noTaskId:"reAPI haijarudisha Task ID.",
 creating:"Inatengenezwa...",
 downloadStart:"Wimbo unaanza kupakuliwa...",
 downloadReady:"Download imeanzishwa.",
-downloadFailed:"Download imeshindikana. Server ya audio inaweza kuwa imezuia upakuaji wa moja kwa moja.",
-downloading:"Inapakua..."
+downloadFailed:"Download imeshindikana. Hakikisha download backend inafanya kazi.",
+downloading:"Inapakua...",
+audioLoading:"Inapakia..."
 },
 
 en:{
@@ -1216,9 +1185,11 @@ settings:"Settings",
 account:"Account",
 changeLanguage:"Change Language",
 share:"Share",
+download:"Download",
 delete:"Delete",
 noSongs:"No songs yet.",
 processing:"AI is generating your song...",
+submitting:"Submitting your song request...",
 checking:"Checking results...",
 waiting:"Still waiting for results. The app will check again when reopened.",
 failed:"Song generation failed.",
@@ -1226,7 +1197,7 @@ remove:"Remove",
 ready:"Your song is ready!",
 required:"Enter a song description and Music Style. In My Lyrics mode, enter a title too.",
 testPassword:"Enter the test password:",
-submitted:"Request accepted. Your song is being generated...",
+submitted:"Submitting request. Please wait...",
 payment:"Payment",
 paymentUnavailable:"Payments are not connected yet.",
 accountUnavailable:"User accounts are not connected yet.",
@@ -1242,8 +1213,9 @@ noTaskId:"reAPI did not return a Task ID.",
 creating:"Generating...",
 downloadStart:"Downloading your song...",
 downloadReady:"Download started.",
-downloadFailed:"Download failed. The audio server may block direct downloads.",
-downloading:"Downloading..."
+downloadFailed:"Download failed. Check the download backend.",
+downloading:"Downloading...",
+audioLoading:"Loading..."
 },
 
 fr:{
@@ -1297,9 +1269,11 @@ settings:"Paramètres",
 account:"Compte",
 changeLanguage:"Changer de Langue",
 share:"Partager",
+download:"Télécharger",
 delete:"Supprimer",
 noSongs:"Aucune chanson.",
 processing:"L'IA crée votre chanson...",
+submitting:"Envoi de la demande...",
 checking:"Vérification des résultats...",
 waiting:"Toujours en attente. L'application vérifiera à nouveau.",
 failed:"La création a échoué.",
@@ -1307,7 +1281,7 @@ remove:"Retirer",
 ready:"Votre chanson est prête !",
 required:"Saisissez une description et un style musical. En mode Mes Paroles, saisissez aussi un titre.",
 testPassword:"Entrez le mot de passe de test :",
-submitted:"Demande acceptée. Votre chanson est en cours de création...",
+submitted:"Envoi de la demande. Veuillez patienter...",
 payment:"Paiement",
 paymentUnavailable:"Les paiements ne sont pas encore disponibles.",
 accountUnavailable:"Les comptes ne sont pas encore disponibles.",
@@ -1323,8 +1297,9 @@ noTaskId:"reAPI n'a pas renvoyé d'identifiant.",
 creating:"Création...",
 downloadStart:"Téléchargement de votre chanson...",
 downloadReady:"Téléchargement démarré.",
-downloadFailed:"Téléchargement impossible. Le serveur audio peut bloquer l'accès direct.",
-downloading:"Téléchargement..."
+downloadFailed:"Téléchargement impossible. Vérifiez le backend.",
+downloading:"Téléchargement...",
+audioLoading:"Chargement..."
 }
 
 };
@@ -1512,7 +1487,7 @@ false
 });
 
 // ==========================================
-// TAG SELECTION
+// TAGS
 // ==========================================
 
 function setupTags(id){
@@ -1540,7 +1515,7 @@ return el(id)
 }
 
 // ==========================================
-// AUTOMATIC / CUSTOM MODE
+// MODES
 // ==========================================
 
 function setMode(value){
@@ -1566,8 +1541,6 @@ el("custom-btn").classList.toggle(
 "active",
 !automatic
 );
-
-// TITLE ONLY IN CUSTOM MODE
 
 el("title-card").style.display=
 automatic?"none":"block";
@@ -1653,7 +1626,7 @@ node.classList.remove("show");
 }
 
 // ==========================================
-// API REQUEST
+// API
 // ==========================================
 
 async function requestJSON(url,options={}){
@@ -1698,6 +1671,8 @@ return data;
 
 async function generateSong(){
 
+if(generating)return;
+
 const isCustom=mode==="custom";
 
 const title=isCustom
@@ -1714,47 +1689,25 @@ if(
 (isCustom&&!title)
 ){
 
-showPopup(
-"AI Music",
-tr("required")
-);
-
+showPopup("AI Music",tr("required"));
 return;
+
 }
 
 if(title.length>80){
-
-showPopup(
-"AI Music",
-"Jina la wimbo ni refu kupita kiasi."
-);
-
+showPopup("AI Music","Jina la wimbo ni refu sana.");
 return;
 }
 
-if(
-prompt.length>(isCustom?5000:2500)
-){
-
-showPopup(
-"AI Music",
-"Maandishi ya wimbo ni marefu kupita kiasi."
-);
-
+if(prompt.length>(isCustom?5000:2500)){
+showPopup("AI Music","Maandishi ni marefu sana.");
 return;
 }
 
 if(musicStyle.length>600){
-
-showPopup(
-"AI Music",
-"Music Style ni ndefu kupita kiasi."
-);
-
+showPopup("AI Music","Music Style ni ndefu sana.");
 return;
 }
-
-if(generating)return;
 
 const password=window.prompt(
 tr("testPassword")
@@ -1773,8 +1726,6 @@ const voice=selectedTag(
 const songLanguage=
 el("song-language").value;
 
-// Title ya muda wakati AI inatengeneza.
-
 const pendingTitle=isCustom
 ?title
 :(lang==="sw"
@@ -1783,29 +1734,38 @@ const pendingTitle=isCustom
 ?"Nouvelle Chanson"
 :"New Song");
 
+const localId=
+"local-"+crypto.randomUUID();
+
+const task={
+task_id:localId,
+title:pendingTitle,
+userTitle:title,
+mode,
+musicStyle,
+voice,
+songLanguage,
+createdAt:Date.now(),
+status:"submitting"
+};
+
 generating=true;
 
 const generateButton=el("generate-btn");
 generateButton.disabled=true;
 
+// Onyesha pending song papo hapo.
+tasks.unshift(task);
+
+save();
+renderSongs();
+
+// Rudi Home kabla ya kusubiri reAPI.
+switchPage("home-page");
+
+toast(tr("submitted"));
+
 try{
-
-/*
-==========================================
-NEW REQUEST PAYLOAD
-==========================================
-
-Automatic:
-title = ""
-musicStyle = user input
-
-Custom:
-title = user title
-musicStyle = user input
-
-generate.js lazima ibadilishwe
-ili kupokea muundo huu.
-*/
 
 const result=await requestJSON(
 GENERATE_URL,
@@ -1836,34 +1796,8 @@ if(!taskId){
 throw new Error(tr("noTaskId"));
 }
 
-if(
-!tasks.some(t=>t.task_id===taskId)&&
-!songs.some(s=>s.taskId===taskId)
-){
-
-tasks.unshift({
-
-task_id:taskId,
-
-title:pendingTitle,
-
-userTitle:title,
-
-mode,
-
-musicStyle,
-
-voice,
-
-songLanguage,
-
-createdAt:Date.now(),
-
-status:"processing"
-
-});
-
-}
+task.task_id=taskId;
+task.status="processing";
 
 save();
 renderSongs();
@@ -1871,21 +1805,17 @@ renderSongs();
 el("song-title").value="";
 el("song-prompt").value="";
 
-// Music Style inabaki ili mtumiaji
-// aweze kuitumia kwenye wimbo mwingine.
-
-switchPage("home-page");
-
-toast(tr("submitted"));
-
 pollTask(taskId,true);
 
 }catch(error){
 
-showPopup(
-"reAPI",
-error.message||tr("requestError")
-);
+task.status="failed";
+task.error=error.message||tr("requestError");
+
+save();
+renderSongs();
+
+showPopup("AI Music",task.error);
 
 }finally{
 
@@ -1897,7 +1827,7 @@ generateButton.disabled=false;
 }
 
 // ==========================================
-// PARSE STATUS RESPONSE
+// PARSE RESULT
 // ==========================================
 
 function parseResult(payload){
@@ -1937,10 +1867,8 @@ function scan(value,depth=0){
 if(!value||depth>8)return;
 
 if(Array.isArray(value)){
-
 value.forEach(x=>scan(x,depth+1));
 return;
-
 }
 
 if(
@@ -1970,20 +1898,13 @@ url&&
 ){
 
 found.push({
-
-title:
-value.title||
-value.song_name||
-"",
-
+title:value.title||value.song_name||"",
 audioUrl:url,
-
 duration:Number(
 value.duration||
 value.duration_seconds||
 0
 )
-
 });
 
 }
@@ -1995,9 +1916,7 @@ child&&
 typeof child==="object"&&
 key!=="metadata"
 ){
-
 scan(child,depth+1);
-
 }
 
 });
@@ -2038,6 +1957,7 @@ if(!task)return true;
 if(result.state==="failed"){
 
 task.status="failed";
+task.error=result.error||tr("failed");
 
 save();
 renderSongs();
@@ -2058,21 +1978,6 @@ if(existing.has(item.audioUrl)){
 return;
 }
 
-/*
-==========================================
-SONG TITLE LOGIC
-==========================================
-
-AUTOMATIC:
-Tumia jina la AI.
-
-CUSTOM:
-Tumia jina la mtumiaji.
-
-Hakuna tena kubadilisha majina
-ya AI kuwa Penzi la Kweli.
-*/
-
 const isCustom=
 task.mode==="custom"||
 (
@@ -2084,26 +1989,22 @@ task.title!=="Nouvelle Chanson"
 );
 
 const correctTitle=isCustom
-?(
-String(
+?String(
 task.userTitle||
 task.title||
 item.title||
 "AI Music"
 ).trim()
-)
-:(
-String(
+:String(
 item.title||
 "AI Music"
-).trim()
-);
+).trim();
 
 songs.unshift({
 
 id:taskId+"-"+index,
-
 taskId,
+trackIndex:index,
 
 title:correctTitle,
 
@@ -2118,11 +2019,8 @@ task.genre||
 "AI Music",
 
 voice:task.voice||"",
-
 songLanguage:task.songLanguage||"",
-
 audioUrl:item.audioUrl,
-
 duration:item.duration||0,
 
 time:item.duration
@@ -2130,7 +2028,6 @@ time:item.duration
 :"--:--",
 
 isFav:false,
-
 createdAt:Date.now()
 
 });
@@ -2222,12 +2119,9 @@ t=>t.task_id===taskId
 );
 
 if(task){
-
 task.status="checking";
-
 save();
 renderSongs();
-
 }
 
 }
@@ -2239,12 +2133,9 @@ t=>t.task_id===taskId
 );
 
 if(task){
-
 task.status="waiting";
-
 save();
 renderSongs();
-
 }
 
 }finally{
@@ -2258,7 +2149,11 @@ polling.delete(taskId);
 function resumeTasks(){
 
 tasks
-.filter(t=>t.status!=="failed")
+.filter(t=>
+t.status!=="failed"&&
+t.status!=="submitting"&&
+!String(t.task_id).startsWith("local-")
+)
 .forEach(t=>{
 pollTask(t.task_id,true);
 });
@@ -2389,12 +2284,16 @@ aria-label="Download"
 }
 
 // ==========================================
-// PENDING SONG HTML
+// PENDING HTML
 // ==========================================
 
 function pendingHTML(task){
 
 let message=tr("processing");
+
+if(task.status==="submitting"){
+message=tr("submitting");
+}
 
 if(task.status==="checking"){
 message=tr("checking");
@@ -2405,7 +2304,7 @@ message=tr("waiting");
 }
 
 if(task.status==="failed"){
-message=tr("failed");
+message=task.error||tr("failed");
 }
 
 const failed=task.status==="failed";
@@ -2451,7 +2350,7 @@ ${escapeHTML(tr("remove"))}
 }
 
 // ==========================================
-// RENDER SONGS
+// RENDER
 // ==========================================
 
 function renderSongs(){
@@ -2498,7 +2397,7 @@ updateDownloadButtons();
 }
 
 // ==========================================
-// SONG TABS
+// TABS
 // ==========================================
 
 function setTab(tab){
@@ -2509,12 +2408,10 @@ tab==="favorites"
 :"all";
 
 document.querySelectorAll(".tab").forEach(x=>{
-
 x.classList.toggle(
 "active",
 x.dataset.tab===currentTab
 );
-
 });
 
 renderSongs();
@@ -2522,7 +2419,7 @@ renderSongs();
 }
 
 // ==========================================
-// PLAY SONG
+// AUDIO PLAYER
 // ==========================================
 
 async function playSong(id){
@@ -2537,21 +2434,19 @@ if(
 currentSongId===id&&
 !audio.paused
 ){
-
 audio.pause();
 return;
-
 }
 
 if(currentSongId!==id){
 
 audio.pause();
 
-audio.src=song.audioUrl;
-
-audio.load();
-
 currentSongId=id;
+audioLoading=true;
+
+audio.src=song.audioUrl;
+audio.load();
 
 }
 
@@ -2562,12 +2457,10 @@ await audio.play();
 }catch(error){
 
 if(error.name!=="AbortError"){
-
 showPopup(
 "Audio",
 tr("audioError")+" "+error.message
 );
-
 }
 
 }
@@ -2576,24 +2469,24 @@ updatePlayerButtons();
 
 }
 
-// ==========================================
-// UPDATE PLAY BUTTONS
-// ==========================================
-
 function updatePlayerButtons(){
 
 document.querySelectorAll(".play").forEach(button=>{
 
-const playing=
-button.dataset.id===currentSongId&&
-!audio.paused;
+const active=
+button.dataset.id===currentSongId;
+
+const playing=active&&!audio.paused;
+
+const loading=active&&audioLoading;
 
 const icon=button.querySelector("i");
 
 if(icon){
 
-icon.className=
-"fa-solid fa-"+(
+icon.className=loading
+?"fa-solid fa-spinner fa-spin"
+:"fa-solid fa-"+(
 playing?"pause":"play"
 );
 
@@ -2607,10 +2500,6 @@ playing
 });
 
 }
-
-// ==========================================
-// UPDATE PROGRESS BAR
-// ==========================================
 
 function updatePlayerProgress(){
 
@@ -2673,7 +2562,7 @@ total.textContent=formatTime(duration);
 }
 
 // ==========================================
-// SEEK: FORWARD / BACKWARD
+// SEEK
 // ==========================================
 
 document.addEventListener("input",event=>{
@@ -2704,13 +2593,11 @@ Number(progress.value)
 );
 
 if(Number.isFinite(target)){
-
 try{
 audio.currentTime=target;
 }catch(error){
 console.warn("Seek:",error);
 }
-
 }
 
 updatePlayerProgress();
@@ -2720,6 +2607,31 @@ updatePlayerProgress();
 // ==========================================
 // AUDIO EVENTS
 // ==========================================
+
+audio.addEventListener("loadstart",()=>{
+audioLoading=true;
+updatePlayerButtons();
+});
+
+audio.addEventListener("waiting",()=>{
+audioLoading=true;
+updatePlayerButtons();
+});
+
+audio.addEventListener("stalled",()=>{
+audioLoading=true;
+updatePlayerButtons();
+});
+
+audio.addEventListener("playing",()=>{
+audioLoading=false;
+updatePlayerButtons();
+});
+
+audio.addEventListener("canplay",()=>{
+audioLoading=false;
+updatePlayerButtons();
+});
 
 audio.addEventListener(
 "play",
@@ -2734,8 +2646,8 @@ updatePlayerButtons
 audio.addEventListener("ended",()=>{
 
 audio.currentTime=0;
-
 currentSongId=null;
+audioLoading=false;
 
 updatePlayerButtons();
 updatePlayerProgress();
@@ -2772,10 +2684,7 @@ audio.duration>0
 ){
 
 song.duration=audio.duration;
-
-song.time=formatTime(
-audio.duration
-);
+song.time=formatTime(audio.duration);
 
 save();
 
@@ -2786,11 +2695,18 @@ updatePlayerProgress();
 }
 );
 
+audio.addEventListener("error",()=>{
+
+audioLoading=false;
+updatePlayerButtons();
+
+});
+
 // ==========================================
-// DOWNLOAD SONG DIRECTLY
+// DOWNLOAD
 // ==========================================
 
-async function downloadSong(id){
+function downloadSong(id){
 
 const song=songs.find(
 s=>s.id===id
@@ -2800,127 +2716,86 @@ if(!song)return;
 
 if(downloading.has(id))return;
 
-const url=validURL(song.audioUrl);
+const taskId=String(song.taskId||"");
 
-if(!url){
+if(!/^[a-zA-Z0-9_-]{8,150}$/.test(taskId)){
 
 showPopup(
 "Download",
-tr("downloadFailed")
+"Task ID ya wimbo haijapatikana."
 );
 
 return;
+}
+
+let index=Number(song.trackIndex);
+
+if(
+!Number.isInteger(index)||
+index<0
+){
+
+const prefix=taskId+"-";
+
+index=Number(
+String(song.id||"").startsWith(prefix)
+?String(song.id).slice(prefix.length)
+:-1
+);
 
 }
 
-downloading.add(id);
+if(
+!Number.isInteger(index)||
+index<0
+){
 
+showPopup(
+"Download",
+"Track index haijapatikana."
+);
+
+return;
+}
+
+const url=
+DOWNLOAD_URL+
+"?task_id="+encodeURIComponent(taskId)+
+"&index="+encodeURIComponent(index);
+
+downloading.add(id);
 updateDownloadButtons();
 
 toast(tr("downloadStart"));
 
-try{
-
-/*
-Fetch audio as a Blob.
-
-Hii inafanya download bila kufungua
-tab nyingine, ikiwa audio server
-inaruhusu CORS.
-
-Kwa production, Netlify download
-function inaweza kuhitajika.
-*/
-
-const response=await fetch(
-url,
-{
-method:"GET",
-mode:"cors",
-credentials:"omit"
-}
-);
-
-if(!response.ok){
-throw new Error(
-"Audio HTTP "+response.status
-);
-}
-
-if(response.type==="opaque"){
-throw new Error(
-"Audio server blocked direct download."
-);
-}
-
-const contentType=
-response.headers.get("content-type")||"";
-
-if(
-contentType.includes("text/html")||
-contentType.includes("application/json")
-){
-throw new Error(
-"Audio server returned a non-audio response."
-);
-}
-
-const blob=await response.blob();
-
-if(!blob.size){
-throw new Error(
-"Empty audio file."
-);
-}
-
-const blobURL=URL.createObjectURL(blob);
-
 const link=document.createElement("a");
 
-link.href=blobURL;
-
-link.download=
-safeFilename(song.title)+".mp3";
-
+link.href=url;
+link.download=safeFilename(song.title)+".mp3";
 link.style.display="none";
 
 document.body.appendChild(link);
-
 link.click();
-
 link.remove();
 
 setTimeout(()=>{
-URL.revokeObjectURL(blobURL);
-},60000);
-
-toast(tr("downloadReady"));
-
-}catch(error){
-
-console.error(
-"Download failed:",
-error
-);
-
-showPopup(
-"Download",
-tr("downloadFailed")
-);
-
-}finally{
-
 downloading.delete(id);
-
 updateDownloadButtons();
+},2500);
 
 }
 
-}
+function downloadSelectedSong(){
 
-// ==========================================
-// DOWNLOAD BUTTON STATE
-// ==========================================
+const id=selectedSongId;
+
+closeSheets();
+
+if(!id)return;
+
+downloadSong(id);
+
+}
 
 function updateDownloadButtons(){
 
@@ -2988,7 +2863,7 @@ el("song-sheet").classList.add("show");
 }
 
 // ==========================================
-// SHARE SONG
+// SHARE
 // ==========================================
 
 async function shareSelectedSong(){
@@ -3038,7 +2913,7 @@ console.warn(error);
 }
 
 // ==========================================
-// DELETE SONG
+// DELETE
 // ==========================================
 
 function deleteSelectedSong(){
@@ -3055,11 +2930,11 @@ tr("confirmDelete"),
 if(currentSongId===id){
 
 audio.pause();
-
 audio.removeAttribute("src");
 audio.load();
 
 currentSongId=null;
+audioLoading=false;
 
 }
 
@@ -3117,12 +2992,10 @@ function selectPackage(price){
 selectedPrice=price;
 
 document.querySelectorAll(".package").forEach(x=>{
-
 x.classList.toggle(
 "active",
 Number(x.dataset.price)===price
 );
-
 });
 
 updatePayText();
@@ -3181,19 +3054,14 @@ function initialize(){
 
 load();
 
-// Hakuna tena kubadilisha majina
-// ya nyimbo za zamani kiotomatiki.
-
 setupTags("voice-tags");
 
 let savedLanguage=null;
 
 try{
-
 savedLanguage=localStorage.getItem(
 "aiMusicLang"
 );
-
 }catch{}
 
 if(
@@ -3231,4 +3099,4 @@ initialize();
 </script>
 
 </body>
-</html>
+   </html>
