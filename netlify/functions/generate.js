@@ -32,11 +32,11 @@ exports.handler = async (event) => {
     // ENVIRONMENT VARIABLES
     // ==========================================
 
-    const apiKey = process.env.MUSICAPI_KEY;
+    const apiKey = process.env.REAPI_API_KEY;
     const testPassword = process.env.MUSIC_TEST_PASSWORD;
 
     if (!apiKey || !testPassword) {
-      console.error("Missing MusicAPI configuration");
+      console.error("Missing reAPI configuration");
 
       return json(500, {
         success: false,
@@ -103,7 +103,6 @@ exports.handler = async (event) => {
         : "";
 
     const genre = body.genre;
-
     const voice = body.voice;
 
     const mode =
@@ -142,9 +141,11 @@ exports.handler = async (event) => {
       });
     }
 
+    const isCustom = mode === "custom";
+
     if (
-      title.length > 150 ||
-      prompt.length > 5000
+      title.length > 80 ||
+      prompt.length > (isCustom ? 5000 : 3000)
     ) {
       return json(400, {
         success: false,
@@ -178,24 +179,37 @@ exports.handler = async (event) => {
 
     const vocalDescription =
       voice === "Male"
-        ? "male singer"
-        : "female singer";
+        ? "male vocals"
+        : "female vocals";
 
     // ==========================================
-    // CREATION MODE
+    // MUSIC STYLE
     // ==========================================
 
-    const isCustom = mode === "custom";
+    const languageStyle =
+      songLanguage === "Other"
+        ? ""
+        : songLanguage + " vocals";
+
+    const style = [
+      selectedGenre,
+      languageStyle,
+      vocalDescription,
+      "professional studio production",
+      "clear vocals"
+    ]
+      .filter(Boolean)
+      .join(", ");
 
     // ==========================================
-    // MUSICAPI PAYLOAD
+    // REAPI PAYLOAD
     // ==========================================
 
     const payload = {
-      task_type: "create_music",
+      model: "suno-music",
+      version: "V6",
       custom_mode: isCustom,
-      mv: "sonic-v6",
-      make_instrumental: false
+      instrumental: false
     };
 
     // ==========================================
@@ -204,41 +218,26 @@ exports.handler = async (event) => {
 
     if (isCustom) {
 
-      /*
-        Mtumiaji ameandika mashairi yake.
-
-        Hapa hatuongezi maelekezo mengine
-        ndani ya prompt ili AI isiimbe
-        maneno ambayo si sehemu ya mashairi.
-      */
+      // Mashairi ya mtumiaji yanatumwa
+      // bila kuyaongezea maelekezo.
 
       payload.title = title;
-
       payload.prompt = prompt;
-
-      payload.tags =
-        selectedGenre +
-        ", " +
-        songLanguage +
-        " vocals, " +
-        vocalDescription;
-
+      payload.style = style;
       payload.vocal_gender = vocalGender;
+
+      // Muda wa wimbo:
+      // Sekunde 180 = dakika 3.
+      // reAPI inaruhusu duration
+      // kwenye custom mode.
+
+      payload.duration = 180;
 
     } else {
 
       // ========================================
       // AUTOMATIC MODE — AI WRITES SONG
       // ========================================
-
-      /*
-        Mtumiaji anaeleza wazo la wimbo.
-
-        custom_mode = false.
-
-        Prompt inakuwa maelekezo kwa AI
-        kutunga mashairi na muziki.
-      */
 
       const languageInstruction =
         songLanguage === "Other"
@@ -274,13 +273,13 @@ exports.handler = async (event) => {
     let response;
 
     // ==========================================
-    // SEND REQUEST TO MUSICAPI
+    // SEND REQUEST TO REAPI
     // ==========================================
 
     try {
 
       response = await fetch(
-        "https://api.musicapi.ai/api/v1/sonic/create",
+        "https://reapi.ai/api/v1/audio/generations",
         {
           method: "POST",
           headers: {
@@ -300,7 +299,7 @@ exports.handler = async (event) => {
     }
 
     // ==========================================
-    // READ MUSICAPI RESPONSE
+    // READ REAPI RESPONSE
     // ==========================================
 
     const raw = await response.text();
@@ -308,32 +307,27 @@ exports.handler = async (event) => {
     let data;
 
     try {
-
       data = JSON.parse(raw);
-
     } catch {
-
       return json(502, {
         success: false,
-        error: "MusicAPI imerudisha jibu lisilo JSON"
+        error: "reAPI imerudisha jibu lisilo JSON"
       });
-
     }
 
     // ==========================================
     // SAFE BACKEND LOG
     // ==========================================
 
-    console.log("MusicAPI generation:", {
+    console.log("reAPI generation:", {
       httpStatus: response.status,
-      apiCode: data?.code ?? null,
       mode,
       songLanguage,
       genre: selectedGenre,
       hasTaskId: Boolean(
+        data?.id ||
         data?.task_id ||
-        data?.data?.task_id ||
-        data?.result?.task_id
+        data?.data?.id
       )
     });
 
@@ -344,61 +338,59 @@ exports.handler = async (event) => {
     if (!response.ok) {
 
       const apiMessage = String(
+        data?.error?.message ||
         data?.message ||
-        data?.error ||
         data?.detail ||
         ""
       ).toLowerCase();
 
-      // INSUFFICIENT CREDITS
-
       if (
+        response.status === 402 ||
         apiMessage.includes("credit") ||
         apiMessage.includes("balance") ||
-        apiMessage.includes("subscribe")
+        apiMessage.includes("insufficient")
       ) {
-
         return json(402, {
           success: false,
           error:
-            "Credits za MusicAPI hazitoshi. Ongeza credits kwenye akaunti yako ya MusicAPI.",
+            "Credits za reAPI hazitoshi. Ongeza credits kwenye akaunti yako.",
           http_status: response.status
         });
-
       }
-
-      // INVALID API KEY
 
       if (response.status === 401) {
-
         return json(502, {
           success: false,
-          error: "MusicAPI API key si sahihi"
+          error: "reAPI API key si sahihi"
         });
-
       }
 
-      // RATE LIMIT
-
       if (response.status === 429) {
-
         return json(429, {
           success: false,
           error:
-            "MusicAPI imefikia kikomo cha maombi. Jaribu tena baadaye."
+            "reAPI imefikia kikomo cha maombi. Jaribu tena baadaye."
         });
-
       }
 
-      // OTHER API ERRORS
+      console.error("reAPI rejected request:", {
+        status: response.status,
+        code: data?.error?.code ?? data?.code ?? null,
+        message:
+          data?.error?.message ||
+          data?.message ||
+          null
+      });
 
       return json(502, {
         success: false,
-        error: "MusicAPI imekataa ombi",
+        error: "reAPI imekataa ombi",
         http_status: response.status,
-        api_code: data?.code ?? null
+        api_code:
+          data?.error?.code ??
+          data?.code ??
+          null
       });
-
     }
 
     // ==========================================
@@ -407,18 +399,17 @@ exports.handler = async (event) => {
 
     if (
       data?.success === false ||
-      (
-        typeof data?.code === "number" &&
-        data.code >= 400
-      )
+      data?.status === "failed" ||
+      data?.error
     ) {
-
       return json(502, {
         success: false,
-        error: "MusicAPI imerudisha hitilafu",
-        api_code: data?.code ?? null
+        error: "reAPI imerudisha hitilafu",
+        api_code:
+          data?.error?.code ??
+          data?.code ??
+          null
       });
-
     }
 
     // ==========================================
@@ -426,21 +417,20 @@ exports.handler = async (event) => {
     // ==========================================
 
     const taskId =
+      data?.id ||
       data?.task_id ||
-      data?.data?.task_id ||
-      data?.result?.task_id;
+      data?.data?.id ||
+      data?.data?.task_id;
 
     if (
       !taskId ||
       typeof taskId !== "string"
     ) {
-
       return json(502, {
         success: false,
         error:
-          "MusicAPI haijarudisha Task ID. Angalia Usage Details kabla ya kujaribu tena."
+          "reAPI haijarudisha Task ID. Angalia Task Logs kabla ya kujaribu tena."
       });
-
     }
 
     // ==========================================
@@ -456,7 +446,8 @@ exports.handler = async (event) => {
       voice: vocalGender,
       songLanguage,
       message: "Wimbo umeanza kutengenezwa",
-      model: "sonic-v6"
+      model: "suno-music",
+      version: "V6"
     });
 
   } catch (error) {
@@ -466,13 +457,11 @@ exports.handler = async (event) => {
     // ==========================================
 
     if (error.name === "AbortError") {
-
       return json(504, {
         success: false,
         error:
-          "MusicAPI imechelewa kujibu. Angalia Usage Details kabla ya kujaribu tena."
+          "reAPI imechelewa kujibu. Angalia Task Logs kabla ya kujaribu tena."
       });
-
     }
 
     // ==========================================
@@ -489,7 +478,5 @@ exports.handler = async (event) => {
       success: false,
       error: "Tatizo limetokea kwenye backend"
     });
-
   }
-
 };
