@@ -13,6 +13,15 @@ const VERSION = "V6";
 const REQUEST_TIMEOUT = 25000;
 
 // ==========================================
+// LIMITS
+// ==========================================
+
+const MAX_TITLE_LENGTH = 80;
+const MAX_STYLE_LENGTH = 600;
+const MAX_CUSTOM_PROMPT = 5000;
+const MAX_AUTOMATIC_PROMPT = 3000;
+
+// ==========================================
 // JSON RESPONSE
 // ==========================================
 
@@ -75,11 +84,19 @@ function getTaskId(data) {
 
   const taskId = candidates.find(
     value =>
-      typeof value === "string" &&
-      value.trim()
+      (
+        typeof value === "string" &&
+        value.trim()
+      ) ||
+      (
+        typeof value === "number" &&
+        Number.isFinite(value)
+      )
   );
 
-  return taskId ? taskId.trim() : "";
+  return taskId !== undefined
+    ? String(taskId).trim()
+    : "";
 }
 
 // ==========================================
@@ -113,6 +130,7 @@ exports.handler = async (event) => {
       process.env.MUSIC_TEST_PASSWORD;
 
     if (!apiKey || !testPassword) {
+
       console.error(
         "Missing REAPI_API_KEY or MUSIC_TEST_PASSWORD"
       );
@@ -139,6 +157,7 @@ exports.handler = async (event) => {
       !suppliedPassword ||
       suppliedPassword !== testPassword
     ) {
+
       return json(403, {
         success: false,
         error:
@@ -153,10 +172,13 @@ exports.handler = async (event) => {
     let body;
 
     try {
+
       body = JSON.parse(
         event.body || "{}"
       );
+
     } catch {
+
       return json(400, {
         success: false,
         error:
@@ -169,6 +191,7 @@ exports.handler = async (event) => {
       typeof body !== "object" ||
       Array.isArray(body)
     ) {
+
       return json(400, {
         success: false,
         error:
@@ -177,11 +200,8 @@ exports.handler = async (event) => {
     }
 
     // ======================================
-    // SONG DETAILS
+    // CREATION MODE
     // ======================================
-
-    const title = cleanText(body.title);
-    const prompt = cleanText(body.prompt);
 
     const mode =
       body.mode === "custom"
@@ -192,18 +212,82 @@ exports.handler = async (event) => {
       mode === "custom";
 
     // ======================================
-    // VALIDATE TITLE AND PROMPT
+    // SONG DETAILS
     // ======================================
 
-    if (!title || !prompt) {
+    const title = cleanText(body.title);
+
+    const prompt = cleanText(body.prompt);
+
+    // NEW:
+    // Music Style sasa inatoka
+    // kwenye textarea ya mtumiaji.
+
+    const musicStyle = cleanText(
+      body.musicStyle
+    );
+
+    // ======================================
+    // VALIDATE SONG DESCRIPTION
+    // ======================================
+
+    if (!prompt) {
+
       return json(400, {
         success: false,
         error:
-          "Jaza jina na maelezo au mashairi ya wimbo"
+          "Andika maelezo au mashairi ya wimbo"
       });
     }
 
-    if (title.length > 80) {
+    // ======================================
+    // VALIDATE MUSIC STYLE
+    // ======================================
+
+    if (!musicStyle) {
+
+      return json(400, {
+        success: false,
+        error:
+          "Andika Music Style unayotaka"
+      });
+    }
+
+    if (
+      musicStyle.length > MAX_STYLE_LENGTH
+    ) {
+
+      return json(400, {
+        success: false,
+        error:
+          "Music Style ni ndefu sana. Kikomo ni herufi 600."
+      });
+    }
+
+    // ======================================
+    // VALIDATE TITLE
+    // ======================================
+
+    // Automatic Mode:
+    // Jina halihitajiki.
+    //
+    // Custom Mode:
+    // Jina linahitajika.
+
+    if (isCustom && !title) {
+
+      return json(400, {
+        success: false,
+        error:
+          "Andika jina la wimbo kwenye Mashairi Yangu"
+      });
+    }
+
+    if (
+      isCustom &&
+      title.length > MAX_TITLE_LENGTH
+    ) {
+
       return json(400, {
         success: false,
         error:
@@ -211,10 +295,15 @@ exports.handler = async (event) => {
       });
     }
 
+    // ======================================
+    // VALIDATE CUSTOM LYRICS
+    // ======================================
+
     if (
       isCustom &&
-      prompt.length > 5000
+      prompt.length > MAX_CUSTOM_PROMPT
     ) {
+
       return json(400, {
         success: false,
         error:
@@ -245,23 +334,6 @@ exports.handler = async (event) => {
         : "Swahili";
 
     // ======================================
-    // MUSIC GENRE
-    // ======================================
-
-    const allowedGenres = [
-      "Bongo Flava",
-      "Mduara",
-      "Afrobeat",
-      "RnB",
-      "Amapiano"
-    ];
-
-    const selectedGenre =
-      allowedGenres.includes(body.genre)
-        ? body.genre
-        : "Bongo Flava";
-
-    // ======================================
     // VOCAL GENDER
     // ======================================
 
@@ -276,7 +348,7 @@ exports.handler = async (event) => {
         : "female vocals";
 
     // ======================================
-    // MUSIC STYLE
+    // LANGUAGE DESCRIPTION
     // ======================================
 
     const languageStyle =
@@ -284,8 +356,21 @@ exports.handler = async (event) => {
         ? ""
         : songLanguage + " vocals";
 
+    // ======================================
+    // FINAL MUSIC STYLE
+    // ======================================
+
+    // Music Style ya mtumiaji
+    // inaongezewa lugha na aina ya sauti.
+    //
+    // Mfano:
+    //
+    // Bongo Flava, 95 BPM, soft piano,
+    // deep bass, Swahili vocals,
+    // male vocals
+
     const style = [
-      selectedGenre,
+      musicStyle,
       languageStyle,
       vocalDescription,
       "professional studio production",
@@ -311,15 +396,31 @@ exports.handler = async (event) => {
 
     if (isCustom) {
 
-      // Send user's lyrics unchanged.
+      // ====================================
+      // USER WRITES TITLE AND LYRICS
+      // ====================================
+
+      // Jina la wimbo linatumwa
+      // kama title halisi.
 
       payload.title = title;
-      payload.prompt = prompt;
-      payload.style = style;
-      payload.vocal_gender = vocalGender;
 
-      // Duration is supported only
-      // when custom_mode is true.
+      // Mashairi ya mtumiaji
+      // hayabadilishwi.
+
+      payload.prompt = prompt;
+
+      // Mtumiaji anaweza kuandika:
+      // genre, tempo, BPM, instruments,
+      // mood, production style, n.k.
+
+      payload.style = style;
+
+      payload.vocal_gender =
+        vocalGender;
+
+      // Duration hutumika kwenye
+      // Custom Mode pekee.
 
       payload.duration = 180;
 
@@ -329,30 +430,54 @@ exports.handler = async (event) => {
       // AUTOMATIC MODE - AI WRITES SONG
       // ====================================
 
+      // Hakuna title inayotumwa.
+      //
+      // AI itachagua jina la wimbo
+      // kulingana na maelezo.
+
       const languageInstruction =
         songLanguage === "Other"
           ? "Use the language requested in the song description."
           : "Write and sing the entire song in " +
             songLanguage + ".";
 
+      // ====================================
+      // MUSIC INSTRUCTIONS
+      // ====================================
+
       const instructions = [
-        "Music genre: " + selectedGenre + ".",
+
+        "Create an original complete song.",
+
+        "Music style: " + musicStyle + ".",
+
         "Vocal style: " +
           vocalDescription + ".",
+
         languageInstruction,
-        "Write original meaningful lyrics.",
-        "Include verses and a catchy chorus.",
-        "Create a complete musical arrangement.",
+
+        "Write meaningful original lyrics.",
+
+        "Choose a suitable song title based on the story and lyrics.",
+
+        "Include verses and a memorable chorus.",
+
+        "Follow the requested genre, tempo, BPM, instruments and mood.",
+
+        "Create a professional musical arrangement.",
+
         "Do not sing these instructions."
+
       ].join("\n");
 
-      // Reserve space for instructions
-      // without cutting user's text.
+      // ====================================
+      // PROMPT LENGTH VALIDATION
+      // ====================================
 
       const separator = "\n\n";
 
       const availableLength =
-        3000 -
+        MAX_AUTOMATIC_PROMPT -
         instructions.length -
         separator.length;
 
@@ -360,6 +485,7 @@ exports.handler = async (event) => {
         availableLength < 1 ||
         prompt.length > availableLength
       ) {
+
         return json(400, {
           success: false,
           error:
@@ -367,13 +493,21 @@ exports.handler = async (event) => {
         });
       }
 
+      // ====================================
+      // FINAL AUTOMATIC PROMPT
+      // ====================================
+
       payload.prompt =
         prompt +
         separator +
         instructions;
 
-      // Do not send duration when
-      // custom_mode is false.
+      // Muhimu:
+      // Hakuna payload.title.
+      // Hakuna payload.duration.
+      //
+      // Tunatumia Automatic Mode
+      // kama ilivyokuwa awali.
 
     }
 
@@ -383,8 +517,13 @@ exports.handler = async (event) => {
 
     if (
       payload.prompt.length >
-      (isCustom ? 5000 : 3000)
+      (
+        isCustom
+          ? MAX_CUSTOM_PROMPT
+          : MAX_AUTOMATIC_PROMPT
+      )
     ) {
+
       return json(400, {
         success: false,
         error:
@@ -435,7 +574,9 @@ exports.handler = async (event) => {
       raw = await response.text();
 
     } finally {
+
       clearTimeout(timeout);
+
     }
 
     // ======================================
@@ -445,7 +586,9 @@ exports.handler = async (event) => {
     let data;
 
     try {
+
       data = JSON.parse(raw);
+
     } catch {
 
       console.error(
@@ -476,9 +619,9 @@ exports.handler = async (event) => {
         httpStatus:
           response.status,
         mode,
-        genre:
-          selectedGenre,
         songLanguage,
+        hasMusicStyle:
+          Boolean(musicStyle),
         hasTaskId:
           Boolean(taskId)
       }
@@ -496,7 +639,9 @@ exports.handler = async (event) => {
       const lowerMessage =
         apiMessage.toLowerCase();
 
+      // ====================================
       // INSUFFICIENT CREDITS
+      // ====================================
 
       if (
         response.status === 402 ||
@@ -510,6 +655,7 @@ exports.handler = async (event) => {
           "balance"
         )
       ) {
+
         return json(402, {
           success: false,
           error:
@@ -519,12 +665,15 @@ exports.handler = async (event) => {
         });
       }
 
+      // ====================================
       // INVALID API KEY
+      // ====================================
 
       if (
         response.status === 401 ||
         response.status === 403
       ) {
+
         return json(502, {
           success: false,
           error:
@@ -534,11 +683,14 @@ exports.handler = async (event) => {
         });
       }
 
+      // ====================================
       // RATE LIMIT
+      // ====================================
 
       if (
         response.status === 429
       ) {
+
         return json(429, {
           success: false,
           error:
@@ -546,7 +698,9 @@ exports.handler = async (event) => {
         });
       }
 
+      // ====================================
       // OTHER API ERRORS
+      // ====================================
 
       console.error(
         "reAPI rejected request:",
@@ -651,15 +805,26 @@ exports.handler = async (event) => {
 
     return json(200, {
       success: true,
+
       task_id: taskId,
+
       mode,
-      title,
-      genre: selectedGenre,
+
+      title: isCustom
+        ? title
+        : "",
+
+      musicStyle,
+
       voice: vocalGender,
+
       songLanguage,
+
       message:
         "Wimbo umeanza kutengenezwa",
+
       model: MODEL,
+
       version: VERSION
     });
 
@@ -672,6 +837,7 @@ exports.handler = async (event) => {
     if (
       error?.name === "AbortError"
     ) {
+
       return json(504, {
         success: false,
         error:
