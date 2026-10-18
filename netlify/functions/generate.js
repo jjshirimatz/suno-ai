@@ -18,10 +18,23 @@ exports.handler = async (event) => {
   try {
 
     const apiKey = process.env.MUSICAPI_KEY;
+    const testPassword = process.env.MUSIC_TEST_PASSWORD;
 
-    if (!apiKey) {
+    if (!apiKey || !testPassword) {
       return json(500, {
-        error: "MusicAPI key haipo kwenye Netlify"
+        error: "Backend configuration haijakamilika"
+      });
+    }
+
+    const suppliedPassword =
+      event.headers["x-test-password"];
+
+    if (
+      !suppliedPassword ||
+      suppliedPassword !== testPassword
+    ) {
+      return json(403, {
+        error: "Huna ruhusa ya kutengeneza wimbo"
       });
     }
 
@@ -32,11 +45,36 @@ exports.handler = async (event) => {
       voice
     } = JSON.parse(event.body || "{}");
 
-    if (!title || !prompt) {
+    if (
+      typeof title !== "string" ||
+      typeof prompt !== "string" ||
+      !title.trim() ||
+      !prompt.trim()
+    ) {
       return json(400, {
-        error: "Jina na maelezo ya wimbo yanahitajika"
+        error: "Jaza jina na mashairi ya wimbo"
       });
     }
+
+    if (title.length > 150 || prompt.length > 5000) {
+      return json(400, {
+        error: "Maandishi ni marefu kupita kiasi"
+      });
+    }
+
+    const allowedGenres = [
+      "Bongo Flava",
+      "Mduara",
+      "Afrobeat",
+      "RnB",
+      "Amapiano"
+    ];
+
+    const selectedGenre = allowedGenres.includes(genre)
+      ? genre
+      : "Bongo Flava";
+
+    const vocalGender = voice === "Male" ? "m" : "f";
 
     const response = await fetch(
       "https://api.musicapi.ai/api/v1/sonic/create",
@@ -50,9 +88,10 @@ exports.handler = async (event) => {
           task_type: "create_music",
           custom_mode: true,
           mv: "sonic-v6",
-          title: title,
-          tags: `${genre || "Bongo Flava"}, ${voice || "Female"} vocals`,
-          prompt: prompt,
+          title: title.trim(),
+          prompt: prompt.trim(),
+          tags: selectedGenre,
+          vocal_gender: vocalGender,
           make_instrumental: false
         })
       }
@@ -60,19 +99,23 @@ exports.handler = async (event) => {
 
     const data = await response.json();
 
-    if (!response.ok) {
-      return json(response.status, {
-        error: "MusicAPI request failed",
+    if (!response.ok || data.code !== 200) {
+      return json(502, {
+        error: "MusicAPI imeshindwa kuanzisha wimbo",
         details: data
       });
     }
 
-    return json(200, data);
+    return json(200, {
+      success: true,
+      task_id: data.task_id,
+      message: data.message
+    });
 
   } catch (error) {
 
     return json(500, {
-      error: "Imeshindikana kuanzisha utengenezaji wa wimbo"
+      error: "Tatizo limetokea kwenye backend"
     });
 
   }
