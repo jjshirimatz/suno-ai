@@ -60,6 +60,11 @@ exports.handler = async (event) => {
     const genre = body.genre;
     const voice = body.voice;
 
+    const mode =
+      body.mode === "custom"
+        ? "custom"
+        : "automatic";
+
     if (
       typeof title !== "string" ||
       typeof prompt !== "string" ||
@@ -68,7 +73,7 @@ exports.handler = async (event) => {
     ) {
       return json(400, {
         success: false,
-        error: "Jaza jina na mashairi ya wimbo"
+        error: "Jaza jina na maelezo au mashairi ya wimbo"
       });
     }
 
@@ -98,16 +103,44 @@ exports.handler = async (event) => {
     const vocalGender =
       voice === "Male" ? "m" : "f";
 
+    /*
+      AUTOMATIC:
+      custom_mode false.
+      Prompt ni maelekezo ya wimbo.
+
+      CUSTOM:
+      custom_mode true.
+      Prompt ni mashairi ya kuimbwa.
+    */
+
+    const isCustom = mode === "custom";
+
     const payload = {
       task_type: "create_music",
-      custom_mode: true,
+      custom_mode: isCustom,
       mv: "sonic-v6",
-      title: title.trim(),
       prompt: prompt.trim(),
-      tags: selectedGenre,
-      vocal_gender: vocalGender,
       make_instrumental: false
     };
+
+    if (isCustom) {
+      payload.title = title.trim();
+      payload.tags = selectedGenre;
+      payload.vocal_gender = vocalGender;
+    } else {
+      /*
+        Automatic mode:
+        Maelekezo yanaeleza aina ya muziki
+        na sauti inayotakiwa.
+      */
+      payload.prompt =
+        prompt.trim() +
+        ". Music style: " +
+        selectedGenre +
+        ". Vocal: " +
+        (voice === "Male" ? "male" : "female") +
+        ". Create a complete song with original lyrics.";
+    }
 
     const controller = new AbortController();
 
@@ -152,6 +185,7 @@ exports.handler = async (event) => {
     console.log("MusicAPI generation:", {
       httpStatus: response.status,
       apiCode: data.code ?? null,
+      mode,
       hasTaskId: Boolean(
         data.task_id ||
         data.data?.task_id
@@ -220,6 +254,7 @@ exports.handler = async (event) => {
     return json(200, {
       success: true,
       task_id: taskId,
+      mode,
       message: "Wimbo umeanza kutengenezwa",
       model: "sonic-v6"
     });
