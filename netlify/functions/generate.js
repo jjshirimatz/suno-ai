@@ -49,7 +49,7 @@ exports.handler = async (event) => {
         body: JSON.stringify({
           task_type: "create_music",
           custom_mode: true,
-          mv: "sonic-v5",
+          mv: "sonic-v6",
           title: title,
           tags: `${genre || "Bongo Flava"}, ${voice || "Female"} vocals`,
           prompt: prompt,
