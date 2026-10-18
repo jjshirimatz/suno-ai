@@ -1,23 +1,96 @@
 "use strict";
 
-exports.handler = async (event) => {
+// ==========================================
+// REAPI SUNO V6 - NETLIFY FUNCTION
+// ==========================================
 
-  // ==========================================
-  // JSON RESPONSE
-  // ==========================================
+const REAPI_URL =
+  "https://reapi.ai/api/v1/audio/generations";
 
-  const json = (statusCode, data) => ({
+const MODEL = "suno-music";
+const VERSION = "V6";
+
+const REQUEST_TIMEOUT = 25000;
+
+// ==========================================
+// JSON RESPONSE
+// ==========================================
+
+function json(statusCode, data) {
+  return {
     statusCode,
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       "Cache-Control": "no-store"
     },
     body: JSON.stringify(data)
-  });
+  };
+}
 
-  // ==========================================
+// ==========================================
+// NORMALIZE TEXT
+// ==========================================
+
+function cleanText(value) {
+  return typeof value === "string"
+    ? value.trim()
+    : "";
+}
+
+// ==========================================
+// EXTRACT ERROR MESSAGE
+// ==========================================
+
+function getApiMessage(data) {
+  const candidates = [
+    data?.error?.message,
+    data?.error?.detail,
+    data?.message,
+    data?.detail,
+    typeof data?.error === "string"
+      ? data.error
+      : ""
+  ];
+
+  return candidates.find(
+    value =>
+      typeof value === "string" &&
+      value.trim()
+  ) || "";
+}
+
+// ==========================================
+// EXTRACT TASK ID
+// ==========================================
+
+function getTaskId(data) {
+  const candidates = [
+    data?.id,
+    data?.task_id,
+    data?.data?.id,
+    data?.data?.task_id,
+    data?.result?.id,
+    data?.result?.task_id
+  ];
+
+  const taskId = candidates.find(
+    value =>
+      typeof value === "string" &&
+      value.trim()
+  );
+
+  return taskId ? taskId.trim() : "";
+}
+
+// ==========================================
+// MAIN HANDLER
+// ==========================================
+
+exports.handler = async (event) => {
+
+  // ========================================
   // ALLOW POST ONLY
-  // ==========================================
+  // ========================================
 
   if (event.httpMethod !== "POST") {
     return json(405, {
@@ -28,29 +101,39 @@ exports.handler = async (event) => {
 
   try {
 
-    // ==========================================
+    // ======================================
     // ENVIRONMENT VARIABLES
-    // ==========================================
+    // ======================================
 
-    const apiKey = process.env.REAPI_API_KEY;
-    const testPassword = process.env.MUSIC_TEST_PASSWORD;
+    const apiKey = cleanText(
+      process.env.REAPI_API_KEY
+    );
+
+    const testPassword =
+      process.env.MUSIC_TEST_PASSWORD;
 
     if (!apiKey || !testPassword) {
-      console.error("Missing reAPI configuration");
+      console.error(
+        "Missing REAPI_API_KEY or MUSIC_TEST_PASSWORD"
+      );
 
       return json(500, {
         success: false,
-        error: "Backend configuration haijakamilika"
+        error:
+          "Backend configuration haijakamilika"
       });
     }
 
-    // ==========================================
+    // ======================================
     // TEST PASSWORD
-    // ==========================================
+    // ======================================
+
+    const headers = event.headers || {};
 
     const suppliedPassword =
-      event.headers?.["x-test-password"] ||
-      event.headers?.["X-Test-Password"];
+      headers["x-test-password"] ||
+      headers["X-Test-Password"] ||
+      "";
 
     if (
       !suppliedPassword ||
@@ -58,22 +141,26 @@ exports.handler = async (event) => {
     ) {
       return json(403, {
         success: false,
-        error: "Nenosiri la majaribio si sahihi"
+        error:
+          "Nenosiri la majaribio si sahihi"
       });
     }
 
-    // ==========================================
-    // READ REQUEST BODY
-    // ==========================================
+    // ======================================
+    // PARSE REQUEST BODY
+    // ======================================
 
     let body;
 
     try {
-      body = JSON.parse(event.body || "{}");
+      body = JSON.parse(
+        event.body || "{}"
+      );
     } catch {
       return json(400, {
         success: false,
-        error: "Taarifa zilizotumwa si sahihi"
+        error:
+          "Taarifa zilizotumwa si sahihi"
       });
     }
 
@@ -84,35 +171,60 @@ exports.handler = async (event) => {
     ) {
       return json(400, {
         success: false,
-        error: "Taarifa za wimbo si sahihi"
+        error:
+          "Taarifa za wimbo si sahihi"
       });
     }
 
-    // ==========================================
-    // SONG INFORMATION
-    // ==========================================
+    // ======================================
+    // SONG DETAILS
+    // ======================================
 
-    const title =
-      typeof body.title === "string"
-        ? body.title.trim()
-        : "";
-
-    const prompt =
-      typeof body.prompt === "string"
-        ? body.prompt.trim()
-        : "";
-
-    const genre = body.genre;
-    const voice = body.voice;
+    const title = cleanText(body.title);
+    const prompt = cleanText(body.prompt);
 
     const mode =
       body.mode === "custom"
         ? "custom"
         : "automatic";
 
-    // ==========================================
+    const isCustom =
+      mode === "custom";
+
+    // ======================================
+    // VALIDATE TITLE AND PROMPT
+    // ======================================
+
+    if (!title || !prompt) {
+      return json(400, {
+        success: false,
+        error:
+          "Jaza jina na maelezo au mashairi ya wimbo"
+      });
+    }
+
+    if (title.length > 80) {
+      return json(400, {
+        success: false,
+        error:
+          "Jina la wimbo ni refu sana"
+      });
+    }
+
+    if (
+      isCustom &&
+      prompt.length > 5000
+    ) {
+      return json(400, {
+        success: false,
+        error:
+          "Mashairi ni marefu kupita kiasi"
+      });
+    }
+
+    // ======================================
     // SONG LANGUAGE
-    // ==========================================
+    // ======================================
 
     const allowedLanguages = [
       "Swahili",
@@ -126,36 +238,15 @@ exports.handler = async (event) => {
     ];
 
     const songLanguage =
-      allowedLanguages.includes(body.songLanguage)
+      allowedLanguages.includes(
+        body.songLanguage
+      )
         ? body.songLanguage
         : "Swahili";
 
-    // ==========================================
-    // VALIDATE INPUT
-    // ==========================================
-
-    if (!title || !prompt) {
-      return json(400, {
-        success: false,
-        error: "Jaza jina na maelezo au mashairi ya wimbo"
-      });
-    }
-
-    const isCustom = mode === "custom";
-
-    if (
-      title.length > 80 ||
-      prompt.length > (isCustom ? 5000 : 3000)
-    ) {
-      return json(400, {
-        success: false,
-        error: "Maandishi ni marefu kupita kiasi"
-      });
-    }
-
-    // ==========================================
+    // ======================================
     // MUSIC GENRE
-    // ==========================================
+    // ======================================
 
     const allowedGenres = [
       "Bongo Flava",
@@ -166,25 +257,27 @@ exports.handler = async (event) => {
     ];
 
     const selectedGenre =
-      allowedGenres.includes(genre)
-        ? genre
+      allowedGenres.includes(body.genre)
+        ? body.genre
         : "Bongo Flava";
 
-    // ==========================================
+    // ======================================
     // VOCAL GENDER
-    // ==========================================
+    // ======================================
 
     const vocalGender =
-      voice === "Male" ? "m" : "f";
+      body.voice === "Male"
+        ? "m"
+        : "f";
 
     const vocalDescription =
-      voice === "Male"
+      vocalGender === "m"
         ? "male vocals"
         : "female vocals";
 
-    // ==========================================
+    // ======================================
     // MUSIC STYLE
-    // ==========================================
+    // ======================================
 
     const languageStyle =
       songLanguage === "Other"
@@ -201,171 +294,251 @@ exports.handler = async (event) => {
       .filter(Boolean)
       .join(", ");
 
-    // ==========================================
+    // ======================================
     // REAPI PAYLOAD
-    // ==========================================
+    // ======================================
 
     const payload = {
-      model: "suno-music",
-      version: "V6",
+      model: MODEL,
+      version: VERSION,
       custom_mode: isCustom,
       instrumental: false
     };
 
-    // ==========================================
-    // CUSTOM MODE — MY LYRICS
-    // ==========================================
+    // ======================================
+    // CUSTOM MODE - MY LYRICS
+    // ======================================
 
     if (isCustom) {
 
-      // Mashairi ya mtumiaji yanatumwa
-      // bila kuyaongezea maelekezo.
+      // Send user's lyrics unchanged.
 
       payload.title = title;
       payload.prompt = prompt;
       payload.style = style;
       payload.vocal_gender = vocalGender;
 
-      // Muda wa wimbo:
-      // Sekunde 180 = dakika 3.
-      // reAPI inaruhusu duration
-      // kwenye custom mode.
+      // Duration is supported only
+      // when custom_mode is true.
 
       payload.duration = 180;
 
     } else {
 
-      // ========================================
-      // AUTOMATIC MODE — AI WRITES SONG
-      // ========================================
+      // ====================================
+      // AUTOMATIC MODE - AI WRITES SONG
+      // ====================================
 
       const languageInstruction =
         songLanguage === "Other"
           ? "Use the language requested in the song description."
-          : "Write and sing the lyrics in " +
+          : "Write and sing the entire song in " +
             songLanguage + ".";
 
-      payload.prompt = [
-        prompt,
-        "",
+      const instructions = [
         "Music genre: " + selectedGenre + ".",
-        "Vocal style: " + vocalDescription + ".",
+        "Vocal style: " +
+          vocalDescription + ".",
         languageInstruction,
-        "Compose original song lyrics based on the description.",
-        "Include verses and a memorable chorus.",
+        "Write original meaningful lyrics.",
+        "Include verses and a catchy chorus.",
         "Create a complete musical arrangement.",
-        "Treat this text as creative instructions, not lyrics to sing."
+        "Do not sing these instructions."
       ].join("\n");
+
+      // Reserve space for instructions
+      // without cutting user's text.
+
+      const separator = "\n\n";
+
+      const availableLength =
+        3000 -
+        instructions.length -
+        separator.length;
+
+      if (
+        availableLength < 1 ||
+        prompt.length > availableLength
+      ) {
+        return json(400, {
+          success: false,
+          error:
+            "Maelezo ya wimbo ni marefu sana. Yafupishe kidogo."
+        });
+      }
+
+      payload.prompt =
+        prompt +
+        separator +
+        instructions;
+
+      // Do not send duration when
+      // custom_mode is false.
 
     }
 
-    // ==========================================
-    // API REQUEST TIMEOUT
-    // ==========================================
+    // ======================================
+    // FINAL PAYLOAD VALIDATION
+    // ======================================
 
-    const controller = new AbortController();
+    if (
+      payload.prompt.length >
+      (isCustom ? 5000 : 3000)
+    ) {
+      return json(400, {
+        success: false,
+        error:
+          "Maandishi ya wimbo yamezidi kikomo"
+      });
+    }
+
+    // ======================================
+    // REQUEST TIMEOUT
+    // ======================================
+
+    const controller =
+      new AbortController();
 
     const timeout = setTimeout(
       () => controller.abort(),
-      25000
+      REQUEST_TIMEOUT
     );
 
     let response;
+    let raw;
 
-    // ==========================================
+    // ======================================
     // SEND REQUEST TO REAPI
-    // ==========================================
+    // ======================================
 
     try {
 
       response = await fetch(
-        "https://reapi.ai/api/v1/audio/generations",
+        REAPI_URL,
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${apiKey}`,
-            "Content-Type": "application/json",
-            Accept: "application/json"
+            Authorization:
+              "Bearer " + apiKey,
+            "Content-Type":
+              "application/json",
+            Accept:
+              "application/json"
           },
-          body: JSON.stringify(payload),
-          signal: controller.signal
+          body:
+            JSON.stringify(payload),
+          signal:
+            controller.signal
         }
       );
 
+      raw = await response.text();
+
     } finally {
-
       clearTimeout(timeout);
-
     }
 
-    // ==========================================
-    // READ REAPI RESPONSE
-    // ==========================================
-
-    const raw = await response.text();
+    // ======================================
+    // PARSE API RESPONSE
+    // ======================================
 
     let data;
 
     try {
       data = JSON.parse(raw);
     } catch {
+
+      console.error(
+        "reAPI returned invalid JSON",
+        {
+          httpStatus:
+            response.status
+        }
+      );
+
       return json(502, {
         success: false,
-        error: "reAPI imerudisha jibu lisilo JSON"
+        error:
+          "reAPI imerudisha jibu lisilo sahihi. Angalia Task Logs kabla ya kujaribu tena."
       });
     }
 
-    // ==========================================
-    // SAFE BACKEND LOG
-    // ==========================================
+    // ======================================
+    // API RESPONSE LOG
+    // ======================================
 
-    console.log("reAPI generation:", {
-      httpStatus: response.status,
-      mode,
-      songLanguage,
-      genre: selectedGenre,
-      hasTaskId: Boolean(
-        data?.id ||
-        data?.task_id ||
-        data?.data?.id
-      )
-    });
+    const taskId =
+      getTaskId(data);
 
-    // ==========================================
+    console.log(
+      "reAPI generation:",
+      {
+        httpStatus:
+          response.status,
+        mode,
+        genre:
+          selectedGenre,
+        songLanguage,
+        hasTaskId:
+          Boolean(taskId)
+      }
+    );
+
+    // ======================================
     // HANDLE API ERRORS
-    // ==========================================
+    // ======================================
 
     if (!response.ok) {
 
-      const apiMessage = String(
-        data?.error?.message ||
-        data?.message ||
-        data?.detail ||
-        ""
-      ).toLowerCase();
+      const apiMessage =
+        getApiMessage(data);
+
+      const lowerMessage =
+        apiMessage.toLowerCase();
+
+      // INSUFFICIENT CREDITS
 
       if (
         response.status === 402 ||
-        apiMessage.includes("credit") ||
-        apiMessage.includes("balance") ||
-        apiMessage.includes("insufficient")
+        lowerMessage.includes(
+          "insufficient"
+        ) ||
+        lowerMessage.includes(
+          "credit"
+        ) ||
+        lowerMessage.includes(
+          "balance"
+        )
       ) {
         return json(402, {
           success: false,
           error:
             "Credits za reAPI hazitoshi. Ongeza credits kwenye akaunti yako.",
-          http_status: response.status
+          http_status:
+            response.status
         });
       }
 
-      if (response.status === 401) {
+      // INVALID API KEY
+
+      if (
+        response.status === 401 ||
+        response.status === 403
+      ) {
         return json(502, {
           success: false,
-          error: "reAPI API key si sahihi"
+          error:
+            "reAPI imekataa API Key au ruhusa ya akaunti.",
+          http_status:
+            response.status
         });
       }
 
-      if (response.status === 429) {
+      // RATE LIMIT
+
+      if (
+        response.status === 429
+      ) {
         return json(429, {
           success: false,
           error:
@@ -373,69 +546,108 @@ exports.handler = async (event) => {
         });
       }
 
-      console.error("reAPI rejected request:", {
-        status: response.status,
-        code: data?.error?.code ?? data?.code ?? null,
-        message:
-          data?.error?.message ||
-          data?.message ||
-          null
-      });
+      // OTHER API ERRORS
 
-      return json(502, {
-        success: false,
-        error: "reAPI imekataa ombi",
-        http_status: response.status,
-        api_code:
-          data?.error?.code ??
-          data?.code ??
-          null
-      });
-    }
+      console.error(
+        "reAPI rejected request:",
+        {
+          httpStatus:
+            response.status,
+          apiCode:
+            data?.error?.code ??
+            data?.code ??
+            null,
+          apiMessage:
+            apiMessage.slice(0, 300)
+        }
+      );
 
-    // ==========================================
-    // CHECK API-LEVEL ERROR
-    // ==========================================
-
-    if (
-      data?.success === false ||
-      data?.status === "failed" ||
-      data?.error
-    ) {
-      return json(502, {
-        success: false,
-        error: "reAPI imerudisha hitilafu",
-        api_code:
-          data?.error?.code ??
-          data?.code ??
-          null
-      });
-    }
-
-    // ==========================================
-    // EXTRACT TASK ID
-    // ==========================================
-
-    const taskId =
-      data?.id ||
-      data?.task_id ||
-      data?.data?.id ||
-      data?.data?.task_id;
-
-    if (
-      !taskId ||
-      typeof taskId !== "string"
-    ) {
       return json(502, {
         success: false,
         error:
-          "reAPI haijarudisha Task ID. Angalia Task Logs kabla ya kujaribu tena."
+          "reAPI imekataa ombi. Angalia Netlify Function Logs.",
+        http_status:
+          response.status,
+        api_code:
+          data?.error?.code ??
+          data?.code ??
+          null
       });
     }
 
-    // ==========================================
+    // ======================================
+    // API-LEVEL ERRORS
+    // ======================================
+
+    const apiStatus =
+      cleanText(
+        data?.status ||
+        data?.data?.status
+      ).toLowerCase();
+
+    if (
+      data?.success === false ||
+      [
+        "failed",
+        "failure",
+        "error",
+        "cancelled",
+        "canceled"
+      ].includes(apiStatus) ||
+      data?.error
+    ) {
+
+      console.error(
+        "reAPI returned API-level error:",
+        {
+          status:
+            apiStatus,
+          code:
+            data?.error?.code ??
+            data?.code ??
+            null
+        }
+      );
+
+      return json(502, {
+        success: false,
+        error:
+          "reAPI imerudisha hitilafu. Angalia Task Logs."
+      });
+    }
+
+    // ======================================
+    // VALIDATE TASK ID
+    // ======================================
+
+    if (
+      !taskId ||
+      !/^[a-zA-Z0-9_-]{8,150}$/.test(
+        taskId
+      )
+    ) {
+
+      console.error(
+        "reAPI task ID missing or invalid",
+        {
+          responseKeys:
+            data &&
+            typeof data === "object"
+              ? Object.keys(data)
+              : []
+        }
+      );
+
+      return json(502, {
+        success: false,
+        error:
+          "reAPI haijarudisha Task ID inayotambulika. Angalia Task Logs kabla ya kujaribu tena."
+      });
+    }
+
+    // ======================================
     // SUCCESS RESPONSE
-    // ==========================================
+    // ======================================
 
     return json(200, {
       success: true,
@@ -445,38 +657,42 @@ exports.handler = async (event) => {
       genre: selectedGenre,
       voice: vocalGender,
       songLanguage,
-      message: "Wimbo umeanza kutengenezwa",
-      model: "suno-music",
-      version: "V6"
+      message:
+        "Wimbo umeanza kutengenezwa",
+      model: MODEL,
+      version: VERSION
     });
 
   } catch (error) {
 
-    // ==========================================
+    // ======================================
     // TIMEOUT
-    // ==========================================
+    // ======================================
 
-    if (error.name === "AbortError") {
+    if (
+      error?.name === "AbortError"
+    ) {
       return json(504, {
         success: false,
         error:
-          "reAPI imechelewa kujibu. Angalia Task Logs kabla ya kujaribu tena."
+          "reAPI imechelewa kujibu. Angalia Task Logs kabla ya kujaribu tena ili kuepuka kukatwa credits mara mbili."
       });
     }
 
-    // ==========================================
+    // ======================================
     // BACKEND ERROR
-    // ==========================================
+    // ======================================
 
     console.error(
       "Generate backend error:",
-      error.name,
-      error.message
+      error?.name,
+      error?.message
     );
 
     return json(500, {
       success: false,
-      error: "Tatizo limetokea kwenye backend"
+      error:
+        "Tatizo limetokea kwenye backend"
     });
   }
 };
