@@ -215,7 +215,7 @@ header{display:flex;align-items:center;justify-content:space-between;gap:10px;ma
 
 <div class="card">
 <label class="label" for="song-title"><i class="fa-solid fa-signature"></i><span data-t="songTitle"></span><span class="required">*</span></label>
-<input id="song-title" class="input" maxlength="150">
+<input id="song-title" class="input" maxlength="80">
 </div>
 
 <div class="card">
@@ -451,7 +451,7 @@ deleted:"Wimbo umefutwa.",
 copied:"Kiungo kimenakiliwa.",
 audioError:"Imeshindikana kucheza wimbo.",
 requestError:"Ombi limeshindikana.",
-noTaskId:"MusicAPI haijarudisha Task ID."
+noTaskId:"reAPI haijarudisha Task ID."
 },
 en:{
 subtitle:"Generate AI Songs",
@@ -523,7 +523,7 @@ deleted:"Song deleted.",
 copied:"Link copied.",
 audioError:"Unable to play this song.",
 requestError:"Request failed.",
-noTaskId:"MusicAPI did not return a Task ID."
+noTaskId:"reAPI did not return a Task ID."
 },
 fr:{
 subtitle:"Créer des chansons avec l'IA",
@@ -595,7 +595,7 @@ deleted:"Chanson supprimée.",
 copied:"Lien copié.",
 audioError:"Impossible de lire la chanson.",
 requestError:"La demande a échoué.",
-noTaskId:"MusicAPI n'a pas renvoyé d'identifiant."
+noTaskId:"reAPI n'a pas renvoyé d'identifiant."
 }
 };
 
@@ -645,6 +645,51 @@ console.warn("Load:",error);
 songs=[];
 tasks=[];
 }
+}
+
+/*
+==========================================
+REKEBISHA MAJINA YA NYIMBO ZA JARIBIO
+==========================================
+
+Hili ni badiliko la mara moja kwa nyimbo
+zilizohifadhiwa kwenye browser hii.
+
+Haligusi faili za audio.
+*/
+
+function fixExistingSongTitles(){
+
+const MIGRATION_KEY="aiMusicTitleFixV1";
+
+try{
+if(localStorage.getItem(MIGRATION_KEY)==="done")return;
+}catch{
+return;
+}
+
+let changed=false;
+
+songs.forEach(song=>{
+
+if(
+String(song.title||"").trim()==="Chaguo Langu" &&
+String(song.genre||"").trim()==="Bongo Flava"
+){
+song.title="Penzi la Kweli";
+changed=true;
+}
+
+});
+
+if(changed){
+save();
+}
+
+try{
+localStorage.setItem(MIGRATION_KEY,"done");
+}catch{}
+
 }
 
 function applyLanguage(){
@@ -717,6 +762,7 @@ el("mode-help").textContent=tr(automatic?"autoHelp":"customHelp");
 el("prompt-label").textContent=tr(automatic?"autoLabel":"customLabel");
 el("song-prompt").placeholder=tr(automatic?"autoPlaceholder":"customPlaceholder");
 el("prompt-example").textContent=tr(automatic?"autoExample":"customExample");
+el("song-prompt").maxLength=automatic?3000:5000;
 }
 
 function showPopup(title,message,confirm=null){
@@ -769,6 +815,7 @@ return data;
 }
 
 async function generateSong(){
+
 const title=el("song-title").value.trim();
 const prompt=el("song-prompt").value.trim();
 
@@ -776,6 +823,17 @@ if(!title||!prompt){
 showPopup("AI Music",tr("required"));
 return;
 }
+
+if(title.length>80){
+showPopup("AI Music","Jina la wimbo ni refu kupita kiasi.");
+return;
+}
+
+if(prompt.length>(mode==="custom"?5000:3000)){
+showPopup("AI Music","Maandishi ya wimbo ni marefu kupita kiasi.");
+return;
+}
+
 if(generating)return;
 
 const password=window.prompt(tr("testPassword"));
@@ -789,6 +847,7 @@ generating=true;
 el("generate-btn").disabled=true;
 
 try{
+
 const result=await requestJSON(GENERATE_URL,{
 method:"POST",
 headers:{
@@ -806,18 +865,36 @@ songLanguage
 });
 
 const taskId=String(result.task_id||result.taskId||"");
-if(!taskId)throw new Error(tr("noTaskId"));
 
-if(!tasks.some(t=>t.task_id===taskId)&&!songs.some(s=>s.taskId===taskId)){
+if(!taskId){
+throw new Error(tr("noTaskId"));
+}
+
+/*
+MUHIMU:
+
+Jina la wimbo linahifadhiwa pamoja
+na Task ID kabla ya kuanza polling.
+
+Hata reAPI ikirudisha jina tofauti,
+tutatumia jina hili aliloandika mtumiaji.
+*/
+
+if(
+!tasks.some(t=>t.task_id===taskId) &&
+!songs.some(s=>s.taskId===taskId)
+){
+
 tasks.unshift({
 task_id:taskId,
-title,
+title:title,
 genre,
 voice,
 songLanguage,
 createdAt:Date.now(),
 status:"processing"
 });
+
 }
 
 save();
@@ -832,31 +909,53 @@ toast(tr("submitted"));
 pollTask(taskId,true);
 
 }catch(error){
-showPopup("MusicAPI",error.message||tr("requestError"));
+
+showPopup("reAPI",error.message||tr("requestError"));
+
 }finally{
+
 generating=false;
 el("generate-btn").disabled=false;
+
 }
+
 }
 
 function parseResult(payload){
-const root=payload||{};
-const state=String(root.status||root.state||root.data?.status||"").toLowerCase();
 
-if(["failed","failure","error","cancelled","canceled"].includes(state)){
-return {state:"failed",error:root.error||root.message||tr("failed"),songs:[]};
+const root=payload||{};
+
+const state=String(
+root.status||
+root.state||
+root.data?.status||
+""
+).toLowerCase();
+
+if(
+["failed","failure","error","cancelled","canceled"].includes(state)
+){
+return {
+state:"failed",
+error:root.error||root.message||tr("failed"),
+songs:[]
+};
 }
 
 const found=[];
 const seen=new WeakSet();
 
 function scan(value,depth=0){
+
 if(!value||depth>8)return;
+
 if(Array.isArray(value)){
 value.forEach(x=>scan(x,depth+1));
 return;
 }
+
 if(typeof value!=="object"||seen.has(value))return;
+
 seen.add(value);
 
 const url=validURL(
@@ -867,22 +966,39 @@ value.musicUrl||
 value.song_url||
 value.stream_url||
 value.play_url||
-value.audio
+value.audio||
+value.url
 );
 
-if(url&&!found.some(x=>x.audioUrl===url)){
+if(
+url &&
+!found.some(x=>x.audioUrl===url)
+){
+
 found.push({
 title:value.title||value.song_name||"",
 audioUrl:url,
-duration:Number(value.duration||value.duration_seconds||0)
+duration:Number(
+value.duration||
+value.duration_seconds||
+0
+)
 });
+
 }
 
 Object.entries(value).forEach(([key,child])=>{
-if(child&&typeof child==="object"&&key!=="metadata"){
+
+if(
+child &&
+typeof child==="object" &&
+key!=="metadata"
+){
 scan(child,depth+1);
 }
+
 });
+
 }
 
 scan(root.songs||root);
@@ -891,58 +1007,114 @@ return {
 state:found.length?"completed":"processing",
 songs:found
 };
+
 }
 
 async function checkTask(taskId){
+
 const response=await requestJSON(
 STATUS_URL+"?task_id="+encodeURIComponent(taskId)
 );
 
 const result=parseResult(response);
+
 const task=tasks.find(t=>t.task_id===taskId);
+
 if(!task)return true;
 
 if(result.state==="failed"){
+
 task.status="failed";
 save();
 renderSongs();
+
 return true;
+
 }
 
 if(result.state==="completed"){
-const existing=new Set(songs.map(s=>s.audioUrl));
+
+const existing=new Set(
+songs.map(s=>s.audioUrl)
+);
 
 result.songs.forEach((item,index)=>{
+
 if(existing.has(item.audioUrl))return;
 
+/*
+==========================================
+MAREKEBISHO MAKUU YA JINA LA WIMBO
+==========================================
+
+Kipaumbele ni task.title.
+
+Mfano:
+Mtumiaji ameandika: Penzi la Kweli
+reAPI imerudisha: Chaguo Langu
+
+App itaonyesha: Penzi la Kweli
+
+Hii inatumika kwa nyimbo zote mbili.
+*/
+
+const correctTitle=
+String(task.title||"").trim()||
+String(item.title||"").trim()||
+"AI Music";
+
 songs.unshift({
+
 id:taskId+"-"+index,
+
 taskId,
-title:item.title||task.title,
+
+title:correctTitle,
+
 genre:task.genre||"AI Music",
+
 voice:task.voice||"",
+
 songLanguage:task.songLanguage||"",
+
 audioUrl:item.audioUrl,
+
 duration:item.duration||0,
-time:item.duration?formatTime(item.duration):"--:--",
+
+time:item.duration
+?formatTime(item.duration)
+:"--:--",
+
 isFav:false,
+
 createdAt:Date.now()
+
 });
 
 existing.add(item.audioUrl);
+
 });
 
-tasks=tasks.filter(t=>t.task_id!==taskId);
+tasks=tasks.filter(
+t=>t.task_id!==taskId
+);
+
 save();
 renderSongs();
+
 toast(tr("ready"));
+
 return true;
+
 }
 
 task.status="processing";
+
 save();
 renderSongs();
+
 return false;
+
 }
 
 function sleep(ms){
@@ -950,11 +1122,15 @@ return new Promise(resolve=>setTimeout(resolve,ms));
 }
 
 async function pollTask(taskId,immediate=false){
+
 if(!taskId||polling.has(taskId))return;
+
 polling.add(taskId);
 
 try{
+
 for(let attempt=0;attempt<MAX_POLLS;attempt++){
+
 if(!tasks.some(t=>t.task_id===taskId))return;
 
 if(attempt>0||!immediate){
@@ -966,42 +1142,71 @@ await sleep(POLL_INTERVAL);
 }
 
 try{
+
 const finished=await checkTask(taskId);
+
 if(finished)return;
+
 }catch(error){
-console.warn("MusicAPI status:",error.message);
-const task=tasks.find(t=>t.task_id===taskId);
+
+console.warn("reAPI status:",error.message);
+
+const task=tasks.find(
+t=>t.task_id===taskId
+);
+
 if(task){
+
 task.status="checking";
+
 save();
 renderSongs();
-}
-}
+
 }
 
-const task=tasks.find(t=>t.task_id===taskId);
+}
+
+}
+
+const task=tasks.find(
+t=>t.task_id===taskId
+);
+
 if(task){
+
 task.status="waiting";
+
 save();
 renderSongs();
+
 }
+
 }finally{
+
 polling.delete(taskId);
+
 }
+
 }
 
 function resumeTasks(){
-tasks.filter(t=>t.status!=="failed").forEach(t=>{
+
+tasks
+.filter(t=>t.status!=="failed")
+.forEach(t=>{
 pollTask(t.task_id,true);
 });
+
 }
 
 document.addEventListener("visibilitychange",()=>{
 if(!document.hidden)resumeTasks();
 });
+
 window.addEventListener("online",resumeTasks);
 
 function songHTML(song){
+
 const id=escapeHTML(song.id);
 const title=escapeHTML(song.title||"AI Music");
 const genre=escapeHTML(song.genre||"AI Music");
@@ -1039,13 +1244,24 @@ return `
 </div>
 </div>
 </div>`;
+
 }
 
 function pendingHTML(task){
+
 let message=tr("processing");
-if(task.status==="checking")message=tr("checking");
-if(task.status==="waiting")message=tr("waiting");
-if(task.status==="failed")message=tr("failed");
+
+if(task.status==="checking"){
+message=tr("checking");
+}
+
+if(task.status==="waiting"){
+message=tr("waiting");
+}
+
+if(task.status==="failed"){
+message=tr("failed");
+}
 
 const failed=task.status==="failed";
 
@@ -1063,37 +1279,69 @@ ${failed
 :""}
 </div>
 </div>`;
+
 }
 
 function renderSongs(){
+
 const recent=el("recent-songs");
 const all=el("all-songs");
+
 if(!recent||!all)return;
 
 const pending=tasks.map(pendingHTML).join("");
-const recentHTML=songs.slice(0,3).map(songHTML).join("");
-const empty=`<div class="empty"><i class="fa-solid fa-music"></i>${escapeHTML(tr("noSongs"))}</div>`;
 
-recent.innerHTML=(pending+recentHTML)||empty;
+const recentHTML=songs
+.slice(0,3)
+.map(songHTML)
+.join("");
 
-const visible=currentTab==="favorites"
+const empty=`
+<div class="empty">
+<i class="fa-solid fa-music"></i>
+${escapeHTML(tr("noSongs"))}
+</div>`;
+
+recent.innerHTML=
+(pending+recentHTML)||empty;
+
+const visible=
+currentTab==="favorites"
 ?songs.filter(s=>s.isFav)
 :songs;
 
-all.innerHTML=((currentTab==="all"?pending:"")+visible.map(songHTML).join(""))||empty;
+all.innerHTML=
+(
+(currentTab==="all"?pending:"")+
+visible.map(songHTML).join("")
+)||empty;
+
 updatePlayerButtons();
+
 }
 
 function setTab(tab){
-currentTab=tab==="favorites"?"favorites":"all";
+
+currentTab=
+tab==="favorites"
+?"favorites"
+:"all";
+
 document.querySelectorAll(".tab").forEach(x=>{
-x.classList.toggle("active",x.dataset.tab===currentTab);
+x.classList.toggle(
+"active",
+x.dataset.tab===currentTab
+);
 });
+
 renderSongs();
+
 }
 
 async function playSong(id){
+
 const song=songs.find(s=>s.id===id);
+
 if(!song)return;
 
 if(currentSongId===id&&!audio.paused){
@@ -1102,118 +1350,224 @@ return;
 }
 
 if(currentSongId!==id){
+
 audio.pause();
 audio.src=song.audioUrl;
 audio.load();
+
 currentSongId=id;
+
 }
 
 try{
+
 await audio.play();
+
 }catch(error){
-showPopup("Audio",tr("audioError")+" "+error.message);
+
+showPopup(
+"Audio",
+tr("audioError")+" "+error.message
+);
+
 }
+
 updatePlayerButtons();
+
 }
 
 function updatePlayerButtons(){
+
 document.querySelectorAll(".play").forEach(button=>{
-const playing=button.dataset.id===currentSongId&&!audio.paused;
+
+const playing=
+button.dataset.id===currentSongId &&
+!audio.paused;
+
 const icon=button.querySelector("i");
-if(icon)icon.className="fa-solid fa-"+(playing?"pause":"play");
-button.style.background=playing?"#ff007f":"var(--purple)";
+
+if(icon){
+icon.className=
+"fa-solid fa-"+(playing?"pause":"play");
+}
+
+button.style.background=
+playing?"#ff007f":"var(--purple)";
+
 });
+
 }
 
 audio.addEventListener("play",updatePlayerButtons);
+
 audio.addEventListener("pause",updatePlayerButtons);
+
 audio.addEventListener("ended",()=>{
 currentSongId=null;
 updatePlayerButtons();
 });
 
 audio.addEventListener("timeupdate",()=>{
+
 document.querySelectorAll(".song-card").forEach(card=>{
+
 if(card.dataset.songId===currentSongId){
+
 const elapsed=card.querySelector(".elapsed");
-if(elapsed)elapsed.textContent=formatTime(audio.currentTime);
+
+if(elapsed){
+elapsed.textContent=formatTime(audio.currentTime);
 }
+
+}
+
 });
+
 });
 
 audio.addEventListener("loadedmetadata",()=>{
-const song=songs.find(s=>s.id===currentSongId);
-if(song&&Number.isFinite(audio.duration)&&audio.duration>0){
+
+const song=songs.find(
+s=>s.id===currentSongId
+);
+
+if(
+song &&
+Number.isFinite(audio.duration) &&
+audio.duration>0
+){
+
 song.duration=audio.duration;
 song.time=formatTime(audio.duration);
+
 save();
+
 }
+
 });
 
 function downloadSong(id){
+
 const song=songs.find(s=>s.id===id);
+
 if(!song)return;
+
 const url=validURL(song.audioUrl);
+
 if(!url)return;
+
 const a=document.createElement("a");
+
 a.href=url;
 a.download=(song.title||"AI Music")+".mp3";
 a.target="_blank";
 a.rel="noopener noreferrer";
+
 document.body.appendChild(a);
+
 a.click();
 a.remove();
+
 }
 
 function toggleFavorite(id){
+
 const song=songs.find(s=>s.id===id);
+
 if(!song)return;
+
 song.isFav=!song.isFav;
+
 save();
 renderSongs();
+
 }
 
 function openSongOptions(id){
+
 const song=songs.find(s=>s.id===id);
+
 if(!song)return;
+
 selectedSongId=id;
+
 el("sheet-song-title").textContent=song.title;
+
 el("song-sheet").classList.add("show");
+
 }
 
 async function shareSelectedSong(){
-const song=songs.find(s=>s.id===selectedSongId);
+
+const song=songs.find(
+s=>s.id===selectedSongId
+);
+
 closeSheets();
+
 if(!song)return;
 
 try{
+
 if(navigator.share){
-await navigator.share({title:song.title,url:song.audioUrl});
+
+await navigator.share({
+title:song.title,
+url:song.audioUrl
+});
+
 }else if(navigator.clipboard){
+
 await navigator.clipboard.writeText(song.audioUrl);
+
 toast(tr("copied"));
+
 }else{
+
 showPopup(tr("share"),song.audioUrl);
+
 }
+
 }catch(error){
-if(error.name!=="AbortError")console.warn(error);
+
+if(error.name!=="AbortError"){
+console.warn(error);
 }
+
+}
+
 }
 
 function deleteSelectedSong(){
+
 const id=selectedSongId;
+
 closeSheets();
-showPopup(tr("delete"),tr("confirmDelete"),()=>{
+
+showPopup(
+tr("delete"),
+tr("confirmDelete"),
+()=>{
+
 if(currentSongId===id){
+
 audio.pause();
 audio.removeAttribute("src");
+
 currentSongId=null;
+
 }
+
 songs=songs.filter(s=>s.id!==id);
+
 save();
 renderSongs();
+
 toast(tr("deleted"));
-});
+
+}
+);
+
 }
 
 function openSettings(){
@@ -1221,63 +1575,123 @@ el("settings-sheet").classList.add("show");
 }
 
 function closeSheets(){
-document.querySelectorAll(".sheet").forEach(x=>x.classList.remove("show"));
+
+document.querySelectorAll(".sheet").forEach(x=>{
+x.classList.remove("show");
+});
+
 }
 
 function updatePayText(){
-const prefix=lang==="en"?"PAY TSH ":lang==="fr"?"PAYER TSH ":"LIPA TSH ";
-el("pay-text").textContent=prefix+selectedPrice.toLocaleString("en-US");
+
+const prefix=
+lang==="en"
+?"PAY TSH "
+:lang==="fr"
+?"PAYER TSH "
+:"LIPA TSH ";
+
+el("pay-text").textContent=
+prefix+
+selectedPrice.toLocaleString("en-US");
+
 }
 
 function selectPackage(price){
+
 selectedPrice=price;
+
 document.querySelectorAll(".package").forEach(x=>{
-x.classList.toggle("active",Number(x.dataset.price)===price);
+
+x.classList.toggle(
+"active",
+Number(x.dataset.price)===price
+);
+
 });
+
 updatePayText();
+
 }
 
 document.addEventListener("click",event=>{
+
 const button=event.target.closest("[data-action]");
+
 if(!button)return;
+
 const action=button.dataset.action;
 const id=button.dataset.id;
 
 if(action==="play")playSong(id);
+
 if(action==="download")downloadSong(id);
+
 if(action==="favorite")toggleFavorite(id);
+
 if(action==="options")openSongOptions(id);
 
 if(action==="remove-task"){
+
 tasks=tasks.filter(t=>t.task_id!==id);
+
 save();
 renderSongs();
+
 }
+
 });
 
 function initialize(){
+
 load();
+
+/*
+Badilisha majina ya nyimbo za jaribio
+zilizokuwa zimehifadhiwa awali.
+*/
+fixExistingSongTitles();
+
 setupTags("genre-tags");
 setupTags("voice-tags");
 
 let savedLanguage=null;
-try{savedLanguage=localStorage.getItem("aiMusicLang")}catch{}
 
-if(savedLanguage&&translations[savedLanguage]){
+try{
+savedLanguage=localStorage.getItem("aiMusicLang");
+}catch{}
+
+if(
+savedLanguage &&
+translations[savedLanguage]
+){
+
 selectLanguage(savedLanguage);
+
 }else{
+
 el("language-page").classList.add("active");
+
 }
 
 resumeTasks();
 renderSongs();
+
 }
 
 if(document.readyState==="loading"){
-document.addEventListener("DOMContentLoaded",initialize);
+
+document.addEventListener(
+"DOMContentLoaded",
+initialize
+);
+
 }else{
+
 initialize();
+
 }
 </script>
+
 </body>
-                                     </html>
+  </html>
