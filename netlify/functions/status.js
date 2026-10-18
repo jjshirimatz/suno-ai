@@ -2,6 +2,10 @@
 
 exports.handler = async (event) => {
 
+  // ==========================================
+  // JSON RESPONSE
+  // ==========================================
+
   const json = (statusCode, data) => ({
     statusCode,
     headers: {
@@ -10,6 +14,10 @@ exports.handler = async (event) => {
     },
     body: JSON.stringify(data)
   });
+
+  // ==========================================
+  // ALLOW GET ONLY
+  // ==========================================
 
   if (event.httpMethod !== "GET") {
     return json(405, {
@@ -20,27 +28,41 @@ exports.handler = async (event) => {
 
   try {
 
-    const apiKey = process.env.MUSICAPI_KEY;
+    // ==========================================
+    // ENVIRONMENT VARIABLES
+    // ==========================================
+
+    const apiKey = process.env.REAPI_API_KEY;
 
     if (!apiKey) {
+      console.error("Missing REAPI_API_KEY");
+
       return json(500, {
         success: false,
-        error: "MusicAPI key haipo kwenye Netlify"
+        error: "reAPI key haipo kwenye Netlify"
       });
     }
+
+    // ==========================================
+    // READ TASK ID
+    // ==========================================
 
     const taskId =
       event.queryStringParameters?.task_id;
 
     if (
       typeof taskId !== "string" ||
-      !/^[a-zA-Z0-9_-]{8,100}$/.test(taskId)
+      !/^[a-zA-Z0-9_-]{8,150}$/.test(taskId)
     ) {
       return json(400, {
         success: false,
         error: "Task ID si sahihi"
       });
     }
+
+    // ==========================================
+    // REQUEST TIMEOUT
+    // ==========================================
 
     const controller = new AbortController();
 
@@ -51,9 +73,14 @@ exports.handler = async (event) => {
 
     let response;
 
+    // ==========================================
+    // FETCH REAPI TASK
+    // ==========================================
+
     try {
+
       response = await fetch(
-        "https://api.musicapi.ai/api/v1/sonic/task/" +
+        "https://reapi.ai/api/v1/tasks/" +
         encodeURIComponent(taskId),
         {
           method: "GET",
@@ -64,9 +91,16 @@ exports.handler = async (event) => {
           signal: controller.signal
         }
       );
+
     } finally {
+
       clearTimeout(timeout);
+
     }
+
+    // ==========================================
+    // READ RESPONSE
+    // ==========================================
 
     const raw = await response.text();
 
@@ -77,16 +111,38 @@ exports.handler = async (event) => {
     } catch {
       return json(502, {
         success: false,
-        error: "MusicAPI imerudisha majibu yasiyo JSON"
+        error: "reAPI imerudisha majibu yasiyo JSON"
       });
     }
 
+    // ==========================================
+    // HANDLE HTTP ERRORS
+    // ==========================================
+
     if (!response.ok) {
 
-      console.error("MusicAPI status error:", {
+      console.error("reAPI status error:", {
         httpStatus: response.status,
-        apiCode: data.code ?? null
+        apiCode:
+          data?.error?.code ??
+          data?.code ??
+          null
       });
+
+      if (response.status === 401) {
+        return json(502, {
+          success: false,
+          error: "reAPI API key si sahihi"
+        });
+      }
+
+      if (response.status === 429) {
+        return json(429, {
+          success: false,
+          error:
+            "reAPI imefikia kikomo cha maombi. Jaribu tena baadaye."
+        });
+      }
 
       return json(502, {
         success: false,
@@ -95,18 +151,25 @@ exports.handler = async (event) => {
       });
     }
 
+    // ==========================================
+    // READ TASK STATUS
+    // ==========================================
+
     const root =
-      data.data ||
-      data.result ||
-      data;
+      data?.data &&
+      typeof data.data === "object"
+        ? data.data
+        : data;
 
     const rawStatus = String(
-      root.status ||
-      root.state ||
-      root.task_status ||
-      data.status ||
+      root?.status ||
+      data?.status ||
       ""
     ).toLowerCase();
+
+    // ==========================================
+    // STATUS CATEGORIES
+    // ==========================================
 
     const failedStates = [
       "failed",
@@ -116,112 +179,167 @@ exports.handler = async (event) => {
       "canceled"
     ];
 
-    const songs = [];
-    const visited = new WeakSet();
+    const completedStates = [
+      "completed",
+      "complete",
+      "succeeded",
+      "success"
+    ];
+
+    // ==========================================
+    // VALIDATE AUDIO URL
+    // ==========================================
 
     function safeURL(value) {
+
       if (typeof value !== "string") {
         return "";
       }
 
       try {
+
         const url = new URL(value);
 
-        return (
+        if (
           url.protocol === "https:" ||
           url.protocol === "http:"
-        ) ? url.href : "";
+        ) {
+          return url.href;
+        }
+
+        return "";
 
       } catch {
         return "";
       }
     }
 
-    function collect(value, depth = 0) {
+    // ==========================================
+    // READ OUTPUT
+    // ==========================================
 
-      if (!value || depth > 7) {
+    const output =
+      root?.output &&
+      typeof root.output === "object"
+        ? root.output
+        : {};
+
+    const tracks = Array.isArray(output.tracks)
+      ? output.tracks
+      : [];
+
+    const audioUrls = Array.isArray(output.audio_urls)
+      ? output.audio_urls
+      : [];
+
+    // ==========================================
+    // BUILD SONGS ARRAY
+    // ==========================================
+
+    const songs = [];
+
+    const seenUrls = new Set();
+
+    function addSong(title, audioUrl, duration) {
+
+      const validUrl = safeURL(audioUrl);
+
+      if (!validUrl || seenUrls.has(validUrl)) {
         return;
       }
 
-      if (Array.isArray(value)) {
-        value.forEach(item => {
-          collect(item, depth + 1);
-        });
-        return;
-      }
+      seenUrls.add(validUrl);
 
-      if (typeof value !== "object") {
-        return;
-      }
+      const durationNumber = Number(duration);
 
-      if (visited.has(value)) {
-        return;
-      }
-
-      visited.add(value);
-
-      const audioUrl = safeURL(
-        value.audio_url ||
-        value.audioUrl ||
-        value.music_url ||
-        value.musicUrl ||
-        value.song_url ||
-        value.stream_url ||
-        value.play_url ||
-        value.audio
-      );
-
-      if (
-        audioUrl &&
-        !songs.some(
-          song => song.audioUrl === audioUrl
-        )
-      ) {
-        songs.push({
-          title:
-            value.title ||
-            value.song_name ||
-            "",
-          audioUrl,
-          duration: Number(
-            value.duration ||
-            value.duration_seconds ||
-            0
-          )
-        });
-      }
-
-      for (
-        const [key, child]
-        of Object.entries(value)
-      ) {
-        if (
-          child &&
-          typeof child === "object" &&
-          key !== "metadata"
-        ) {
-          collect(child, depth + 1);
-        }
-      }
+      songs.push({
+        title:
+          typeof title === "string"
+            ? title
+            : "",
+        audioUrl: validUrl,
+        duration:
+          Number.isFinite(durationNumber) &&
+          durationNumber >= 0
+            ? durationNumber
+            : 0
+      });
     }
 
-    collect(root);
+    // ==========================================
+    // EXTRACT TRACKS
+    // ==========================================
+
+    tracks.forEach((track, index) => {
+
+      if (
+        !track ||
+        typeof track !== "object"
+      ) {
+        return;
+      }
+
+      addSong(
+        track.title,
+        track.url ||
+          track.audio_url ||
+          audioUrls[index],
+        track.duration
+      );
+
+    });
+
+    // ==========================================
+    // FALLBACK: AUDIO URLS
+    // ==========================================
+
+    audioUrls.forEach((url, index) => {
+
+      const track = tracks[index] || {};
+
+      addSong(
+        track.title,
+        url,
+        track.duration
+      );
+
+    });
+
+    // ==========================================
+    // DETERMINE FINAL STATUS
+    // ==========================================
 
     let status = "processing";
 
     if (failedStates.includes(rawStatus)) {
+
       status = "failed";
-    } else if (songs.length > 0) {
-      status = "completed";
+
+    } else if (completedStates.includes(rawStatus)) {
+
+      status =
+        songs.length > 0
+          ? "completed"
+          : "processing";
+
     }
 
-    console.log("MusicAPI status:", {
+    // ==========================================
+    // SAFE BACKEND LOG
+    // ==========================================
+
+    console.log("reAPI task status:", {
       taskId,
       rawStatus,
       status,
       songsFound: songs.length,
-      responseKeys: Object.keys(root)
+      tracksFound: tracks.length,
+      audioUrlsFound: audioUrls.length
     });
+
+    // ==========================================
+    // SUCCESS RESPONSE
+    // ==========================================
 
     return json(200, {
       success: true,
@@ -233,27 +351,39 @@ exports.handler = async (event) => {
         status === "completed"
           ? "Nyimbo zimepatikana"
           : status === "failed"
-            ? "Utengenezaji umeshindikana"
+            ? "Utengenezaji wa wimbo umeshindikana"
             : "Wimbo unaendelea kutengenezwa"
     });
 
   } catch (error) {
 
+    // ==========================================
+    // TIMEOUT
+    // ==========================================
+
     if (error.name === "AbortError") {
       return json(504, {
         success: false,
-        error: "MusicAPI imechelewa kujibu"
+        error: "reAPI imechelewa kujibu"
       });
     }
 
+    // ==========================================
+    // BACKEND ERROR
+    // ==========================================
+
     console.error(
       "Status backend error:",
-      error.name
+      error.name,
+      error.message
     );
 
     return json(500, {
       success: false,
-      error: "Tatizo limetokea wakati wa kuangalia wimbo"
+      error:
+        "Tatizo limetokea wakati wa kuangalia wimbo"
     });
+
   }
+
 };
