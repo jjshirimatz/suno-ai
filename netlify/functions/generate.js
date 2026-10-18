@@ -2,6 +2,10 @@
 
 exports.handler = async (event) => {
 
+  // ==========================================
+  // JSON RESPONSE
+  // ==========================================
+
   const json = (statusCode, data) => ({
     statusCode,
     headers: {
@@ -10,6 +14,10 @@ exports.handler = async (event) => {
     },
     body: JSON.stringify(data)
   });
+
+  // ==========================================
+  // ALLOW POST ONLY
+  // ==========================================
 
   if (event.httpMethod !== "POST") {
     return json(405, {
@@ -20,15 +28,25 @@ exports.handler = async (event) => {
 
   try {
 
+    // ==========================================
+    // ENVIRONMENT VARIABLES
+    // ==========================================
+
     const apiKey = process.env.MUSICAPI_KEY;
     const testPassword = process.env.MUSIC_TEST_PASSWORD;
 
     if (!apiKey || !testPassword) {
+      console.error("Missing MusicAPI configuration");
+
       return json(500, {
         success: false,
         error: "Backend configuration haijakamilika"
       });
     }
+
+    // ==========================================
+    // TEST PASSWORD
+    // ==========================================
 
     const suppliedPassword =
       event.headers?.["x-test-password"] ||
@@ -44,6 +62,10 @@ exports.handler = async (event) => {
       });
     }
 
+    // ==========================================
+    // READ REQUEST BODY
+    // ==========================================
+
     let body;
 
     try {
@@ -55,9 +77,33 @@ exports.handler = async (event) => {
       });
     }
 
-    const title = body.title;
-    const prompt = body.prompt;
+    if (
+      !body ||
+      typeof body !== "object" ||
+      Array.isArray(body)
+    ) {
+      return json(400, {
+        success: false,
+        error: "Taarifa za wimbo si sahihi"
+      });
+    }
+
+    // ==========================================
+    // SONG INFORMATION
+    // ==========================================
+
+    const title =
+      typeof body.title === "string"
+        ? body.title.trim()
+        : "";
+
+    const prompt =
+      typeof body.prompt === "string"
+        ? body.prompt.trim()
+        : "";
+
     const genre = body.genre;
+
     const voice = body.voice;
 
     const mode =
@@ -65,12 +111,31 @@ exports.handler = async (event) => {
         ? "custom"
         : "automatic";
 
-    if (
-      typeof title !== "string" ||
-      typeof prompt !== "string" ||
-      !title.trim() ||
-      !prompt.trim()
-    ) {
+    // ==========================================
+    // SONG LANGUAGE
+    // ==========================================
+
+    const allowedLanguages = [
+      "Swahili",
+      "English",
+      "French",
+      "Spanish",
+      "Portuguese",
+      "Arabic",
+      "Hindi",
+      "Other"
+    ];
+
+    const songLanguage =
+      allowedLanguages.includes(body.songLanguage)
+        ? body.songLanguage
+        : "Swahili";
+
+    // ==========================================
+    // VALIDATE INPUT
+    // ==========================================
+
+    if (!title || !prompt) {
       return json(400, {
         success: false,
         error: "Jaza jina na maelezo au mashairi ya wimbo"
@@ -87,6 +152,10 @@ exports.handler = async (event) => {
       });
     }
 
+    // ==========================================
+    // MUSIC GENRE
+    // ==========================================
+
     const allowedGenres = [
       "Bongo Flava",
       "Mduara",
@@ -100,47 +169,100 @@ exports.handler = async (event) => {
         ? genre
         : "Bongo Flava";
 
+    // ==========================================
+    // VOCAL GENDER
+    // ==========================================
+
     const vocalGender =
       voice === "Male" ? "m" : "f";
 
-    /*
-      AUTOMATIC:
-      custom_mode false.
-      Prompt ni maelekezo ya wimbo.
+    const vocalDescription =
+      voice === "Male"
+        ? "male singer"
+        : "female singer";
 
-      CUSTOM:
-      custom_mode true.
-      Prompt ni mashairi ya kuimbwa.
-    */
+    // ==========================================
+    // CREATION MODE
+    // ==========================================
 
     const isCustom = mode === "custom";
+
+    // ==========================================
+    // MUSICAPI PAYLOAD
+    // ==========================================
 
     const payload = {
       task_type: "create_music",
       custom_mode: isCustom,
       mv: "sonic-v6",
-      prompt: prompt.trim(),
       make_instrumental: false
     };
 
+    // ==========================================
+    // CUSTOM MODE — MY LYRICS
+    // ==========================================
+
     if (isCustom) {
-      payload.title = title.trim();
-      payload.tags = selectedGenre;
-      payload.vocal_gender = vocalGender;
-    } else {
+
       /*
-        Automatic mode:
-        Maelekezo yanaeleza aina ya muziki
-        na sauti inayotakiwa.
+        Mtumiaji ameandika mashairi yake.
+
+        Hapa hatuongezi maelekezo mengine
+        ndani ya prompt ili AI isiimbe
+        maneno ambayo si sehemu ya mashairi.
       */
-      payload.prompt =
-        prompt.trim() +
-        ". Music style: " +
+
+      payload.title = title;
+
+      payload.prompt = prompt;
+
+      payload.tags =
         selectedGenre +
-        ". Vocal: " +
-        (voice === "Male" ? "male" : "female") +
-        ". Create a complete song with original lyrics.";
+        ", " +
+        songLanguage +
+        " vocals, " +
+        vocalDescription;
+
+      payload.vocal_gender = vocalGender;
+
+    } else {
+
+      // ========================================
+      // AUTOMATIC MODE — AI WRITES SONG
+      // ========================================
+
+      /*
+        Mtumiaji anaeleza wazo la wimbo.
+
+        custom_mode = false.
+
+        Prompt inakuwa maelekezo kwa AI
+        kutunga mashairi na muziki.
+      */
+
+      const languageInstruction =
+        songLanguage === "Other"
+          ? "Use the language requested in the song description."
+          : "Write and sing the lyrics in " +
+            songLanguage + ".";
+
+      payload.prompt = [
+        prompt,
+        "",
+        "Music genre: " + selectedGenre + ".",
+        "Vocal style: " + vocalDescription + ".",
+        languageInstruction,
+        "Compose original song lyrics based on the description.",
+        "Include verses and a memorable chorus.",
+        "Create a complete musical arrangement.",
+        "Treat this text as creative instructions, not lyrics to sing."
+      ].join("\n");
+
     }
+
+    // ==========================================
+    // API REQUEST TIMEOUT
+    // ==========================================
 
     const controller = new AbortController();
 
@@ -151,7 +273,12 @@ exports.handler = async (event) => {
 
     let response;
 
+    // ==========================================
+    // SEND REQUEST TO MUSICAPI
+    // ==========================================
+
     try {
+
       response = await fetch(
         "https://api.musicapi.ai/api/v1/sonic/create",
         {
@@ -165,117 +292,204 @@ exports.handler = async (event) => {
           signal: controller.signal
         }
       );
+
     } finally {
+
       clearTimeout(timeout);
+
     }
+
+    // ==========================================
+    // READ MUSICAPI RESPONSE
+    // ==========================================
 
     const raw = await response.text();
 
     let data;
 
     try {
+
       data = JSON.parse(raw);
+
     } catch {
+
       return json(502, {
         success: false,
         error: "MusicAPI imerudisha jibu lisilo JSON"
       });
+
     }
+
+    // ==========================================
+    // SAFE BACKEND LOG
+    // ==========================================
 
     console.log("MusicAPI generation:", {
       httpStatus: response.status,
-      apiCode: data.code ?? null,
+      apiCode: data?.code ?? null,
       mode,
+      songLanguage,
+      genre: selectedGenre,
       hasTaskId: Boolean(
-        data.task_id ||
-        data.data?.task_id
+        data?.task_id ||
+        data?.data?.task_id ||
+        data?.result?.task_id
       )
     });
+
+    // ==========================================
+    // HANDLE API ERRORS
+    // ==========================================
 
     if (!response.ok) {
 
       const apiMessage = String(
-        data.message ||
-        data.error ||
-        data.detail ||
+        data?.message ||
+        data?.error ||
+        data?.detail ||
         ""
       ).toLowerCase();
+
+      // INSUFFICIENT CREDITS
 
       if (
         apiMessage.includes("credit") ||
         apiMessage.includes("balance") ||
         apiMessage.includes("subscribe")
       ) {
+
         return json(402, {
           success: false,
           error:
-            "Credits za MusicAPI hazitoshi kutengeneza wimbo mpya. Ongeza credits kwenye MusicAPI.",
+            "Credits za MusicAPI hazitoshi. Ongeza credits kwenye akaunti yako ya MusicAPI.",
           http_status: response.status
         });
+
       }
 
+      // INVALID API KEY
+
       if (response.status === 401) {
+
         return json(502, {
           success: false,
           error: "MusicAPI API key si sahihi"
         });
+
       }
 
+      // RATE LIMIT
+
       if (response.status === 429) {
+
         return json(429, {
           success: false,
-          error: "MusicAPI imefikia kikomo cha maombi. Jaribu baadaye."
+          error:
+            "MusicAPI imefikia kikomo cha maombi. Jaribu tena baadaye."
         });
+
       }
+
+      // OTHER API ERRORS
 
       return json(502, {
         success: false,
         error: "MusicAPI imekataa ombi",
         http_status: response.status,
-        api_code: data.code ?? null
+        api_code: data?.code ?? null
       });
+
     }
 
+    // ==========================================
+    // CHECK API-LEVEL ERROR
+    // ==========================================
+
+    if (
+      data?.success === false ||
+      (
+        typeof data?.code === "number" &&
+        data.code >= 400
+      )
+    ) {
+
+      return json(502, {
+        success: false,
+        error: "MusicAPI imerudisha hitilafu",
+        api_code: data?.code ?? null
+      });
+
+    }
+
+    // ==========================================
+    // EXTRACT TASK ID
+    // ==========================================
+
     const taskId =
-      data.task_id ||
-      data.data?.task_id ||
-      data.result?.task_id;
+      data?.task_id ||
+      data?.data?.task_id ||
+      data?.result?.task_id;
 
     if (
       !taskId ||
       typeof taskId !== "string"
     ) {
+
       return json(502, {
         success: false,
-        error: "MusicAPI haijarudisha Task ID"
+        error:
+          "MusicAPI haijarudisha Task ID. Angalia Usage Details kabla ya kujaribu tena."
       });
+
     }
+
+    // ==========================================
+    // SUCCESS RESPONSE
+    // ==========================================
 
     return json(200, {
       success: true,
       task_id: taskId,
       mode,
+      title,
+      genre: selectedGenre,
+      voice: vocalGender,
+      songLanguage,
       message: "Wimbo umeanza kutengenezwa",
       model: "sonic-v6"
     });
 
   } catch (error) {
 
+    // ==========================================
+    // TIMEOUT
+    // ==========================================
+
     if (error.name === "AbortError") {
+
       return json(504, {
         success: false,
-        error: "MusicAPI imechelewa kujibu. Angalia Usage Details kabla ya kujaribu tena."
+        error:
+          "MusicAPI imechelewa kujibu. Angalia Usage Details kabla ya kujaribu tena."
       });
+
     }
+
+    // ==========================================
+    // BACKEND ERROR
+    // ==========================================
 
     console.error(
       "Generate backend error:",
-      error.name
+      error.name,
+      error.message
     );
 
     return json(500, {
       success: false,
       error: "Tatizo limetokea kwenye backend"
     });
+
   }
+
 };
