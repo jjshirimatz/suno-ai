@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#0b0c10">
 <title>AI Music App</title>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
@@ -62,7 +63,7 @@ header{display:flex;justify-content:space-between;align-items:center;gap:8px;mar
 .required{color:#ff3b30}
 .input-box,.textarea{width:100%;background:#12141c;border:2px solid #8a2be266;border-radius:14px;color:white;outline:0;padding:15px;font-size:15px}
 .input-box{height:55px}
-.textarea{height:140px;resize:vertical;line-height:1.5}
+.textarea{height:150px;resize:vertical;line-height:1.5}
 .input-box:focus,.textarea:focus{border-color:var(--cyan)}
 .tags{display:flex;flex-wrap:wrap;gap:10px}
 .tag{border:1px solid var(--border);background:#202230;color:var(--muted);padding:12px 14px;border-radius:14px;font-size:13px;font-weight:800}
@@ -146,6 +147,48 @@ body.ready .bottom-nav{display:flex}
 .task-import{margin-top:18px;background:#ffffff0a;border:1px solid var(--border);border-radius:16px;padding:15px}
 .task-import p{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:12px}
 .task-import input{width:100%;background:#12141c;color:white;border:1px solid var(--border);padding:13px;border-radius:12px;margin-bottom:10px}
+
+/* NEW MODE SELECTOR */
+.mode-switch{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:10px;
+ margin-bottom:13px;
+}
+.mode-btn{
+ background:#12141c;
+ border:2px solid var(--border);
+ color:var(--muted);
+ border-radius:15px;
+ padding:15px 9px;
+ font-size:13px;
+ font-weight:800;
+ text-align:center;
+ line-height:1.5;
+}
+.mode-btn i{
+ display:block;
+ font-size:23px;
+ margin-bottom:7px;
+}
+.mode-btn.active{
+ border-color:var(--cyan);
+ color:#fff;
+ background:linear-gradient(135deg,#8a2be244,#00f2fe22);
+}
+.mode-btn.active i{color:var(--cyan)}
+.mode-help{
+ color:var(--muted);
+ font-size:12px;
+ line-height:1.6;
+ margin:0 0 15px;
+}
+.mode-example{
+ color:#00f2fe;
+ font-size:12px;
+ line-height:1.6;
+ margin-top:10px;
+}
 @media(max-width:380px){
 .categories{grid-template-columns:repeat(2,1fr)}
 .logo h1{font-size:18px}
@@ -203,13 +246,38 @@ body.ready .bottom-nav{display:flex}
   <div class="back-row"><button class="back" onclick="switchPage('home-page')"><i class="fa-solid fa-arrow-left"></i></button><h2 data-t="create">Tengeneza Wimbo</h2></div>
 
   <div class="input-group">
+    <label class="input-label"><i class="fa-solid fa-sliders"></i><span data-t="chooseMode">Chagua Namna ya Kutengeneza</span></label>
+
+    <div class="mode-switch">
+      <button class="mode-btn active" id="automatic-mode-btn" onclick="selectCreationMode('automatic')">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        <span data-t="autoMode">AI Itunge Wimbo</span>
+      </button>
+
+      <button class="mode-btn" id="custom-mode-btn" onclick="selectCreationMode('custom')">
+        <i class="fa-solid fa-pen-nib"></i>
+        <span data-t="customMode">Mashairi Yangu</span>
+      </button>
+    </div>
+
+    <p class="mode-help" id="mode-help">
+      Andika wazo la wimbo. AI itatunga mashairi na muziki.
+    </p>
+  </div>
+
+  <div class="input-group">
     <label class="input-label"><i class="fa-solid fa-signature"></i><span data-t="songTitle">Andika Jina la Wimbo</span><span class="required">*</span></label>
     <input class="input-box" id="song-title-input" maxlength="150" placeholder="Mfano: Nitakupenda Milele">
   </div>
 
   <div class="input-group">
-    <label class="input-label"><i class="fa-solid fa-pen-nib"></i><span data-t="lyrics">Andika Mashairi au Prompt</span><span class="required">*</span></label>
-    <textarea class="textarea" id="song-prompt-input" maxlength="5000" placeholder="Andika mashairi ya wimbo wako hapa..."></textarea>
+    <label class="input-label"><i class="fa-solid fa-pen-nib"></i><span id="prompt-label">Eleza Wimbo Unaoutaka</span><span class="required">*</span></label>
+
+    <textarea class="textarea" id="song-prompt-input" maxlength="5000" placeholder="Mfano: Tengeneza wimbo wa mapenzi kwa Kiswahili kuhusu kijana anayempenda Neema."></textarea>
+
+    <p class="mode-example" id="mode-example">
+      Mfano: Wimbo wa mapenzi kuhusu Neema, kwa Kiswahili, wenye hisia za furaha.
+    </p>
   </div>
 
   <div class="input-group">
@@ -256,11 +324,14 @@ body.ready .bottom-nav{display:flex}
     <button class="icon-btn" onclick="openSettings()"><i class="fa-solid fa-bars"></i></button>
   </div>
 </header>
+
 <div class="page-title"><h2 data-t="mySongs">Nyimbo Zangu</h2><p data-t="mySongsDesc">Hapa ni orodha ya nyimbo zako ulizotengeneza</p></div>
+
 <div class="tabs">
   <button class="tab active" data-tab="all" onclick="changeTab('all')"><i class="fa-solid fa-music"></i> <span data-t="all">Zote</span></button>
   <button class="tab" data-tab="favorites" onclick="changeTab('favorites')"><i class="fa-regular fa-heart"></i> <span data-t="favorites">Vipendwa</span></button>
 </div>
+
 <div class="song-list" id="all-songs"></div>
 
 <div class="task-import">
@@ -275,21 +346,28 @@ body.ready .bottom-nav{display:flex}
   <div class="logo"><i class="fa-solid fa-wave-square"></i><div><h1>AI Music</h1><p data-t="buy">Nunua Credits</p></div></div>
   <button class="icon-btn" onclick="switchPage('home-page')"><i class="fa-solid fa-xmark"></i></button>
 </header>
+
 <div class="topup-banner"><div><h3 data-t="more">Tengeneza Zaidi</h3><p data-t="buyDesc">Nunua credits na uendelee kufanya ubunifu.</p></div><i class="fa-solid fa-coins"></i></div>
+
 <h3 style="margin-bottom:15px" data-t="package">Chagua Kifurushi</h3>
+
 <div class="package selected" data-price="2000" onclick="selectPackage(2000)">
   <div class="package-left"><i class="fa-solid fa-coins"></i><div><h4>5 Credits</h4><p>Nyimbo 5</p></div></div><div class="package-price">Tsh 2,000</div>
 </div>
+
 <div class="package" data-price="5000" onclick="selectPackage(5000)">
   <div class="package-left"><i class="fa-solid fa-coins"></i><div><h4>15 Credits</h4><p>Nyimbo 15</p></div></div><div class="package-price">Tsh 5,000</div>
 </div>
+
 <div class="package" data-price="10000" onclick="selectPackage(10000)">
   <div class="package-left"><i class="fa-solid fa-coins"></i><div><h4>30 Credits</h4><p>Nyimbo 30 + Sauti Yako</p></div></div><div class="package-price">Tsh 10,000</div>
 </div>
+
 <button class="primary" onclick="showPopup('Malipo','Malipo bado hayajaunganishwa. Credits hazitaongezwa mpaka malipo yathibitishwe.')">
   <i class="fa-solid fa-lock"></i><span id="pay-text">LIPA TSH 2,000</span>
 </button>
 </section>
+
 </div>
 
 <nav class="bottom-nav">
@@ -329,20 +407,10 @@ body.ready .bottom-nav{display:flex}
 <script>
 "use strict";
 
-/* API */
 const GENERATE_ENDPOINT="/.netlify/functions/generate";
 const STATUS_ENDPOINT="/.netlify/functions/status";
 
-/*
-  Weka Task IDs kamili hapa ikiwa unataka kurejesha
-  nyimbo za zamani kiotomatiki.
-  Usiweke ID zilizokatwa.
-*/
-const EXISTING_TASK_IDS=[
-  // "FULL-TASK-ID-1",
-  // "FULL-TASK-ID-2",
-  // "FULL-TASK-ID-3"
-];
+const EXISTING_TASK_IDS=[];
 
 const SONGS_KEY="aiMusicSongsV2";
 const TASKS_KEY="aiMusicPendingTasksV2";
@@ -357,6 +425,8 @@ let selectedSongId=null;
 let generating=false;
 let selectedPrice=2000;
 let activeSongId=null;
+let creationMode="automatic";
+
 const activePolls=new Set();
 const audio=new Audio();
 audio.preload="metadata";
@@ -366,12 +436,15 @@ sw:{
  subtitle:"Tengeneza Nyimbo kwa AI",
  add:"+ Ongeza",
  hero:'Tengeneza<br>Nyimbo Zako<br><span class="cyan">kwa AI</span>',
- heroDesc:"Andika mashairi yako, chagua aina ya muziki na upate wimbo kamili.",
+ heroDesc:"Andika mashairi yako au eleza wazo la wimbo na AI itakutengenezea muziki.",
  newSong:"TENGENEZA WIMBO MPYA",
  genres:"Aina za Muziki",
  viewAll:"Tazama Zote →",
  recent:"Nyimbo Zangu Hivi Karibuni",
  create:"Tengeneza Wimbo",
+ chooseMode:"Chagua Namna ya Kutengeneza",
+ autoMode:"AI Itunge Wimbo",
+ customMode:"Mashairi Yangu",
  songTitle:"Andika Jina la Wimbo",
  lyrics:"Andika Mashairi au Prompt",
  genre:"Aina ya Muziki",
@@ -399,19 +472,21 @@ sw:{
  noSongs:"Bado hakuna nyimbo.",
  processing:"AI inatengeneza wimbo wako...",
  checking:"Inaangalia matokeo ya MusicAPI...",
- waiting:"Bado tunasubiri matokeo. Jaribu kufungua app tena.",
- download:"Pakua"
+ waiting:"Bado tunasubiri matokeo. Jaribu kufungua app tena."
 },
 en:{
  subtitle:"Generate AI Songs",
  add:"+ Top Up",
  hero:'Create<br>Your Songs<br><span class="cyan">with AI</span>',
- heroDesc:"Write lyrics, select a genre and generate a complete song.",
+ heroDesc:"Write lyrics or describe a song idea and generate music with AI.",
  newSong:"CREATE SONG",
  genres:"Genres",
  viewAll:"View All →",
  recent:"Recent Songs",
  create:"Create Song",
+ chooseMode:"Choose Creation Mode",
+ autoMode:"AI Writes Song",
+ customMode:"My Lyrics",
  songTitle:"Song Title",
  lyrics:"Lyrics or Prompt",
  genre:"Music Genre",
@@ -439,19 +514,21 @@ en:{
  noSongs:"No songs yet.",
  processing:"AI is generating your song...",
  checking:"Checking MusicAPI results...",
- waiting:"Still waiting. Reopen the app later.",
- download:"Download"
+ waiting:"Still waiting. Reopen the app later."
 },
 fr:{
  subtitle:"Générer des chansons",
  add:"+ Ajouter",
  hero:'Créez<br>Vos Chansons<br><span class="cyan">avec l’IA</span>',
- heroDesc:"Écrivez des paroles et générez une chanson.",
+ heroDesc:"Écrivez des paroles ou décrivez votre chanson.",
  newSong:"CRÉER UNE CHANSON",
  genres:"Genres",
  viewAll:"Voir Tout →",
  recent:"Chansons récentes",
  create:"Créer une chanson",
+ chooseMode:"Mode de création",
+ autoMode:"IA écrit la chanson",
+ customMode:"Mes paroles",
  songTitle:"Titre de la chanson",
  lyrics:"Paroles ou prompt",
  genre:"Genre musical",
@@ -466,7 +543,7 @@ fr:{
  mySongsDesc:"Vos chansons générées",
  all:"Toutes",
  favorites:"Favoris",
- importHelp:"Vous avez un ID de tâche MusicAPI ? Entrez-le pour récupérer votre chanson.",
+ importHelp:"Entrez un ID de tâche MusicAPI pour récupérer une chanson.",
  restore:"RÉCUPÉRER",
  buy:"Acheter des crédits",
  more:"Créer davantage",
@@ -479,12 +556,13 @@ fr:{
  noSongs:"Aucune chanson.",
  processing:"Création de votre chanson...",
  checking:"Vérification MusicAPI...",
- waiting:"Toujours en attente. Revenez plus tard.",
- download:"Télécharger"
+ waiting:"Toujours en attente."
 }
 };
 
-function tr(key){return translations[lang]?.[key]||translations.sw[key]||key}
+function tr(key){
+ return translations[lang]?.[key]||translations.sw[key]||key;
+}
 
 function escapeHTML(value){
  return String(value??"")
@@ -512,13 +590,16 @@ function save(){
  try{
   localStorage.setItem(SONGS_KEY,JSON.stringify(songs));
   localStorage.setItem(TASKS_KEY,JSON.stringify(tasks));
- }catch(e){console.warn("Storage:",e)}
+ }catch(e){
+  console.warn("Storage:",e);
+ }
 }
 
 function load(){
  try{
   const s=JSON.parse(localStorage.getItem(SONGS_KEY)||"[]");
   const p=JSON.parse(localStorage.getItem(TASKS_KEY)||"[]");
+
   songs=Array.isArray(s)?s.filter(x=>x&&validURL(x.audioUrl)):[];
   tasks=Array.isArray(p)?p.filter(x=>x&&x.task_id):[];
  }catch{
@@ -529,35 +610,49 @@ function load(){
 
 function applyLanguage(){
  document.documentElement.lang=lang;
+
  document.querySelectorAll("[data-t]").forEach(el=>{
   el.textContent=tr(el.dataset.t);
  });
+
  document.querySelectorAll("[data-t-html]").forEach(el=>{
   el.innerHTML=tr(el.dataset.tHtml);
  });
+
+ updateCreationModeUI();
  renderSongs();
 }
 
 function selectLanguage(value){
  lang=translations[value]?value:"sw";
  localStorage.setItem("aiMusicLang",lang);
+
  document.getElementById("language-page").classList.remove("active");
  document.getElementById("app").style.display="block";
  document.body.classList.add("ready");
+
  applyLanguage();
  switchPage("home-page",false);
 }
 
 function switchPage(page,push=true){
- document.querySelectorAll(".page").forEach(el=>el.classList.remove("active"));
+ document.querySelectorAll(".page").forEach(el=>{
+  el.classList.remove("active");
+ });
+
  const target=document.getElementById(page);
  if(!target)return;
+
  target.classList.add("active");
+
  document.querySelectorAll(".nav").forEach(el=>{
   el.classList.toggle("active",el.dataset.page===page);
  });
+
  if(page==="music-page")renderSongs();
+
  window.scrollTo(0,0);
+
  if(push)history.pushState({page},"","#"+page);
 }
 
@@ -566,10 +661,12 @@ window.addEventListener("popstate",event=>{
  switchPage(event.state?.page||"home-page",false);
 });
 
-function setupTags(container,attribute){
+function setupTags(container){
  document.querySelectorAll("#"+container+" .tag").forEach(tag=>{
   tag.addEventListener("click",()=>{
-   document.querySelectorAll("#"+container+" .tag").forEach(x=>x.classList.remove("active"));
+   document.querySelectorAll("#"+container+" .tag").forEach(x=>{
+    x.classList.remove("active");
+   });
    tag.classList.add("active");
   });
  });
@@ -579,11 +676,83 @@ function getSelected(container,attribute,fallback){
  return document.querySelector("#"+container+" .tag.active")?.dataset[attribute]||fallback;
 }
 
+/* AUTOMATIC / CUSTOM MODE */
+
+function selectCreationMode(mode){
+ creationMode=mode==="custom"?"custom":"automatic";
+ updateCreationModeUI();
+}
+
+function updateCreationModeUI(){
+ const automatic=creationMode==="automatic";
+
+ document.getElementById("automatic-mode-btn")
+  .classList.toggle("active",automatic);
+
+ document.getElementById("custom-mode-btn")
+  .classList.toggle("active",!automatic);
+
+ const help=document.getElementById("mode-help");
+ const label=document.getElementById("prompt-label");
+ const input=document.getElementById("song-prompt-input");
+ const example=document.getElementById("mode-example");
+
+ if(lang==="en"){
+  help.textContent=automatic
+   ?"Describe your song idea. AI will write the lyrics and create music."
+   :"Write your own lyrics. AI will sing the lyrics you provide.";
+
+  label.textContent=automatic?"Describe Your Song":"Write Your Lyrics";
+
+  input.placeholder=automatic
+   ?"Example: Create a Swahili love song about Neema in Bongo Flava style."
+   ?"[Verse 1]\nNeema, you are my sunshine...\n\n[Chorus]\nI will love you forever...";
+
+  example.textContent=automatic
+   ?"Describe the story, language, mood and genre."
+   :"Use [Verse 1], [Chorus] and [Verse 2] to organize lyrics.";
+
+ }else if(lang==="fr"){
+  help.textContent=automatic
+   ?"Décrivez votre idée. L'IA écrira les paroles et la musique."
+   :"Écrivez vos paroles. L'IA les chantera.";
+
+  label.textContent=automatic?"Décrivez votre chanson":"Écrivez vos paroles";
+
+  input.placeholder=automatic
+   ?"Exemple : Une chanson d'amour en swahili sur Neema."
+   ?"[Verse 1]\nMes paroles...\n\n[Chorus]\nMon refrain...";
+
+  example.textContent=automatic
+   ?"Décrivez le sujet, la langue et l'ambiance."
+   :"Utilisez [Verse 1], [Chorus] et [Verse 2].";
+
+ }else{
+  help.textContent=automatic
+   ?"Andika wazo la wimbo. AI itatunga mashairi na muziki yenyewe."
+   :"Andika mashairi yako mwenyewe. AI itaimba maneno uliyoandika.";
+
+  label.textContent=automatic
+   ?"Eleza Wimbo Unaoutaka"
+   :"Andika Mashairi Yako";
+
+  input.placeholder=automatic
+   ?"Mfano: Tengeneza wimbo wa mapenzi kwa Kiswahili kuhusu kijana anayempenda Neema. Uwe wa Bongo Flava."
+   ?"[Verse 1]\nNeema wangu nakupenda\nWewe ndiye wa maisha yangu\n\n[Chorus]\nNakupenda Neema\nNitakupenda milele";
+
+  example.textContent=automatic
+   ?"Mfano: Wimbo wa mapenzi kuhusu Neema, kwa Kiswahili, wenye hisia za furaha."
+   :"Tumia [Verse 1], [Chorus] na [Verse 2] kupanga mashairi yako.";
+ }
+}
+
 function showPopup(title,message,callback=null){
  document.getElementById("popup-title").textContent=title;
  document.getElementById("popup-message").textContent=message;
+
  const buttons=document.getElementById("popup-buttons");
  buttons.replaceChildren();
+
  if(callback){
   const cancel=document.createElement("button");
   cancel.className="secondary";
@@ -591,6 +760,7 @@ function showPopup(title,message,callback=null){
   cancel.onclick=closePopup;
   buttons.appendChild(cancel);
  }
+
  const ok=document.createElement("button");
  ok.textContent="Sawa";
  ok.onclick=()=>{
@@ -598,6 +768,7 @@ function showPopup(title,message,callback=null){
   if(callback)callback();
  };
  buttons.appendChild(ok);
+
  document.getElementById("popup-overlay").classList.add("show");
 }
 
@@ -606,6 +777,7 @@ function closePopup(){
 }
 
 let toastTimer;
+
 function showToast(message){
  const el=document.getElementById("toast");
  el.textContent=message;
@@ -619,10 +791,16 @@ async function requestJSON(url,options={}){
   cache:"no-store",
   ...options
  });
+
  const text=await response.text();
  let data;
- try{data=JSON.parse(text)}
- catch{throw new Error("Backend haijarudisha JSON sahihi.")}
+
+ try{
+  data=JSON.parse(text);
+ }catch{
+  throw new Error("Backend haijarudisha JSON sahihi.");
+ }
+
  if(!response.ok||data.success===false){
   throw new Error(
    typeof data.error==="string"
@@ -630,6 +808,7 @@ async function requestJSON(url,options={}){
    :"Ombi limeshindikana ("+response.status+")"
   );
  }
+
  return data;
 }
 
@@ -640,7 +819,7 @@ async function generateSong(){
  const prompt=document.getElementById("song-prompt-input").value.trim();
 
  if(!title||!prompt){
-  showPopup("Taarifa","Jaza jina la wimbo na mashairi au prompt.");
+  showPopup("Taarifa","Jaza jina la wimbo na maelezo au mashairi.");
   return;
  }
 
@@ -666,11 +845,20 @@ async function generateSong(){
     "Content-Type":"application/json",
     "x-test-password":password
    },
-   body:JSON.stringify({title,prompt,genre,voice})
+   body:JSON.stringify({
+    title,
+    prompt,
+    genre,
+    voice,
+    mode:creationMode
+   })
   });
 
   const taskId=String(data.task_id||"");
-  if(!taskId)throw new Error("MusicAPI haijarudisha Task ID.");
+
+  if(!taskId){
+   throw new Error("MusicAPI haijarudisha Task ID.");
+  }
 
   if(!tasks.some(x=>x.task_id===taskId)){
    tasks.unshift({
@@ -678,6 +866,7 @@ async function generateSong(){
     title,
     genre,
     voice,
+    mode:creationMode,
     createdAt:Date.now(),
     status:"processing"
    });
@@ -701,7 +890,7 @@ async function generateSong(){
  }
 }
 
-/* EXISTING TASK IMPORT */
+/* RESTORE TASK */
 
 function addExistingTask(taskId){
  taskId=String(taskId||"").trim();
@@ -725,6 +914,7 @@ function addExistingTask(taskId){
  save();
  renderSongs();
  pollTask(taskId,true);
+
  return true;
 }
 
@@ -745,6 +935,7 @@ function importTask(){
 
 function parseResult(payload){
  const root=payload||{};
+
  const state=String(
   root.status||
   root.state||
@@ -886,7 +1077,9 @@ async function pollTask(taskId,immediate=false){
     if(done)return;
    }catch(error){
     console.warn("Task status:",error.message);
+
     const task=tasks.find(x=>x.task_id===taskId);
+
     if(task){
      task.status="checking";
      save();
@@ -896,11 +1089,13 @@ async function pollTask(taskId,immediate=false){
   }
 
   const task=tasks.find(x=>x.task_id===taskId);
+
   if(task){
    task.status="waiting";
    save();
    renderSongs();
   }
+
  }finally{
   activePolls.delete(taskId);
  }
@@ -940,15 +1135,21 @@ function songHTML(song){
      <button class="${liked?"liked":""}" data-action="favorite" data-id="${id}" aria-label="Favorite">
       <i class="${liked?"fa-solid":"fa-regular"} fa-heart"></i>
      </button>
-     <button data-action="options" data-id="${id}" aria-label="Options"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+     <button data-action="options" data-id="${id}" aria-label="Options">
+      <i class="fa-solid fa-ellipsis-vertical"></i>
+     </button>
     </div>
    </div>
    <div class="player-row">
-    <button class="play-btn" data-action="play" data-id="${id}" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+    <button class="play-btn" data-action="play" data-id="${id}" aria-label="Play">
+     <i class="fa-solid fa-play"></i>
+    </button>
     <span class="time elapsed">0:00</span>
     <div class="wave"></div>
     <span class="time">${time}</span>
-    <button class="download" data-action="download" data-id="${id}"><i class="fa-solid fa-download"></i></button>
+    <button class="download" data-action="download" data-id="${id}">
+     <i class="fa-solid fa-download"></i>
+    </button>
    </div>
   </div>
  </div>`;
@@ -984,10 +1185,12 @@ function pendingHTML(task){
 function renderSongs(){
  const recent=document.getElementById("recent-songs");
  const all=document.getElementById("all-songs");
+
  if(!recent||!all)return;
 
  const pending=tasks.map(pendingHTML).join("");
  const recentSongs=songs.slice(0,3).map(songHTML).join("");
+
  const visibleSongs=selectedTab==="favorites"
   ?songs.filter(x=>x.isFav)
   :songs;
@@ -1002,9 +1205,11 @@ function renderSongs(){
 
 function changeTab(tab){
  selectedTab=tab;
+
  document.querySelectorAll(".tab").forEach(el=>{
   el.classList.toggle("active",el.dataset.tab===tab);
  });
+
  renderSongs();
 }
 
@@ -1039,7 +1244,10 @@ async function playSong(id){
 function updatePlayerButtons(){
  document.querySelectorAll(".play-btn").forEach(btn=>{
   const playing=btn.dataset.id===activeSongId&&!audio.paused;
-  btn.querySelector("i").className="fa-solid fa-"+(playing?"pause":"play");
+
+  btn.querySelector("i").className=
+   "fa-solid fa-"+(playing?"pause":"play");
+
   btn.style.background=playing?"#ff007f":"var(--purple)";
  });
 }
@@ -1063,6 +1271,7 @@ audio.addEventListener("timeupdate",()=>{
 
 audio.addEventListener("loadedmetadata",()=>{
  const song=songs.find(x=>x.id===activeSongId);
+
  if(song&&Number.isFinite(audio.duration)&&audio.duration>0){
   song.duration=audio.duration;
   song.time=formatTime(audio.duration);
@@ -1073,6 +1282,7 @@ audio.addEventListener("loadedmetadata",()=>{
 function downloadSong(id){
  const song=songs.find(x=>x.id===id);
  if(!song)return;
+
  const url=validURL(song.audioUrl);
  if(!url)return;
 
@@ -1081,6 +1291,7 @@ function downloadSong(id){
  a.download=(song.title||"AI Music")+".mp3";
  a.target="_blank";
  a.rel="noopener noreferrer";
+
  document.body.appendChild(a);
  a.click();
  a.remove();
@@ -1089,6 +1300,7 @@ function downloadSong(id){
 function toggleFavorite(id){
  const song=songs.find(x=>x.id===id);
  if(!song)return;
+
  song.isFav=!song.isFav;
  save();
  renderSongs();
@@ -1097,6 +1309,7 @@ function toggleFavorite(id){
 function openSongOptions(id){
  const song=songs.find(x=>x.id===id);
  if(!song)return;
+
  selectedSongId=id;
  document.getElementById("sheet-title").textContent=song.title;
  document.getElementById("song-sheet").classList.add("show");
@@ -1105,10 +1318,15 @@ function openSongOptions(id){
 async function shareSelectedSong(){
  const song=songs.find(x=>x.id===selectedSongId);
  closeSheets();
+
  if(!song)return;
+
  try{
   if(navigator.share){
-   await navigator.share({title:song.title,url:song.audioUrl});
+   await navigator.share({
+    title:song.title,
+    url:song.audioUrl
+   });
   }else if(navigator.clipboard){
    await navigator.clipboard.writeText(song.audioUrl);
    showToast("Kiungo kimenakiliwa!");
@@ -1123,12 +1341,14 @@ async function shareSelectedSong(){
 function deleteSelectedSong(){
  const id=selectedSongId;
  closeSheets();
+
  showPopup("Futa Wimbo","Una uhakika unataka kufuta wimbo huu kwenye app?",()=>{
   if(activeSongId===id){
    audio.pause();
    audio.removeAttribute("src");
    activeSongId=null;
   }
+
   songs=songs.filter(x=>x.id!==id);
   save();
   renderSongs();
@@ -1141,14 +1361,18 @@ function openSettings(){
 }
 
 function closeSheets(){
- document.querySelectorAll(".sheet").forEach(x=>x.classList.remove("show"));
+ document.querySelectorAll(".sheet").forEach(x=>{
+  x.classList.remove("show");
+ });
 }
 
 function selectPackage(price){
  selectedPrice=price;
+
  document.querySelectorAll(".package").forEach(el=>{
   el.classList.toggle("selected",Number(el.dataset.price)===price);
  });
+
  document.getElementById("pay-text").textContent=
   "LIPA TSH "+price.toLocaleString("en-US");
 }
@@ -1178,8 +1402,9 @@ document.addEventListener("click",event=>{
 
 window.addEventListener("DOMContentLoaded",()=>{
  load();
- setupTags("genre-tags","genre");
- setupTags("voice-tags","voice");
+
+ setupTags("genre-tags");
+ setupTags("voice-tags");
 
  const saved=localStorage.getItem("aiMusicLang");
 
@@ -1194,5 +1419,6 @@ window.addEventListener("DOMContentLoaded",()=>{
  renderSongs();
 });
 </script>
+
 </body>
-    </html>
+</html>
