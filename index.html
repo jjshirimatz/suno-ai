@@ -18,123 +18,632 @@
 --border:rgba(255,255,255,.14)
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:white;font-family:Arial,Roboto,sans-serif;padding-bottom:95px}
+body{
+margin:0;
+background:var(--bg);
+color:white;
+font-family:Arial,Roboto,sans-serif;
+padding-bottom:95px
+}
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
-button:disabled{opacity:.5}
+button:disabled{opacity:.5;cursor:not-allowed}
 .app{max-width:600px;margin:auto;padding:15px}
 .page{display:none}
 .page.active{display:block}
-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:25px}
+header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+margin-bottom:25px
+}
 .logo{display:flex;align-items:center;gap:9px}
 .logo i{font-size:28px;color:var(--cyan)}
 .logo h2{font-size:21px;margin:0}
 .logo small{color:var(--muted)}
 .header-actions{display:flex;align-items:center;gap:8px}
-.credit-box{background:#202230;border-radius:20px;padding:8px 11px;font-size:12px}
+.credit-box{
+background:#202230;
+border-radius:20px;
+padding:8px 11px;
+font-size:12px
+}
 .credit-box i{color:gold}
-.small-btn{border:0;border-radius:10px;background:var(--purple);color:white;padding:10px;font-weight:bold}
-.icon-btn{background:#202230;border:1px solid var(--border);color:white;border-radius:50%;width:38px;height:38px}
-.hero{background:linear-gradient(135deg,#1a1c29,#2a1844);border-radius:22px;padding:26px 21px;margin-bottom:26px}
-.hero h1{font-size:32px;line-height:1.2;margin:0 0 14px}
+.small-btn{
+border:0;
+border-radius:10px;
+background:var(--purple);
+color:white;
+padding:10px;
+font-weight:bold
+}
+.icon-btn{
+background:#202230;
+border:1px solid var(--border);
+color:white;
+border-radius:50%;
+width:38px;
+height:38px
+}
+.hero{
+background:linear-gradient(135deg,#1a1c29,#2a1844);
+border-radius:22px;
+padding:26px 21px;
+margin-bottom:26px
+}
+.hero h1{
+font-size:32px;
+line-height:1.2;
+margin:0 0 14px
+}
 .hero h1 span{color:var(--cyan)}
-.hero p{color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:22px}
-.primary{width:100%;border:0;background:var(--purple);color:white;border-radius:24px;padding:16px;font-weight:bold;display:flex;justify-content:center;align-items:center;gap:10px}
-.section-heading{display:flex;justify-content:space-between;align-items:center;margin:25px 0 14px}
+.hero p{
+color:var(--muted);
+font-size:14px;
+line-height:1.6;
+margin-bottom:22px
+}
+.primary{
+width:100%;
+border:0;
+background:var(--purple);
+color:white;
+border-radius:24px;
+padding:16px;
+font-weight:bold;
+display:flex;
+justify-content:center;
+align-items:center;
+gap:10px
+}
+.section-heading{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin:25px 0 14px
+}
 .section-heading h3{margin:0;font-size:20px}
-.link{color:#59a0ff;border:0;background:none;font-weight:bold}
-.categories{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
-.category{border-radius:15px;height:100px;display:flex;align-items:flex-end;justify-content:center;padding:10px 3px;text-align:center;font-size:12px;font-weight:bold}
-.category i{display:block;font-size:27px;margin-bottom:8px}
-.category:nth-child(1){background:linear-gradient(145deg,#b01839,#270923)}
-.category:nth-child(2){background:linear-gradient(145deg,#8a2be2,#27134c)}
-.category:nth-child(3){background:linear-gradient(145deg,#16875b,#07352c)}
-.category:nth-child(4){background:linear-gradient(145deg,#e17a22,#612312)}
-.back-row{display:flex;align-items:center;gap:14px;margin:10px 0 25px}
+.link{
+color:#59a0ff;
+border:0;
+background:none;
+font-weight:bold
+}
+.categories{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:9px
+}
+.category{
+border-radius:15px;
+height:100px;
+display:flex;
+align-items:flex-end;
+justify-content:center;
+padding:10px 3px;
+text-align:center;
+font-size:12px;
+font-weight:bold
+}
+.category i{
+display:block;
+font-size:27px;
+margin-bottom:8px
+}
+.category:nth-child(1){
+background:linear-gradient(145deg,#b01839,#270923)
+}
+.category:nth-child(2){
+background:linear-gradient(145deg,#8a2be2,#27134c)
+}
+.category:nth-child(3){
+background:linear-gradient(145deg,#16875b,#07352c)
+}
+.category:nth-child(4){
+background:linear-gradient(145deg,#e17a22,#612312)
+}
+.back-row{
+display:flex;
+align-items:center;
+gap:14px;
+margin:10px 0 25px
+}
 .back-row h2{font-size:21px}
-.back-btn{width:44px;height:44px;background:#202230;border:1px solid var(--border);border-radius:50%;color:white}
-.card{background:#171923;border:1px solid var(--border);border-radius:20px;padding:18px;margin-bottom:20px}
-.label{display:flex;align-items:center;gap:8px;font-weight:bold;margin-bottom:14px;font-size:14px}
+.back-btn{
+width:44px;
+height:44px;
+background:#202230;
+border:1px solid var(--border);
+border-radius:50%;
+color:white
+}
+.card{
+background:#171923;
+border:1px solid var(--border);
+border-radius:20px;
+padding:18px;
+margin-bottom:20px
+}
+.label{
+display:flex;
+align-items:center;
+gap:8px;
+font-weight:bold;
+margin-bottom:14px;
+font-size:14px
+}
 .label i{color:var(--cyan)}
 .required{color:#ff3b30}
-.input,.textarea,.select{width:100%;background:#12141c;color:white;border:2px solid #8a2be266;border-radius:14px;padding:15px;outline:none}
+.input,.textarea,.select{
+width:100%;
+background:#12141c;
+color:white;
+border:2px solid #8a2be266;
+border-radius:14px;
+padding:15px;
+outline:none
+}
 .input{height:55px}
-.textarea{height:175px;resize:vertical;line-height:1.5}
-.input:focus,.textarea:focus,.select:focus{border-color:var(--cyan)}
+.textarea{
+height:175px;
+resize:vertical;
+line-height:1.5
+}
+.style-textarea{
+height:135px;
+}
+.input:focus,
+.textarea:focus,
+.select:focus{
+border-color:var(--cyan)
+}
 .select{height:55px}
-.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:13px}
-.mode-btn{border:2px solid var(--border);background:#12141c;color:var(--muted);border-radius:15px;padding:15px 8px;font-size:13px;font-weight:bold}
-.mode-btn i{display:block;font-size:23px;margin-bottom:8px}
-.mode-btn.active{border-color:var(--cyan);color:white;background:linear-gradient(135deg,#8a2be244,#00f2fe22)}
+.mode-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-bottom:13px
+}
+.mode-btn{
+border:2px solid var(--border);
+background:#12141c;
+color:var(--muted);
+border-radius:15px;
+padding:15px 8px;
+font-size:13px;
+font-weight:bold
+}
+.mode-btn i{
+display:block;
+font-size:23px;
+margin-bottom:8px
+}
+.mode-btn.active{
+border-color:var(--cyan);
+color:white;
+background:linear-gradient(135deg,#8a2be244,#00f2fe22)
+}
 .mode-btn.active i{color:var(--cyan)}
-.help{font-size:12px;color:var(--muted);line-height:1.6;margin:10px 0 0}
-.example{font-size:12px;color:var(--cyan);line-height:1.5;margin:12px 0 0}
-.tags{display:flex;flex-wrap:wrap;gap:10px}
-.tag{background:#202230;border:1px solid var(--border);color:var(--muted);padding:12px;border-radius:13px;font-size:13px;font-weight:bold}
-.tag.active{border-color:var(--cyan);color:white;background:#00f2fe19}
+.help{
+font-size:12px;
+color:var(--muted);
+line-height:1.6;
+margin:10px 0 0
+}
+.example{
+font-size:12px;
+color:var(--cyan);
+line-height:1.5;
+margin:12px 0 0
+}
+.tags{
+display:flex;
+flex-wrap:wrap;
+gap:10px
+}
+.tag{
+background:#202230;
+border:1px solid var(--border);
+color:var(--muted);
+padding:12px;
+border-radius:13px;
+font-size:13px;
+font-weight:bold
+}
+.tag.active{
+border-color:var(--cyan);
+color:white;
+background:#00f2fe19
+}
 .tag.active i{color:var(--cyan)}
-.clone{text-align:center;border:2px dashed var(--purple);border-radius:15px;padding:23px;color:var(--muted)}
-.clone>i{display:block;font-size:30px;color:gold;margin-bottom:12px}
-.clone small{display:inline-block;background:#ffd70022;color:gold;padding:6px 12px;border-radius:10px;margin-top:10px}
+.clone{
+text-align:center;
+border:2px dashed var(--purple);
+border-radius:15px;
+padding:23px;
+color:var(--muted)
+}
+.clone>i{
+display:block;
+font-size:30px;
+color:gold;
+margin-bottom:12px
+}
+.clone small{
+display:inline-block;
+background:#ffd70022;
+color:gold;
+padding:6px 12px;
+border-radius:10px;
+margin-top:10px
+}
 .tabs{display:flex;gap:10px;margin:20px 0}
-.tab{flex:1;padding:13px;border:1px solid var(--border);background:transparent;color:var(--muted);border-radius:20px;font-weight:bold}
+.tab{
+flex:1;
+padding:13px;
+border:1px solid var(--border);
+background:transparent;
+color:var(--muted);
+border-radius:20px;
+font-weight:bold
+}
 .tab.active{background:var(--purple);color:white}
-.song-list{display:flex;flex-direction:column;gap:12px;margin:15px 0 25px}
-.song-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:12px;display:flex;align-items:center;gap:11px;min-width:0}
-.thumb{width:55px;height:55px;flex-shrink:0;background:linear-gradient(135deg,var(--purple),#ff007f);border-radius:13px;display:grid;place-items:center;font-size:23px}
+.song-list{
+display:flex;
+flex-direction:column;
+gap:12px;
+margin:15px 0 25px
+}
+.song-card{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:18px;
+padding:12px;
+display:flex;
+align-items:center;
+gap:11px;
+min-width:0
+}
+.thumb{
+width:55px;
+height:55px;
+flex-shrink:0;
+background:linear-gradient(135deg,var(--purple),#ff007f);
+border-radius:13px;
+display:grid;
+place-items:center;
+font-size:23px
+}
 .song-body{flex:1;min-width:0}
-.song-title{font-size:15px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.song-meta{font-size:12px;color:var(--muted);margin-top:5px}
-.song-top{display:flex;align-items:center;justify-content:space-between;gap:7px}
+.song-title{
+font-size:15px;
+font-weight:bold;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis
+}
+.song-meta{
+font-size:12px;
+color:var(--muted);
+margin-top:5px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis
+}
+.song-top{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:7px
+}
 .song-actions{display:flex;gap:11px}
-.song-actions button{background:none;border:0;color:var(--muted);font-size:17px}
+.song-actions button{
+background:none;
+border:0;
+color:var(--muted);
+font-size:17px
+}
 .song-actions button.liked{color:#ff007f}
-.player{display:flex;align-items:center;gap:8px;margin-top:12px}
-.play{border:0;background:var(--purple);color:white;width:36px;height:36px;flex-shrink:0;border-radius:50%}
-.time{font-size:11px;color:var(--muted);white-space:nowrap}
-.wave{height:20px;flex:1;min-width:8px;background:repeating-linear-gradient(90deg,var(--purple) 0 3px,transparent 3px 6px);opacity:.7}
-.download{border:1px solid #4a90e266;background:none;color:#59a0ff;border-radius:9px;padding:7px}
-.spinner{height:40px;width:40px;flex-shrink:0;border:3px solid #ffffff22;border-top-color:var(--purple);border-radius:50%;animation:spin 1s linear infinite}
+
+/* ===================================
+   NEW MUSIC PLAYER
+=================================== */
+
+.player{
+display:flex;
+align-items:center;
+gap:8px;
+margin-top:13px;
+min-width:0
+}
+.play{
+border:0;
+background:var(--purple);
+color:white;
+width:36px;
+height:36px;
+flex-shrink:0;
+border-radius:50%;
+display:grid;
+place-items:center
+}
+.time{
+font-size:11px;
+color:var(--muted);
+white-space:nowrap;
+font-variant-numeric:tabular-nums
+}
+.progress{
+appearance:none;
+-webkit-appearance:none;
+width:100%;
+min-width:20px;
+flex:1;
+height:6px;
+border-radius:20px;
+outline:none;
+border:0;
+cursor:pointer;
+background:linear-gradient(
+to right,
+var(--cyan) 0%,
+var(--cyan) var(--progress,0%),
+#424556 var(--progress,0%),
+#424556 100%
+)
+}
+.progress::-webkit-slider-thumb{
+-webkit-appearance:none;
+appearance:none;
+width:15px;
+height:15px;
+border-radius:50%;
+background:var(--cyan);
+border:3px solid #fff;
+box-shadow:0 0 8px #00f2fe66
+}
+.progress::-moz-range-thumb{
+width:11px;
+height:11px;
+border-radius:50%;
+background:var(--cyan);
+border:3px solid white
+}
+.progress:disabled{
+opacity:.55;
+cursor:default
+}
+.download{
+border:1px solid #4a90e266;
+background:none;
+color:#59a0ff;
+border-radius:9px;
+padding:7px;
+flex-shrink:0
+}
+.download.downloading{
+color:var(--cyan);
+border-color:var(--cyan)
+}
+
+.spinner{
+height:40px;
+width:40px;
+flex-shrink:0;
+border:3px solid #ffffff22;
+border-top-color:var(--purple);
+border-radius:50%;
+animation:spin 1s linear infinite
+}
 @keyframes spin{to{transform:rotate(360deg)}}
-.pending-label{color:var(--cyan);font-size:11px;font-weight:bold;margin-bottom:5px}
-.pending-description{color:var(--muted);font-size:12px;line-height:1.5;margin-top:6px}
-.empty{padding:30px 15px;background:var(--card);border-radius:17px;text-align:center;color:var(--muted)}
-.empty i{display:block;font-size:30px;color:var(--purple);margin-bottom:12px}
-.packages{display:flex;flex-direction:column;gap:12px;margin:20px 0}
-.package{background:var(--card);border:2px solid var(--border);border-radius:16px;padding:17px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.pending-label{
+color:var(--cyan);
+font-size:11px;
+font-weight:bold;
+margin-bottom:5px
+}
+.pending-description{
+color:var(--muted);
+font-size:12px;
+line-height:1.5;
+margin-top:6px
+}
+.empty{
+padding:30px 15px;
+background:var(--card);
+border-radius:17px;
+text-align:center;
+color:var(--muted)
+}
+.empty i{
+display:block;
+font-size:30px;
+color:var(--purple);
+margin-bottom:12px
+}
+.packages{
+display:flex;
+flex-direction:column;
+gap:12px;
+margin:20px 0
+}
+.package{
+background:var(--card);
+border:2px solid var(--border);
+border-radius:16px;
+padding:17px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:8px
+}
 .package.active{border-color:var(--purple)}
 .package h4{margin:0 0 5px}
-.package p{margin:0;color:var(--muted);font-size:12px}
-.package strong{white-space:nowrap;font-size:14px}
-.bottom-nav{position:fixed;bottom:0;left:0;width:100%;display:none;justify-content:space-around;background:#0b0c10f5;border-top:1px solid var(--border);padding:12px 0 calc(13px + env(safe-area-inset-bottom));z-index:100}
-.nav{flex:1;background:none;border:0;color:var(--muted);display:flex;align-items:center;flex-direction:column;gap:5px;font-size:12px}
+.package p{
+margin:0;
+color:var(--muted);
+font-size:12px
+}
+.package strong{
+white-space:nowrap;
+font-size:14px
+}
+.bottom-nav{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+display:none;
+justify-content:space-around;
+background:#0b0c10f5;
+border-top:1px solid var(--border);
+padding:12px 0 calc(13px + env(safe-area-inset-bottom));
+z-index:100
+}
+.nav{
+flex:1;
+background:none;
+border:0;
+color:var(--muted);
+display:flex;
+align-items:center;
+flex-direction:column;
+gap:5px;
+font-size:12px
+}
 .nav i{font-size:22px}
 .nav.active{color:var(--purple)}
-#language-page{position:fixed;inset:0;z-index:200;background:linear-gradient(180deg,#021a42,#010a1f);display:none;text-align:center;padding:60px 20px;overflow:auto}
+#language-page{
+position:fixed;
+inset:0;
+z-index:200;
+background:linear-gradient(180deg,#021a42,#010a1f);
+display:none;
+text-align:center;
+padding:60px 20px;
+overflow:auto
+}
 #language-page.active{display:block}
-#language-page>i{font-size:65px;color:var(--cyan);margin-bottom:25px}
-.lang-btn{display:block;width:100%;max-width:400px;margin:12px auto;background:#032b69;border:1px solid #00f2fe33;color:white;padding:19px;border-radius:14px;text-align:left;font-weight:bold}
-.overlay{position:fixed;inset:0;z-index:500;background:#000d;display:none;align-items:center;justify-content:center;padding:20px}
+#language-page>i{
+font-size:65px;
+color:var(--cyan);
+margin-bottom:25px
+}
+.lang-btn{
+display:block;
+width:100%;
+max-width:400px;
+margin:12px auto;
+background:#032b69;
+border:1px solid #00f2fe33;
+color:white;
+padding:19px;
+border-radius:14px;
+text-align:left;
+font-weight:bold
+}
+.overlay{
+position:fixed;
+inset:0;
+z-index:500;
+background:#000d;
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px
+}
 .overlay.show{display:flex}
-.popup{width:100%;max-width:400px;background:#161925;border-radius:23px;padding:25px 20px;text-align:center}
+.popup{
+width:100%;
+max-width:400px;
+background:#161925;
+border-radius:23px;
+padding:25px 20px;
+text-align:center
+}
 .popup>i{font-size:35px;color:var(--purple)}
 .popup h3{margin:15px 0}
-.popup p{color:var(--muted);line-height:1.6;white-space:pre-line;overflow-wrap:anywhere}
-.popup-buttons{display:flex;gap:10px;margin-top:22px}
-.popup-buttons button{flex:1;background:var(--purple);border:0;color:white;border-radius:14px;padding:13px;font-weight:bold}
+.popup p{
+color:var(--muted);
+line-height:1.6;
+white-space:pre-line;
+overflow-wrap:anywhere
+}
+.popup-buttons{
+display:flex;
+gap:10px;
+margin-top:22px
+}
+.popup-buttons button{
+flex:1;
+background:var(--purple);
+border:0;
+color:white;
+border-radius:14px;
+padding:13px;
+font-weight:bold
+}
 .popup-buttons .secondary{background:#ffffff19}
-.toast{position:fixed;top:18px;left:50%;transform:translate(-50%,-100px);opacity:0;transition:.3s;background:#00e676;color:black;border-radius:25px;padding:13px 18px;font-weight:bold;z-index:1000;max-width:90%;text-align:center}
-.toast.show{transform:translate(-50%,0);opacity:1}
-.sheet{position:fixed;inset:0;z-index:450;background:#000b;display:none;align-items:flex-end}
+.toast{
+position:fixed;
+top:18px;
+left:50%;
+transform:translate(-50%,-100px);
+opacity:0;
+transition:.3s;
+background:#00e676;
+color:black;
+border-radius:25px;
+padding:13px 18px;
+font-weight:bold;
+z-index:1000;
+max-width:90%;
+text-align:center
+}
+.toast.show{
+transform:translate(-50%,0);
+opacity:1
+}
+.sheet{
+position:fixed;
+inset:0;
+z-index:450;
+background:#000b;
+display:none;
+align-items:flex-end
+}
 .sheet.show{display:flex}
-.sheet-inner{width:100%;max-width:600px;margin:auto;background:#161925;border-radius:24px 24px 0 0;padding:25px 20px calc(25px + env(safe-area-inset-bottom))}
-.sheet-option{display:block;width:100%;padding:17px;background:#ffffff09;color:white;border:0;border-radius:12px;text-align:left;margin-top:10px}
-.sheet-option i{width:30px;color:var(--purple)}
+.sheet-inner{
+width:100%;
+max-width:600px;
+margin:auto;
+background:#161925;
+border-radius:24px 24px 0 0;
+padding:25px 20px calc(25px + env(safe-area-inset-bottom))
+}
+.sheet-option{
+display:block;
+width:100%;
+padding:17px;
+background:#ffffff09;
+color:white;
+border:0;
+border-radius:12px;
+text-align:left;
+margin-top:10px
+}
+.sheet-option i{
+width:30px;
+color:var(--purple)
+}
 @media(max-width:380px){
 .categories{grid-template-columns:repeat(2,1fr)}
 .logo h2{font-size:18px}
 .thumb{width:46px;height:46px}
 .song-card{padding:9px;gap:8px}
+.player{gap:5px}
+.time{font-size:10px}
 }
 </style>
 </head>
@@ -152,16 +661,26 @@ header{display:flex;align-items:center;justify-content:space-between;gap:10px;ma
 
 <div class="app" id="app" style="display:none">
 
+<!-- HOME PAGE -->
+
 <section class="page" id="home-page">
 <header>
 <div class="logo">
 <i class="fa-solid fa-wave-square"></i>
-<div><h2>AI Music</h2><small data-t="subtitle"></small></div>
+<div>
+<h2>AI Music</h2>
+<small data-t="subtitle"></small>
 </div>
+</div>
+
 <div class="header-actions">
-<div class="credit-box"><i class="fa-solid fa-coins"></i> Credits —</div>
+<div class="credit-box">
+<i class="fa-solid fa-coins"></i> Credits —
+</div>
 <button class="small-btn" onclick="switchPage('topup-page')" data-t="add"></button>
-<button class="icon-btn" onclick="openSettings()"><i class="fa-solid fa-bars"></i></button>
+<button class="icon-btn" onclick="openSettings()">
+<i class="fa-solid fa-bars"></i>
+</button>
 </div>
 </header>
 
@@ -181,51 +700,98 @@ header{display:flex;align-items:center;justify-content:space-between;gap:10px;ma
 </div>
 
 <div class="categories">
-<div class="category"><div><i class="fa-solid fa-fire"></i>Bongo Flava</div></div>
-<div class="category"><div><i class="fa-solid fa-drum"></i>Singeli</div></div>
-<div class="category"><div><i class="fa-solid fa-record-vinyl"></i>Amapiano</div></div>
-<div class="category"><div><i class="fa-solid fa-music"></i>Afrobeat</div></div>
+<div class="category">
+<div><i class="fa-solid fa-fire"></i>Bongo Flava</div>
+</div>
+<div class="category">
+<div><i class="fa-solid fa-drum"></i>Singeli</div>
+</div>
+<div class="category">
+<div><i class="fa-solid fa-record-vinyl"></i>Amapiano</div>
+</div>
+<div class="category">
+<div><i class="fa-solid fa-music"></i>Afrobeat</div>
+</div>
 </div>
 
 <div class="section-heading">
 <h3 data-t="recent"></h3>
 <button class="link" onclick="switchPage('music-page')" data-t="viewAll"></button>
 </div>
+
 <div class="song-list" id="recent-songs"></div>
 </section>
 
+<!-- CREATE PAGE -->
+
 <section class="page" id="create-page">
+
 <div class="back-row">
-<button class="back-btn" onclick="switchPage('home-page')"><i class="fa-solid fa-arrow-left"></i></button>
+<button class="back-btn" onclick="switchPage('home-page')">
+<i class="fa-solid fa-arrow-left"></i>
+</button>
 <h2 data-t="create"></h2>
 </div>
 
 <div class="card">
-<div class="label"><i class="fa-solid fa-sliders"></i><span data-t="chooseMode"></span></div>
+<div class="label">
+<i class="fa-solid fa-sliders"></i>
+<span data-t="chooseMode"></span>
+</div>
+
 <div class="mode-grid">
 <button class="mode-btn active" id="auto-btn" onclick="setMode('automatic')">
-<i class="fa-solid fa-wand-magic-sparkles"></i><span data-t="autoMode"></span>
+<i class="fa-solid fa-wand-magic-sparkles"></i>
+<span data-t="autoMode"></span>
 </button>
+
 <button class="mode-btn" id="custom-btn" onclick="setMode('custom')">
-<i class="fa-solid fa-pen-nib"></i><span data-t="customMode"></span>
+<i class="fa-solid fa-pen-nib"></i>
+<span data-t="customMode"></span>
 </button>
 </div>
+
 <p class="help" id="mode-help"></p>
 </div>
 
-<div class="card">
-<label class="label" for="song-title"><i class="fa-solid fa-signature"></i><span data-t="songTitle"></span><span class="required">*</span></label>
+<!-- TITLE: CUSTOM MODE ONLY -->
+
+<div class="card" id="title-card" style="display:none">
+<label class="label" for="song-title">
+<i class="fa-solid fa-signature"></i>
+<span data-t="songTitle"></span>
+<span class="required">*</span>
+</label>
+
 <input id="song-title" class="input" maxlength="80">
 </div>
 
+<!-- SONG DESCRIPTION OR LYRICS -->
+
 <div class="card">
-<label class="label" for="song-prompt"><i class="fa-solid fa-pen-nib"></i><span id="prompt-label"></span><span class="required">*</span></label>
-<textarea id="song-prompt" class="textarea" maxlength="5000"></textarea>
+<label class="label" for="song-prompt">
+<i class="fa-solid fa-pen-nib"></i>
+<span id="prompt-label"></span>
+<span class="required">*</span>
+</label>
+
+<textarea
+id="song-prompt"
+class="textarea"
+maxlength="5000"
+></textarea>
+
 <p class="example" id="prompt-example"></p>
 </div>
 
+<!-- SONG LANGUAGE -->
+
 <div class="card">
-<label class="label" for="song-language"><i class="fa-solid fa-globe"></i><span data-t="songLanguage"></span></label>
+<label class="label" for="song-language">
+<i class="fa-solid fa-globe"></i>
+<span data-t="songLanguage"></span>
+</label>
+
 <select class="select" id="song-language">
 <option value="Swahili">🇹🇿 Kiswahili / Swahili</option>
 <option value="English">🇬🇧 English</option>
@@ -236,30 +802,58 @@ header{display:flex;align-items:center;justify-content:space-between;gap:10px;ma
 <option value="Hindi">🇮🇳 हिन्दी / Hindi</option>
 <option value="Other">🌍 Other</option>
 </select>
+
 <p class="help" data-t="languageHelp"></p>
 </div>
 
-<div class="card">
-<div class="label"><i class="fa-solid fa-guitar"></i><span data-t="genre"></span></div>
-<div class="tags" id="genre-tags">
-<button class="tag active" data-genre="Bongo Flava">🔥 Bongo Flava</button>
-<button class="tag" data-genre="Mduara">🥁 Mduara</button>
-<button class="tag" data-genre="Afrobeat">🌍 Afrobeat</button>
-<button class="tag" data-genre="RnB">❤️ RnB</button>
-<button class="tag" data-genre="Amapiano">💿 Amapiano</button>
-</div>
-</div>
+<!-- MUSIC STYLE: FREE TEXT -->
 
 <div class="card">
-<div class="label"><i class="fa-solid fa-microphone"></i><span data-t="vocal"></span></div>
+<label class="label" for="music-style">
+<i class="fa-solid fa-guitar"></i>
+<span data-t="musicStyle"></span>
+<span class="required">*</span>
+</label>
+
+<textarea
+id="music-style"
+class="textarea style-textarea"
+maxlength="600"
+></textarea>
+
+<p class="example" data-t="styleExample"></p>
+<p class="help" data-t="styleHelp"></p>
+</div>
+
+<!-- VOCAL GENDER -->
+
+<div class="card">
+<div class="label">
+<i class="fa-solid fa-microphone"></i>
+<span data-t="vocal"></span>
+</div>
+
 <div class="tags" id="voice-tags">
-<button class="tag active" data-voice="Female"><i class="fa-solid fa-person-dress"></i> <span data-t="female"></span></button>
-<button class="tag" data-voice="Male"><i class="fa-solid fa-person"></i> <span data-t="male"></span></button>
+<button class="tag active" data-voice="Female">
+<i class="fa-solid fa-person-dress"></i>
+<span data-t="female"></span>
+</button>
+
+<button class="tag" data-voice="Male">
+<i class="fa-solid fa-person"></i>
+<span data-t="male"></span>
+</button>
 </div>
 </div>
 
+<!-- VOICE CLONING -->
+
 <div class="card">
-<div class="label"><i class="fa-solid fa-crown"></i><span data-t="cloning"></span></div>
+<div class="label">
+<i class="fa-solid fa-crown"></i>
+<span data-t="cloning"></span>
+</div>
+
 <div class="clone" onclick="showPopup('Voice Cloning',tr('cloneUnavailable'))">
 <i class="fa-solid fa-lock"></i>
 <span data-t="cloneDesc"></span><br>
@@ -270,60 +864,127 @@ header{display:flex;align-items:center;justify-content:space-between;gap:10px;ma
 <button class="primary" id="generate-btn" onclick="generateSong()">
 <i class="fa-solid fa-wand-magic-sparkles"></i>
 <span data-t="generate"></span>
-<span style="background:#0005;border-radius:8px;padding:5px 8px;font-size:12px">-1 Credit</span>
+<span style="background:#0005;border-radius:8px;padding:5px 8px;font-size:12px">
+-1 Credit
+</span>
 </button>
+
 </section>
+
+<!-- MY SONGS PAGE -->
 
 <section class="page" id="music-page">
 <header>
-<div class="logo"><i class="fa-solid fa-wave-square"></i><div><h2>AI Music</h2><small data-t="subtitle"></small></div></div>
+<div class="logo">
+<i class="fa-solid fa-wave-square"></i>
+<div>
+<h2>AI Music</h2>
+<small data-t="subtitle"></small>
+</div>
+</div>
+
 <div class="header-actions">
-<div class="credit-box"><i class="fa-solid fa-coins"></i> Credits —</div>
+<div class="credit-box">
+<i class="fa-solid fa-coins"></i> Credits —
+</div>
 <button class="small-btn" onclick="switchPage('topup-page')" data-t="add"></button>
 </div>
 </header>
+
 <h2 data-t="mySongs"></h2>
 <p style="color:var(--muted)" data-t="mySongsDesc"></p>
+
 <div class="tabs">
-<button class="tab active" data-tab="all" onclick="setTab('all')">♫ <span data-t="all"></span></button>
-<button class="tab" data-tab="favorites" onclick="setTab('favorites')">♡ <span data-t="favorites"></span></button>
+<button class="tab active" data-tab="all" onclick="setTab('all')">
+♫ <span data-t="all"></span>
+</button>
+
+<button class="tab" data-tab="favorites" onclick="setTab('favorites')">
+♡ <span data-t="favorites"></span>
+</button>
 </div>
+
 <div class="song-list" id="all-songs"></div>
 </section>
 
+<!-- TOP UP PAGE -->
+
 <section class="page" id="topup-page">
 <header>
-<div class="logo"><i class="fa-solid fa-wave-square"></i><div><h2>AI Music</h2><small data-t="buy"></small></div></div>
-<button class="icon-btn" onclick="switchPage('home-page')"><i class="fa-solid fa-xmark"></i></button>
+<div class="logo">
+<i class="fa-solid fa-wave-square"></i>
+<div>
+<h2>AI Music</h2>
+<small data-t="buy"></small>
+</div>
+</div>
+
+<button class="icon-btn" onclick="switchPage('home-page')">
+<i class="fa-solid fa-xmark"></i>
+</button>
 </header>
+
 <div class="hero">
 <h2 data-t="more"></h2>
 <p data-t="buyDesc"></p>
 </div>
+
 <h3 data-t="package"></h3>
+
 <div class="packages">
 <div class="package active" data-price="2000" onclick="selectPackage(2000)">
-<div><h4>🪙 5 Credits</h4><p>5 Songs</p></div><strong>Tsh 2,000</strong>
+<div>
+<h4>🪙 5 Credits</h4>
+<p>5 Songs</p>
 </div>
+<strong>Tsh 2,000</strong>
+</div>
+
 <div class="package" data-price="5000" onclick="selectPackage(5000)">
-<div><h4>🪙 15 Credits</h4><p>15 Songs</p></div><strong>Tsh 5,000</strong>
+<div>
+<h4>🪙 15 Credits</h4>
+<p>15 Songs</p>
 </div>
+<strong>Tsh 5,000</strong>
+</div>
+
 <div class="package" data-price="10000" onclick="selectPackage(10000)">
-<div><h4>👑 30 Credits</h4><p>30 Songs + Voice Cloning</p></div><strong>Tsh 10,000</strong>
+<div>
+<h4>👑 30 Credits</h4>
+<p>30 Songs + Voice Cloning</p>
+</div>
+<strong>Tsh 10,000</strong>
 </div>
 </div>
+
 <button class="primary" onclick="showPopup(tr('payment'),tr('paymentUnavailable'))">
 <i class="fa-solid fa-lock"></i>
 <span id="pay-text">LIPA TSH 2,000</span>
 </button>
 </section>
+
 </div>
 
+<!-- BOTTOM NAVIGATION -->
+
 <nav class="bottom-nav" id="bottom-nav">
-<button class="nav active" data-page="home-page" onclick="switchPage('home-page')"><i class="fa-solid fa-house"></i><span data-t="home"></span></button>
-<button class="nav" data-page="create-page" onclick="switchPage('create-page')"><i class="fa-solid fa-wand-magic-sparkles"></i><span data-t="createNav"></span></button>
-<button class="nav" data-page="music-page" onclick="switchPage('music-page')"><i class="fa-solid fa-music"></i><span data-t="mine"></span></button>
+<button class="nav active" data-page="home-page" onclick="switchPage('home-page')">
+<i class="fa-solid fa-house"></i>
+<span data-t="home"></span>
+</button>
+
+<button class="nav" data-page="create-page" onclick="switchPage('create-page')">
+<i class="fa-solid fa-wand-magic-sparkles"></i>
+<span data-t="createNav"></span>
+</button>
+
+<button class="nav" data-page="music-page" onclick="switchPage('music-page')">
+<i class="fa-solid fa-music"></i>
+<span data-t="mine"></span>
+</button>
 </nav>
+
+<!-- POPUP -->
 
 <div class="overlay" id="popup-overlay">
 <div class="popup">
@@ -334,20 +995,44 @@ header{display:flex;align-items:center;justify-content:space-between;gap:10px;ma
 </div>
 </div>
 
+<!-- SETTINGS -->
+
 <div class="sheet" id="settings-sheet" onclick="if(event.target===this)closeSheets()">
 <div class="sheet-inner">
 <h3 data-t="settings"></h3>
-<button class="sheet-option" onclick="closeSheets();switchPage('topup-page')"><i class="fa-solid fa-coins"></i><span data-t="buy"></span></button>
-<button class="sheet-option" onclick="closeSheets();showPopup(tr('settings'),tr('accountUnavailable'))"><i class="fa-solid fa-user"></i><span data-t="account"></span></button>
-<button class="sheet-option" onclick="closeSheets();document.getElementById('language-page').classList.add('active')"><i class="fa-solid fa-globe"></i><span data-t="changeLanguage"></span></button>
+
+<button class="sheet-option" onclick="closeSheets();switchPage('topup-page')">
+<i class="fa-solid fa-coins"></i>
+<span data-t="buy"></span>
+</button>
+
+<button class="sheet-option" onclick="closeSheets();showPopup(tr('settings'),tr('accountUnavailable'))">
+<i class="fa-solid fa-user"></i>
+<span data-t="account"></span>
+</button>
+
+<button class="sheet-option" onclick="closeSheets();document.getElementById('language-page').classList.add('active')">
+<i class="fa-solid fa-globe"></i>
+<span data-t="changeLanguage"></span>
+</button>
 </div>
 </div>
+
+<!-- SONG OPTIONS -->
 
 <div class="sheet" id="song-sheet" onclick="if(event.target===this)closeSheets()">
 <div class="sheet-inner">
 <h3 id="sheet-song-title"></h3>
-<button class="sheet-option" onclick="shareSelectedSong()"><i class="fa-solid fa-share-nodes"></i><span data-t="share"></span></button>
-<button class="sheet-option" onclick="deleteSelectedSong()"><i class="fa-solid fa-trash-can"></i><span data-t="delete"></span></button>
+
+<button class="sheet-option" onclick="shareSelectedSong()">
+<i class="fa-solid fa-share-nodes"></i>
+<span data-t="share"></span>
+</button>
+
+<button class="sheet-option" onclick="deleteSelectedSong()">
+<i class="fa-solid fa-trash-can"></i>
+<span data-t="delete"></span>
+</button>
 </div>
 </div>
 
@@ -356,14 +1041,26 @@ header{display:flex;align-items:center;justify-content:space-between;gap:10px;ma
 <script>
 "use strict";
 
+// ==========================================
+// API ENDPOINTS
+// ==========================================
+
 const GENERATE_URL="/.netlify/functions/generate";
 const STATUS_URL="/.netlify/functions/status";
+
+// ==========================================
+// LOCAL STORAGE
+// ==========================================
 
 const SONGS_KEY="aiMusicSongsV2";
 const TASKS_KEY="aiMusicPendingTasksV2";
 
 const POLL_INTERVAL=15000;
 const MAX_POLLS=40;
+
+// ==========================================
+// APP STATE
+// ==========================================
 
 let songs=[];
 let tasks=[];
@@ -379,8 +1076,14 @@ const audio=new Audio();
 audio.preload="metadata";
 
 const polling=new Set();
+const downloading=new Set();
+
+// ==========================================
+// TRANSLATIONS
+// ==========================================
 
 const translations={
+
 sw:{
 subtitle:"Tengeneza Nyimbo kwa AI",
 add:"+ Ongeza",
@@ -395,18 +1098,21 @@ chooseMode:"Chagua Namna ya Kutengeneza",
 autoMode:"AI Itunge Wimbo",
 customMode:"Mashairi Yangu",
 songTitle:"Jina la Wimbo",
-songTitleExample:"Mfano: Nitakupenda Milele",
-autoHelp:"Andika wazo la wimbo. AI itatunga mashairi na muziki yenyewe.",
-customHelp:"Andika mashairi yako. AI itaimba maneno uliyoandika.",
+songTitleExample:"Mfano: Penzi la Kweli",
+autoHelp:"Eleza wazo la wimbo. AI itatunga mashairi, kuchagua jina na kutengeneza muziki.",
+customHelp:"Andika jina na mashairi yako. AI itaimba maneno uliyoandika.",
 autoLabel:"Eleza Wimbo Unaoutaka",
 customLabel:"Andika Mashairi Yako",
-autoPlaceholder:"Mfano: Tengeneza wimbo wa mapenzi kuhusu kijana anayempenda Neema. Uwe wa Bongo Flava.",
+autoPlaceholder:"Mfano: Tengeneza wimbo wa mapenzi kuhusu kijana anayempenda Neema lakini Neema hamjali.",
 customPlaceholder:"[Verse 1]\nNeema wangu nakupenda\nWewe ndiye wa maisha yangu\n\n[Chorus]\nNakupenda Neema\nNitakupenda milele",
-autoExample:"Eleza hadithi, hisia na aina ya muziki unaoutaka.",
+autoExample:"Eleza hadithi, ujumbe na hisia za wimbo unaoutaka.",
 customExample:"Tumia [Verse 1], [Chorus] na [Verse 2] kupanga mashairi.",
 songLanguage:"Lugha ya Wimbo",
 languageHelp:"Hii ni lugha ya wimbo, si lugha ya muonekano wa app.",
-genre:"Aina ya Muziki",
+musicStyle:"Music Style",
+stylePlaceholder:"Mfano: Bongo Flava romantic, 95 BPM, slow tempo, soft piano, acoustic guitar, deep bass, emotional vocals, professional studio production.",
+styleExample:"Mfano: Amapiano, 112 BPM, log drums, deep bass, energetic rhythm.",
+styleHelp:"Andika genre yoyote, tempo, BPM, instruments na aina ya muziki unaotaka.",
 vocal:"Aina ya Sauti",
 female:"Mwanamke",
 male:"Mwanaume",
@@ -437,7 +1143,7 @@ waiting:"Bado tunasubiri matokeo. App itaendelea kuangalia ukifungua tena.",
 failed:"Utengenezaji umeshindikana.",
 remove:"Ondoa",
 ready:"Wimbo umekamilika!",
-required:"Jaza jina na maelezo au mashairi.",
+required:"Jaza maelezo ya wimbo na Music Style. Ukiwa kwenye Mashairi Yangu, jaza pia jina la wimbo.",
 testPassword:"Weka nenosiri la majaribio:",
 submitted:"Ombi limepokelewa. Wimbo unatengenezwa...",
 payment:"Malipo",
@@ -451,8 +1157,14 @@ deleted:"Wimbo umefutwa.",
 copied:"Kiungo kimenakiliwa.",
 audioError:"Imeshindikana kucheza wimbo.",
 requestError:"Ombi limeshindikana.",
-noTaskId:"reAPI haijarudisha Task ID."
+noTaskId:"reAPI haijarudisha Task ID.",
+creating:"Inatengenezwa...",
+downloadStart:"Wimbo unaanza kupakuliwa...",
+downloadReady:"Download imeanzishwa.",
+downloadFailed:"Download imeshindikana. Server ya audio inaweza kuwa imezuia upakuaji wa moja kwa moja.",
+downloading:"Inapakua..."
 },
+
 en:{
 subtitle:"Generate AI Songs",
 add:"+ Top Up",
@@ -468,17 +1180,20 @@ autoMode:"AI Writes Song",
 customMode:"My Lyrics",
 songTitle:"Song Title",
 songTitleExample:"Example: Love Forever",
-autoHelp:"Describe your song idea. AI will write the lyrics and create music.",
-customHelp:"Write your own lyrics. AI will sing the words you provide.",
+autoHelp:"Describe your idea. AI will write the lyrics, choose a title and create music.",
+customHelp:"Write your title and lyrics. AI will sing your words.",
 autoLabel:"Describe Your Song",
 customLabel:"Write Your Lyrics",
-autoPlaceholder:"Example: Create a romantic song about a young man who loves Neema. Use Bongo Flava style.",
+autoPlaceholder:"Example: Create a romantic song about a young man who loves Neema but she does not love him back.",
 customPlaceholder:"[Verse 1]\nYou are the light of my life\nYou make my heart feel alive\n\n[Chorus]\nI will love you forever",
-autoExample:"Describe the story, mood and musical style.",
+autoExample:"Describe the story, message and mood of your song.",
 customExample:"Use [Verse 1], [Chorus] and [Verse 2] to organize your lyrics.",
 songLanguage:"Song Language",
-languageHelp:"Choose the language of the song, independently of the app language.",
-genre:"Music Genre",
+languageHelp:"Choose the song language independently of the app language.",
+musicStyle:"Music Style",
+stylePlaceholder:"Example: Romantic Bongo Flava, 95 BPM, slow tempo, soft piano, acoustic guitar, deep bass, emotional vocals.",
+styleExample:"Example: Amapiano, 112 BPM, log drums, deep bass, energetic rhythm.",
+styleHelp:"Describe any genre, tempo, BPM, instruments and production style.",
 vocal:"Vocal Style",
 female:"Female",
 male:"Male",
@@ -509,7 +1224,7 @@ waiting:"Still waiting for results. The app will check again when reopened.",
 failed:"Song generation failed.",
 remove:"Remove",
 ready:"Your song is ready!",
-required:"Enter a song title and description or lyrics.",
+required:"Enter a song description and Music Style. In My Lyrics mode, enter a title too.",
 testPassword:"Enter the test password:",
 submitted:"Request accepted. Your song is being generated...",
 payment:"Payment",
@@ -523,8 +1238,14 @@ deleted:"Song deleted.",
 copied:"Link copied.",
 audioError:"Unable to play this song.",
 requestError:"Request failed.",
-noTaskId:"reAPI did not return a Task ID."
+noTaskId:"reAPI did not return a Task ID.",
+creating:"Generating...",
+downloadStart:"Downloading your song...",
+downloadReady:"Download started.",
+downloadFailed:"Download failed. The audio server may block direct downloads.",
+downloading:"Downloading..."
 },
+
 fr:{
 subtitle:"Créer des chansons avec l'IA",
 add:"+ Ajouter",
@@ -540,17 +1261,20 @@ autoMode:"L'IA écrit",
 customMode:"Mes Paroles",
 songTitle:"Titre de la Chanson",
 songTitleExample:"Exemple : Amour Éternel",
-autoHelp:"Décrivez votre idée. L'IA écrira les paroles et créera la musique.",
-customHelp:"Écrivez vos paroles. L'IA les chantera.",
+autoHelp:"Décrivez votre idée. L'IA écrit les paroles et choisit le titre.",
+customHelp:"Écrivez le titre et les paroles de votre chanson.",
 autoLabel:"Décrivez Votre Chanson",
 customLabel:"Écrivez Vos Paroles",
-autoPlaceholder:"Exemple : Créez une chanson romantique sur un homme amoureux de Neema.",
+autoPlaceholder:"Exemple : Une chanson romantique sur un homme amoureux de Neema.",
 customPlaceholder:"[Verse 1]\nTu es la lumière de ma vie\nMon cœur est à toi\n\n[Chorus]\nJe t'aimerai toujours",
-autoExample:"Décrivez l'histoire, l'ambiance et le style musical.",
+autoExample:"Décrivez l'histoire, le message et l'ambiance.",
 customExample:"Utilisez [Verse 1], [Chorus] et [Verse 2].",
 songLanguage:"Langue de la Chanson",
 languageHelp:"Choisissez la langue de la chanson indépendamment de l'application.",
-genre:"Genre Musical",
+musicStyle:"Style Musical",
+stylePlaceholder:"Exemple : Afrobeat romantique, 100 BPM, piano doux, guitare acoustique, basse profonde.",
+styleExample:"Exemple : Amapiano, 112 BPM, log drums, basse profonde.",
+styleHelp:"Décrivez le genre, le tempo, les BPM et les instruments.",
 vocal:"Type de Voix",
 female:"Femme",
 male:"Homme",
@@ -581,7 +1305,7 @@ waiting:"Toujours en attente. L'application vérifiera à nouveau.",
 failed:"La création a échoué.",
 remove:"Retirer",
 ready:"Votre chanson est prête !",
-required:"Saisissez un titre et une description ou des paroles.",
+required:"Saisissez une description et un style musical. En mode Mes Paroles, saisissez aussi un titre.",
 testPassword:"Entrez le mot de passe de test :",
 submitted:"Demande acceptée. Votre chanson est en cours de création...",
 payment:"Paiement",
@@ -595,15 +1319,29 @@ deleted:"Chanson supprimée.",
 copied:"Lien copié.",
 audioError:"Impossible de lire la chanson.",
 requestError:"La demande a échoué.",
-noTaskId:"reAPI n'a pas renvoyé d'identifiant."
+noTaskId:"reAPI n'a pas renvoyé d'identifiant.",
+creating:"Création...",
+downloadStart:"Téléchargement de votre chanson...",
+downloadReady:"Téléchargement démarré.",
+downloadFailed:"Téléchargement impossible. Le serveur audio peut bloquer l'accès direct.",
+downloading:"Téléchargement..."
 }
+
 };
 
+// ==========================================
+// HELPERS
+// ==========================================
+
 function tr(key){
-return translations[lang]?.[key]||translations.sw[key]||key;
+return translations[lang]?.[key]||
+translations.sw[key]||
+key;
 }
 
-function el(id){return document.getElementById(id)}
+function el(id){
+return document.getElementById(id);
+}
 
 function escapeHTML(value){
 return String(value??"")
@@ -617,29 +1355,70 @@ return String(value??"")
 function validURL(value){
 try{
 const u=new URL(value);
-return ["https:","http:"].includes(u.protocol)?u.href:"";
-}catch{return ""}
+return ["https:","http:"].includes(u.protocol)
+?u.href
+:"";
+}catch{
+return "";
+}
 }
 
 function formatTime(value){
 const n=Number(value);
-if(!Number.isFinite(n)||n<0)return "--:--";
-return Math.floor(n/60)+":"+String(Math.floor(n%60)).padStart(2,"0");
+
+if(!Number.isFinite(n)||n<0){
+return "--:--";
 }
+
+return Math.floor(n/60)+":"+
+String(Math.floor(n%60)).padStart(2,"0");
+}
+
+function safeFilename(value){
+return String(value||"AI Music")
+.replace(/[<>:"/\\|?*\x00-\x1F]/g,"")
+.trim()
+.slice(0,100)||"AI Music";
+}
+
+// ==========================================
+// STORAGE
+// ==========================================
 
 function save(){
 try{
-localStorage.setItem(SONGS_KEY,JSON.stringify(songs));
-localStorage.setItem(TASKS_KEY,JSON.stringify(tasks));
-}catch(error){console.warn("Storage:",error)}
+localStorage.setItem(
+SONGS_KEY,
+JSON.stringify(songs)
+);
+
+localStorage.setItem(
+TASKS_KEY,
+JSON.stringify(tasks)
+);
+}catch(error){
+console.warn("Storage:",error);
+}
 }
 
 function load(){
 try{
-const s=JSON.parse(localStorage.getItem(SONGS_KEY)||"[]");
-const t=JSON.parse(localStorage.getItem(TASKS_KEY)||"[]");
-songs=Array.isArray(s)?s.filter(x=>x&&validURL(x.audioUrl)):[];
-tasks=Array.isArray(t)?t.filter(x=>x&&x.task_id):[];
+const s=JSON.parse(
+localStorage.getItem(SONGS_KEY)||"[]"
+);
+
+const t=JSON.parse(
+localStorage.getItem(TASKS_KEY)||"[]"
+);
+
+songs=Array.isArray(s)
+?s.filter(x=>x&&validURL(x.audioUrl))
+:[];
+
+tasks=Array.isArray(t)
+?t.filter(x=>x&&x.task_id)
+:[];
+
 }catch(error){
 console.warn("Load:",error);
 songs=[];
@@ -647,208 +1426,390 @@ tasks=[];
 }
 }
 
-/*
-==========================================
-REKEBISHA MAJINA YA NYIMBO ZA JARIBIO
-==========================================
-
-Hili ni badiliko la mara moja kwa nyimbo
-zilizohifadhiwa kwenye browser hii.
-
-Haligusi faili za audio.
-*/
-
-function fixExistingSongTitles(){
-
-const MIGRATION_KEY="aiMusicTitleFixV1";
-
-try{
-if(localStorage.getItem(MIGRATION_KEY)==="done")return;
-}catch{
-return;
-}
-
-let changed=false;
-
-songs.forEach(song=>{
-
-if(
-String(song.title||"").trim()==="Chaguo Langu" &&
-String(song.genre||"").trim()==="Bongo Flava"
-){
-song.title="Penzi la Kweli";
-changed=true;
-}
-
-});
-
-if(changed){
-save();
-}
-
-try{
-localStorage.setItem(MIGRATION_KEY,"done");
-}catch{}
-
-}
+// ==========================================
+// LANGUAGE
+// ==========================================
 
 function applyLanguage(){
+
 document.documentElement.lang=lang;
+
 document.querySelectorAll("[data-t]").forEach(node=>{
 node.textContent=tr(node.dataset.t);
 });
+
 document.querySelectorAll("[data-html]").forEach(node=>{
 node.innerHTML=tr(node.dataset.html);
 });
+
 el("song-title").placeholder=tr("songTitleExample");
+el("music-style").placeholder=tr("stylePlaceholder");
+
 updateModeUI();
 updatePayText();
 renderSongs();
+
 }
 
 function selectLanguage(value){
+
 lang=translations[value]?value:"sw";
-try{localStorage.setItem("aiMusicLang",lang)}catch{}
+
+try{
+localStorage.setItem("aiMusicLang",lang);
+}catch{}
+
 el("language-page").classList.remove("active");
+
 el("app").style.display="block";
 el("bottom-nav").style.display="flex";
+
 applyLanguage();
 switchPage("home-page",false);
+
 }
 
+// ==========================================
+// NAVIGATION
+// ==========================================
+
 function switchPage(id,push=true){
+
 const page=el(id);
 if(!page)return;
-document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
-page.classList.add("active");
-document.querySelectorAll(".nav").forEach(x=>{
-x.classList.toggle("active",x.dataset.page===id);
+
+document.querySelectorAll(".page").forEach(x=>{
+x.classList.remove("active");
 });
-if(id==="music-page")renderSongs();
+
+page.classList.add("active");
+
+document.querySelectorAll(".nav").forEach(x=>{
+x.classList.toggle(
+"active",
+x.dataset.page===id
+);
+});
+
+if(id==="music-page"){
+renderSongs();
+}
+
 window.scrollTo(0,0);
+
 if(push&&location.hash!=="#"+id){
 history.pushState({page:id},"","#"+id);
 }
+
 }
 
 window.addEventListener("popstate",event=>{
 closeSheets();
-switchPage(event.state?.page||"home-page",false);
+switchPage(
+event.state?.page||"home-page",
+false
+);
 });
 
+// ==========================================
+// TAG SELECTION
+// ==========================================
+
 function setupTags(id){
+
 el(id).querySelectorAll(".tag").forEach(button=>{
+
 button.addEventListener("click",()=>{
-el(id).querySelectorAll(".tag").forEach(x=>x.classList.remove("active"));
+
+el(id).querySelectorAll(".tag").forEach(x=>{
+x.classList.remove("active");
+});
+
 button.classList.add("active");
+
 });
+
 });
+
 }
 
 function selectedTag(id,name,fallback){
-return el(id).querySelector(".tag.active")?.dataset[name]||fallback;
+return el(id)
+.querySelector(".tag.active")
+?.dataset[name]||fallback;
 }
 
+// ==========================================
+// AUTOMATIC / CUSTOM MODE
+// ==========================================
+
 function setMode(value){
-mode=value==="custom"?"custom":"automatic";
+
+mode=value==="custom"
+?"custom"
+:"automatic";
+
 updateModeUI();
+
 }
 
 function updateModeUI(){
+
 const automatic=mode==="automatic";
-el("auto-btn").classList.toggle("active",automatic);
-el("custom-btn").classList.toggle("active",!automatic);
-el("mode-help").textContent=tr(automatic?"autoHelp":"customHelp");
-el("prompt-label").textContent=tr(automatic?"autoLabel":"customLabel");
-el("song-prompt").placeholder=tr(automatic?"autoPlaceholder":"customPlaceholder");
-el("prompt-example").textContent=tr(automatic?"autoExample":"customExample");
-el("song-prompt").maxLength=automatic?3000:5000;
+
+el("auto-btn").classList.toggle(
+"active",
+automatic
+);
+
+el("custom-btn").classList.toggle(
+"active",
+!automatic
+);
+
+// TITLE ONLY IN CUSTOM MODE
+
+el("title-card").style.display=
+automatic?"none":"block";
+
+el("song-title").required=!automatic;
+
+el("mode-help").textContent=
+tr(automatic?"autoHelp":"customHelp");
+
+el("prompt-label").textContent=
+tr(automatic?"autoLabel":"customLabel");
+
+el("song-prompt").placeholder=
+tr(automatic?"autoPlaceholder":"customPlaceholder");
+
+el("prompt-example").textContent=
+tr(automatic?"autoExample":"customExample");
+
+el("song-prompt").maxLength=
+automatic?2500:5000;
+
 }
 
+// ==========================================
+// POPUP
+// ==========================================
+
 function showPopup(title,message,confirm=null){
+
 el("popup-title").textContent=title;
 el("popup-message").textContent=String(message||"");
+
 const box=el("popup-buttons");
 box.replaceChildren();
 
 if(confirm){
+
 const cancel=document.createElement("button");
 cancel.className="secondary";
 cancel.textContent=tr("cancel");
 cancel.onclick=closePopup;
 box.appendChild(cancel);
+
 }
 
 const ok=document.createElement("button");
 ok.textContent=tr("ok");
+
 ok.onclick=()=>{
 closePopup();
 if(confirm)confirm();
 };
+
 box.appendChild(ok);
+
 el("popup-overlay").classList.add("show");
+
 }
 
 function closePopup(){
 el("popup-overlay").classList.remove("show");
 }
 
+// ==========================================
+// TOAST
+// ==========================================
+
 let toastTimer;
+
 function toast(message){
+
 const node=el("toast");
+
 node.textContent=message;
 node.classList.add("show");
+
 clearTimeout(toastTimer);
-toastTimer=setTimeout(()=>node.classList.remove("show"),3500);
+
+toastTimer=setTimeout(()=>{
+node.classList.remove("show");
+},3500);
+
 }
 
+// ==========================================
+// API REQUEST
+// ==========================================
+
 async function requestJSON(url,options={}){
-const response=await fetch(url,{cache:"no-store",...options});
+
+const response=await fetch(
+url,
+{
+cache:"no-store",
+...options
+}
+);
+
 const text=await response.text();
+
 let data;
-try{data=JSON.parse(text)}
-catch{throw new Error("Backend did not return valid JSON.")}
+
+try{
+data=JSON.parse(text);
+}catch{
+throw new Error(
+"Backend did not return valid JSON."
+);
+}
+
 if(!response.ok||data.success===false){
-throw new Error(typeof data.error==="string"?data.error:tr("requestError")+" ("+response.status+")");
+
+throw new Error(
+typeof data.error==="string"
+?data.error
+:tr("requestError")+" ("+response.status+")"
+);
+
 }
+
 return data;
+
 }
+
+// ==========================================
+// GENERATE SONG
+// ==========================================
 
 async function generateSong(){
 
-const title=el("song-title").value.trim();
+const isCustom=mode==="custom";
+
+const title=isCustom
+?el("song-title").value.trim()
+:"";
+
 const prompt=el("song-prompt").value.trim();
 
-if(!title||!prompt){
-showPopup("AI Music",tr("required"));
+const musicStyle=el("music-style").value.trim();
+
+if(
+!prompt||
+!musicStyle||
+(isCustom&&!title)
+){
+
+showPopup(
+"AI Music",
+tr("required")
+);
+
 return;
 }
 
 if(title.length>80){
-showPopup("AI Music","Jina la wimbo ni refu kupita kiasi.");
+
+showPopup(
+"AI Music",
+"Jina la wimbo ni refu kupita kiasi."
+);
+
 return;
 }
 
-if(prompt.length>(mode==="custom"?5000:3000)){
-showPopup("AI Music","Maandishi ya wimbo ni marefu kupita kiasi.");
+if(
+prompt.length>(isCustom?5000:2500)
+){
+
+showPopup(
+"AI Music",
+"Maandishi ya wimbo ni marefu kupita kiasi."
+);
+
+return;
+}
+
+if(musicStyle.length>600){
+
+showPopup(
+"AI Music",
+"Music Style ni ndefu kupita kiasi."
+);
+
 return;
 }
 
 if(generating)return;
 
-const password=window.prompt(tr("testPassword"));
-if(password===null||!password.trim())return;
+const password=window.prompt(
+tr("testPassword")
+);
 
-const genre=selectedTag("genre-tags","genre","Bongo Flava");
-const voice=selectedTag("voice-tags","voice","Female");
-const songLanguage=el("song-language").value;
+if(password===null||!password.trim()){
+return;
+}
+
+const voice=selectedTag(
+"voice-tags",
+"voice",
+"Female"
+);
+
+const songLanguage=
+el("song-language").value;
+
+// Title ya muda wakati AI inatengeneza.
+
+const pendingTitle=isCustom
+?title
+:(lang==="sw"
+?"Wimbo Mpya"
+:lang==="fr"
+?"Nouvelle Chanson"
+:"New Song");
 
 generating=true;
-el("generate-btn").disabled=true;
+
+const generateButton=el("generate-btn");
+generateButton.disabled=true;
 
 try{
 
-const result=await requestJSON(GENERATE_URL,{
+/*
+==========================================
+NEW REQUEST PAYLOAD
+==========================================
+
+Automatic:
+title = ""
+musicStyle = user input
+
+Custom:
+title = user title
+musicStyle = user input
+
+generate.js lazima ibadilishwe
+ili kupokea muundo huu.
+*/
+
+const result=await requestJSON(
+GENERATE_URL,
+{
 method:"POST",
 headers:{
 "Content-Type":"application/json",
@@ -857,42 +1818,49 @@ headers:{
 body:JSON.stringify({
 title,
 prompt,
-genre,
+musicStyle,
 voice,
 mode,
 songLanguage
 })
-});
+}
+);
 
-const taskId=String(result.task_id||result.taskId||"");
+const taskId=String(
+result.task_id||
+result.taskId||
+""
+);
 
 if(!taskId){
 throw new Error(tr("noTaskId"));
 }
 
-/*
-MUHIMU:
-
-Jina la wimbo linahifadhiwa pamoja
-na Task ID kabla ya kuanza polling.
-
-Hata reAPI ikirudisha jina tofauti,
-tutatumia jina hili aliloandika mtumiaji.
-*/
-
 if(
-!tasks.some(t=>t.task_id===taskId) &&
+!tasks.some(t=>t.task_id===taskId)&&
 !songs.some(s=>s.taskId===taskId)
 ){
 
 tasks.unshift({
+
 task_id:taskId,
-title:title,
-genre,
+
+title:pendingTitle,
+
+userTitle:title,
+
+mode,
+
+musicStyle,
+
 voice,
+
 songLanguage,
+
 createdAt:Date.now(),
+
 status:"processing"
+
 });
 
 }
@@ -903,23 +1871,34 @@ renderSongs();
 el("song-title").value="";
 el("song-prompt").value="";
 
+// Music Style inabaki ili mtumiaji
+// aweze kuitumia kwenye wimbo mwingine.
+
 switchPage("home-page");
+
 toast(tr("submitted"));
 
 pollTask(taskId,true);
 
 }catch(error){
 
-showPopup("reAPI",error.message||tr("requestError"));
+showPopup(
+"reAPI",
+error.message||tr("requestError")
+);
 
 }finally{
 
 generating=false;
-el("generate-btn").disabled=false;
+generateButton.disabled=false;
 
 }
 
 }
+
+// ==========================================
+// PARSE STATUS RESPONSE
+// ==========================================
 
 function parseResult(payload){
 
@@ -933,13 +1912,21 @@ root.data?.status||
 ).toLowerCase();
 
 if(
-["failed","failure","error","cancelled","canceled"].includes(state)
+[
+"failed",
+"failure",
+"error",
+"cancelled",
+"canceled"
+].includes(state)
 ){
+
 return {
 state:"failed",
 error:root.error||root.message||tr("failed"),
 songs:[]
 };
+
 }
 
 const found=[];
@@ -950,11 +1937,18 @@ function scan(value,depth=0){
 if(!value||depth>8)return;
 
 if(Array.isArray(value)){
+
 value.forEach(x=>scan(x,depth+1));
 return;
+
 }
 
-if(typeof value!=="object"||seen.has(value))return;
+if(
+typeof value!=="object"||
+seen.has(value)
+){
+return;
+}
 
 seen.add(value);
 
@@ -971,18 +1965,25 @@ value.url
 );
 
 if(
-url &&
+url&&
 !found.some(x=>x.audioUrl===url)
 ){
 
 found.push({
-title:value.title||value.song_name||"",
+
+title:
+value.title||
+value.song_name||
+"",
+
 audioUrl:url,
+
 duration:Number(
 value.duration||
 value.duration_seconds||
 0
 )
+
 });
 
 }
@@ -990,11 +1991,13 @@ value.duration_seconds||
 Object.entries(value).forEach(([key,child])=>{
 
 if(
-child &&
-typeof child==="object" &&
+child&&
+typeof child==="object"&&
 key!=="metadata"
 ){
+
 scan(child,depth+1);
+
 }
 
 });
@@ -1004,27 +2007,38 @@ scan(child,depth+1);
 scan(root.songs||root);
 
 return {
-state:found.length?"completed":"processing",
+state:found.length
+?"completed"
+:"processing",
 songs:found
 };
 
 }
 
+// ==========================================
+// CHECK TASK
+// ==========================================
+
 async function checkTask(taskId){
 
 const response=await requestJSON(
-STATUS_URL+"?task_id="+encodeURIComponent(taskId)
+STATUS_URL+
+"?task_id="+
+encodeURIComponent(taskId)
 );
 
 const result=parseResult(response);
 
-const task=tasks.find(t=>t.task_id===taskId);
+const task=tasks.find(
+t=>t.task_id===taskId
+);
 
 if(!task)return true;
 
 if(result.state==="failed"){
 
 task.status="failed";
+
 save();
 renderSongs();
 
@@ -1040,28 +2054,50 @@ songs.map(s=>s.audioUrl)
 
 result.songs.forEach((item,index)=>{
 
-if(existing.has(item.audioUrl))return;
+if(existing.has(item.audioUrl)){
+return;
+}
 
 /*
 ==========================================
-MAREKEBISHO MAKUU YA JINA LA WIMBO
+SONG TITLE LOGIC
 ==========================================
 
-Kipaumbele ni task.title.
+AUTOMATIC:
+Tumia jina la AI.
 
-Mfano:
-Mtumiaji ameandika: Penzi la Kweli
-reAPI imerudisha: Chaguo Langu
+CUSTOM:
+Tumia jina la mtumiaji.
 
-App itaonyesha: Penzi la Kweli
-
-Hii inatumika kwa nyimbo zote mbili.
+Hakuna tena kubadilisha majina
+ya AI kuwa Penzi la Kweli.
 */
 
-const correctTitle=
-String(task.title||"").trim()||
-String(item.title||"").trim()||
-"AI Music";
+const isCustom=
+task.mode==="custom"||
+(
+!task.mode&&
+Boolean(task.title)&&
+task.title!=="Wimbo Mpya"&&
+task.title!=="New Song"&&
+task.title!=="Nouvelle Chanson"
+);
+
+const correctTitle=isCustom
+?(
+String(
+task.userTitle||
+task.title||
+item.title||
+"AI Music"
+).trim()
+)
+:(
+String(
+item.title||
+"AI Music"
+).trim()
+);
 
 songs.unshift({
 
@@ -1071,7 +2107,15 @@ taskId,
 
 title:correctTitle,
 
-genre:task.genre||"AI Music",
+musicStyle:
+task.musicStyle||
+task.genre||
+"AI Music",
+
+genre:
+task.musicStyle||
+task.genre||
+"AI Music",
 
 voice:task.voice||"",
 
@@ -1117,21 +2161,40 @@ return false;
 
 }
 
+// ==========================================
+// POLLING
+// ==========================================
+
 function sleep(ms){
-return new Promise(resolve=>setTimeout(resolve,ms));
+return new Promise(resolve=>{
+setTimeout(resolve,ms);
+});
 }
 
 async function pollTask(taskId,immediate=false){
 
-if(!taskId||polling.has(taskId))return;
+if(
+!taskId||
+polling.has(taskId)
+){
+return;
+}
 
 polling.add(taskId);
 
 try{
 
-for(let attempt=0;attempt<MAX_POLLS;attempt++){
+for(
+let attempt=0;
+attempt<MAX_POLLS;
+attempt++
+){
 
-if(!tasks.some(t=>t.task_id===taskId))return;
+if(
+!tasks.some(t=>t.task_id===taskId)
+){
+return;
+}
 
 if(attempt>0||!immediate){
 await sleep(POLL_INTERVAL);
@@ -1149,7 +2212,10 @@ if(finished)return;
 
 }catch(error){
 
-console.warn("reAPI status:",error.message);
+console.warn(
+"reAPI status:",
+error.message
+);
 
 const task=tasks.find(
 t=>t.task_id===taskId
@@ -1199,53 +2265,132 @@ pollTask(t.task_id,true);
 
 }
 
-document.addEventListener("visibilitychange",()=>{
-if(!document.hidden)resumeTasks();
-});
+document.addEventListener(
+"visibilitychange",
+()=>{
+if(!document.hidden){
+resumeTasks();
+}
+}
+);
 
-window.addEventListener("online",resumeTasks);
+window.addEventListener(
+"online",
+resumeTasks
+);
+
+// ==========================================
+// SONG HTML
+// ==========================================
 
 function songHTML(song){
 
 const id=escapeHTML(song.id);
-const title=escapeHTML(song.title||"AI Music");
-const genre=escapeHTML(song.genre||"AI Music");
-const duration=escapeHTML(song.time||"--:--");
+
+const title=escapeHTML(
+song.title||"AI Music"
+);
+
+const genre=escapeHTML(
+song.musicStyle||
+song.genre||
+"AI Music"
+);
+
+const duration=escapeHTML(
+song.time||"--:--"
+);
+
 const fav=Boolean(song.isFav);
 
 return `
 <div class="song-card" data-song-id="${id}">
-<div class="thumb"><i class="fa-solid fa-music"></i></div>
-<div class="song-body">
-<div class="song-top">
-<div style="min-width:0;flex:1">
-<div class="song-title">${title}</div>
-<div class="song-meta">${genre} • ${duration}</div>
+
+<div class="thumb">
+<i class="fa-solid fa-music"></i>
 </div>
+
+<div class="song-body">
+
+<div class="song-top">
+
+<div style="min-width:0;flex:1">
+
+<div class="song-title">${title}</div>
+
+<div class="song-meta">${genre}</div>
+
+</div>
+
 <div class="song-actions">
-<button data-action="favorite" data-id="${id}" class="${fav?"liked":""}" aria-label="Favorite">
+
+<button
+data-action="favorite"
+data-id="${id}"
+class="${fav?"liked":""}"
+aria-label="Favorite"
+>
 <i class="${fav?"fa-solid":"fa-regular"} fa-heart"></i>
 </button>
-<button data-action="options" data-id="${id}" aria-label="Options">
+
+<button
+data-action="options"
+data-id="${id}"
+aria-label="Options"
+>
 <i class="fa-solid fa-ellipsis-vertical"></i>
 </button>
+
 </div>
 </div>
+
 <div class="player">
-<button class="play" data-action="play" data-id="${id}">
+
+<button
+class="play"
+data-action="play"
+data-id="${id}"
+aria-label="Play"
+>
 <i class="fa-solid fa-play"></i>
 </button>
+
 <span class="time elapsed">0:00</span>
-<div class="wave"></div>
-<span class="time">${duration}</span>
-<button class="download" data-action="download" data-id="${id}">
+
+<input
+type="range"
+class="progress"
+data-song-id="${id}"
+min="0"
+max="${Math.max(1,Number(song.duration)||1)}"
+value="0"
+step="0.1"
+style="--progress:0%"
+aria-label="Song progress"
+>
+
+<span class="time total-time">${duration}</span>
+
+<button
+class="download"
+data-action="download"
+data-id="${id}"
+aria-label="Download"
+>
 <i class="fa-solid fa-download"></i>
 </button>
+
+</div>
+
 </div>
 </div>
-</div>`;
+`;
 
 }
+
+// ==========================================
+// PENDING SONG HTML
+// ==========================================
 
 function pendingHTML(task){
 
@@ -1267,20 +2412,47 @@ const failed=task.status==="failed";
 
 return `
 <div class="song-card">
+
 ${failed
 ?'<div class="thumb"><i class="fa-solid fa-triangle-exclamation"></i></div>'
 :'<div class="spinner"></div>'}
+
 <div class="song-body">
-<div class="pending-label">${failed?"FAILED":"PROCESSING"}</div>
-<div class="song-title">${escapeHTML(task.title||"AI Music")}</div>
-<div class="pending-description">${escapeHTML(message)}</div>
-${failed
-?`<button class="download" data-action="remove-task" data-id="${escapeHTML(task.task_id)}" style="margin-top:9px">${escapeHTML(tr("remove"))}</button>`
-:""}
+
+<div class="pending-label">
+${failed?"FAILED":"PROCESSING"}
 </div>
-</div>`;
+
+<div class="song-title">
+${escapeHTML(task.title||"AI Music")}
+</div>
+
+<div class="pending-description">
+${escapeHTML(message)}
+</div>
+
+${failed
+?`
+<button
+class="download"
+data-action="remove-task"
+data-id="${escapeHTML(task.task_id)}"
+style="margin-top:9px"
+>
+${escapeHTML(tr("remove"))}
+</button>
+`
+:""}
+
+</div>
+</div>
+`;
 
 }
+
+// ==========================================
+// RENDER SONGS
+// ==========================================
 
 function renderSongs(){
 
@@ -1289,7 +2461,9 @@ const all=el("all-songs");
 
 if(!recent||!all)return;
 
-const pending=tasks.map(pendingHTML).join("");
+const pending=tasks.map(
+pendingHTML
+).join("");
 
 const recentHTML=songs
 .slice(0,3)
@@ -1300,7 +2474,8 @@ const empty=`
 <div class="empty">
 <i class="fa-solid fa-music"></i>
 ${escapeHTML(tr("noSongs"))}
-</div>`;
+</div>
+`;
 
 recent.innerHTML=
 (pending+recentHTML)||empty;
@@ -1317,8 +2492,14 @@ visible.map(songHTML).join("")
 )||empty;
 
 updatePlayerButtons();
+updatePlayerProgress();
+updateDownloadButtons();
 
 }
+
+// ==========================================
+// SONG TABS
+// ==========================================
 
 function setTab(tab){
 
@@ -1328,31 +2509,46 @@ tab==="favorites"
 :"all";
 
 document.querySelectorAll(".tab").forEach(x=>{
+
 x.classList.toggle(
 "active",
 x.dataset.tab===currentTab
 );
+
 });
 
 renderSongs();
 
 }
 
+// ==========================================
+// PLAY SONG
+// ==========================================
+
 async function playSong(id){
 
-const song=songs.find(s=>s.id===id);
+const song=songs.find(
+s=>s.id===id
+);
 
 if(!song)return;
 
-if(currentSongId===id&&!audio.paused){
+if(
+currentSongId===id&&
+!audio.paused
+){
+
 audio.pause();
 return;
+
 }
 
 if(currentSongId!==id){
 
 audio.pause();
+
 audio.src=song.audioUrl;
+
 audio.load();
 
 currentSongId=id;
@@ -1365,6 +2561,8 @@ await audio.play();
 
 }catch(error){
 
+if(error.name!=="AbortError"){
+
 showPopup(
 "Audio",
 tr("audioError")+" "+error.message
@@ -1372,107 +2570,392 @@ tr("audioError")+" "+error.message
 
 }
 
+}
+
 updatePlayerButtons();
 
 }
+
+// ==========================================
+// UPDATE PLAY BUTTONS
+// ==========================================
 
 function updatePlayerButtons(){
 
 document.querySelectorAll(".play").forEach(button=>{
 
 const playing=
-button.dataset.id===currentSongId &&
+button.dataset.id===currentSongId&&
 !audio.paused;
 
 const icon=button.querySelector("i");
 
 if(icon){
+
 icon.className=
-"fa-solid fa-"+(playing?"pause":"play");
+"fa-solid fa-"+(
+playing?"pause":"play"
+);
+
 }
 
 button.style.background=
-playing?"#ff007f":"var(--purple)";
+playing
+?"#ff007f"
+:"var(--purple)";
 
 });
 
 }
 
-audio.addEventListener("play",updatePlayerButtons);
+// ==========================================
+// UPDATE PROGRESS BAR
+// ==========================================
 
-audio.addEventListener("pause",updatePlayerButtons);
-
-audio.addEventListener("ended",()=>{
-currentSongId=null;
-updatePlayerButtons();
-});
-
-audio.addEventListener("timeupdate",()=>{
+function updatePlayerProgress(){
 
 document.querySelectorAll(".song-card").forEach(card=>{
 
-if(card.dataset.songId===currentSongId){
+const id=card.dataset.songId;
 
+if(!id)return;
+
+const song=songs.find(s=>s.id===id);
+
+if(!song)return;
+
+const progress=card.querySelector(".progress");
 const elapsed=card.querySelector(".elapsed");
+const total=card.querySelector(".total-time");
+
+if(!progress)return;
+
+const active=id===currentSongId;
+
+const current=active
+?audio.currentTime||0
+:0;
+
+const duration=active&&
+Number.isFinite(audio.duration)&&
+audio.duration>0
+?audio.duration
+:Number(song.duration)||0;
+
+progress.max=Math.max(duration,1);
+
+progress.value=Math.min(
+current,
+Number(progress.max)
+);
+
+const percent=duration>0
+?Math.min(100,(current/duration)*100)
+:0;
+
+progress.style.setProperty(
+"--progress",
+percent+"%"
+);
+
+progress.disabled=duration<=0;
 
 if(elapsed){
-elapsed.textContent=formatTime(audio.currentTime);
+elapsed.textContent=formatTime(current);
 }
 
+if(total){
+total.textContent=formatTime(duration);
 }
 
 });
 
+}
+
+// ==========================================
+// SEEK: FORWARD / BACKWARD
+// ==========================================
+
+document.addEventListener("input",event=>{
+
+const progress=event.target.closest(".progress");
+
+if(!progress)return;
+
+const id=progress.dataset.songId;
+
+if(id!==currentSongId)return;
+
+const duration=Number(audio.duration);
+
+if(
+!Number.isFinite(duration)||
+duration<=0
+){
+return;
+}
+
+const target=Math.max(
+0,
+Math.min(
+duration,
+Number(progress.value)
+)
+);
+
+if(Number.isFinite(target)){
+
+try{
+audio.currentTime=target;
+}catch(error){
+console.warn("Seek:",error);
+}
+
+}
+
+updatePlayerProgress();
+
 });
 
-audio.addEventListener("loadedmetadata",()=>{
+// ==========================================
+// AUDIO EVENTS
+// ==========================================
+
+audio.addEventListener(
+"play",
+updatePlayerButtons
+);
+
+audio.addEventListener(
+"pause",
+updatePlayerButtons
+);
+
+audio.addEventListener("ended",()=>{
+
+audio.currentTime=0;
+
+currentSongId=null;
+
+updatePlayerButtons();
+updatePlayerProgress();
+
+});
+
+audio.addEventListener(
+"timeupdate",
+updatePlayerProgress
+);
+
+audio.addEventListener(
+"durationchange",
+updatePlayerProgress
+);
+
+audio.addEventListener(
+"seeked",
+updatePlayerProgress
+);
+
+audio.addEventListener(
+"loadedmetadata",
+()=>{
 
 const song=songs.find(
 s=>s.id===currentSongId
 );
 
 if(
-song &&
-Number.isFinite(audio.duration) &&
+song&&
+Number.isFinite(audio.duration)&&
 audio.duration>0
 ){
 
 song.duration=audio.duration;
-song.time=formatTime(audio.duration);
+
+song.time=formatTime(
+audio.duration
+);
 
 save();
 
 }
 
-});
+updatePlayerProgress();
 
-function downloadSong(id){
+}
+);
 
-const song=songs.find(s=>s.id===id);
+// ==========================================
+// DOWNLOAD SONG DIRECTLY
+// ==========================================
+
+async function downloadSong(id){
+
+const song=songs.find(
+s=>s.id===id
+);
 
 if(!song)return;
 
+if(downloading.has(id))return;
+
 const url=validURL(song.audioUrl);
 
-if(!url)return;
+if(!url){
 
-const a=document.createElement("a");
+showPopup(
+"Download",
+tr("downloadFailed")
+);
 
-a.href=url;
-a.download=(song.title||"AI Music")+".mp3";
-a.target="_blank";
-a.rel="noopener noreferrer";
-
-document.body.appendChild(a);
-
-a.click();
-a.remove();
+return;
 
 }
 
+downloading.add(id);
+
+updateDownloadButtons();
+
+toast(tr("downloadStart"));
+
+try{
+
+/*
+Fetch audio as a Blob.
+
+Hii inafanya download bila kufungua
+tab nyingine, ikiwa audio server
+inaruhusu CORS.
+
+Kwa production, Netlify download
+function inaweza kuhitajika.
+*/
+
+const response=await fetch(
+url,
+{
+method:"GET",
+mode:"cors",
+credentials:"omit"
+}
+);
+
+if(!response.ok){
+throw new Error(
+"Audio HTTP "+response.status
+);
+}
+
+if(response.type==="opaque"){
+throw new Error(
+"Audio server blocked direct download."
+);
+}
+
+const contentType=
+response.headers.get("content-type")||"";
+
+if(
+contentType.includes("text/html")||
+contentType.includes("application/json")
+){
+throw new Error(
+"Audio server returned a non-audio response."
+);
+}
+
+const blob=await response.blob();
+
+if(!blob.size){
+throw new Error(
+"Empty audio file."
+);
+}
+
+const blobURL=URL.createObjectURL(blob);
+
+const link=document.createElement("a");
+
+link.href=blobURL;
+
+link.download=
+safeFilename(song.title)+".mp3";
+
+link.style.display="none";
+
+document.body.appendChild(link);
+
+link.click();
+
+link.remove();
+
+setTimeout(()=>{
+URL.revokeObjectURL(blobURL);
+},60000);
+
+toast(tr("downloadReady"));
+
+}catch(error){
+
+console.error(
+"Download failed:",
+error
+);
+
+showPopup(
+"Download",
+tr("downloadFailed")
+);
+
+}finally{
+
+downloading.delete(id);
+
+updateDownloadButtons();
+
+}
+
+}
+
+// ==========================================
+// DOWNLOAD BUTTON STATE
+// ==========================================
+
+function updateDownloadButtons(){
+
+document.querySelectorAll(
+'[data-action="download"]'
+).forEach(button=>{
+
+const active=downloading.has(
+button.dataset.id
+);
+
+button.disabled=active;
+
+button.classList.toggle(
+"downloading",
+active
+);
+
+button.innerHTML=active
+?'<i class="fa-solid fa-spinner fa-spin"></i>'
+:'<i class="fa-solid fa-download"></i>';
+
+});
+
+}
+
+// ==========================================
+// FAVORITES
+// ==========================================
+
 function toggleFavorite(id){
 
-const song=songs.find(s=>s.id===id);
+const song=songs.find(
+s=>s.id===id
+);
 
 if(!song)return;
 
@@ -1483,19 +2966,30 @@ renderSongs();
 
 }
 
+// ==========================================
+// SONG OPTIONS
+// ==========================================
+
 function openSongOptions(id){
 
-const song=songs.find(s=>s.id===id);
+const song=songs.find(
+s=>s.id===id
+);
 
 if(!song)return;
 
 selectedSongId=id;
 
-el("sheet-song-title").textContent=song.title;
+el("sheet-song-title").textContent=
+song.title;
 
 el("song-sheet").classList.add("show");
 
 }
+
+// ==========================================
+// SHARE SONG
+// ==========================================
 
 async function shareSelectedSong(){
 
@@ -1518,13 +3012,18 @@ url:song.audioUrl
 
 }else if(navigator.clipboard){
 
-await navigator.clipboard.writeText(song.audioUrl);
+await navigator.clipboard.writeText(
+song.audioUrl
+);
 
 toast(tr("copied"));
 
 }else{
 
-showPopup(tr("share"),song.audioUrl);
+showPopup(
+tr("share"),
+song.audioUrl
+);
 
 }
 
@@ -1537,6 +3036,10 @@ console.warn(error);
 }
 
 }
+
+// ==========================================
+// DELETE SONG
+// ==========================================
 
 function deleteSelectedSong(){
 
@@ -1552,13 +3055,17 @@ tr("confirmDelete"),
 if(currentSongId===id){
 
 audio.pause();
+
 audio.removeAttribute("src");
+audio.load();
 
 currentSongId=null;
 
 }
 
-songs=songs.filter(s=>s.id!==id);
+songs=songs.filter(
+s=>s.id!==id
+);
 
 save();
 renderSongs();
@@ -1569,6 +3076,10 @@ toast(tr("deleted"));
 );
 
 }
+
+// ==========================================
+// SETTINGS
+// ==========================================
 
 function openSettings(){
 el("settings-sheet").classList.add("show");
@@ -1581,6 +3092,10 @@ x.classList.remove("show");
 });
 
 }
+
+// ==========================================
+// TOP UP
+// ==========================================
 
 function updatePayText(){
 
@@ -1614,26 +3129,42 @@ updatePayText();
 
 }
 
+// ==========================================
+// BUTTON ACTIONS
+// ==========================================
+
 document.addEventListener("click",event=>{
 
-const button=event.target.closest("[data-action]");
+const button=event.target.closest(
+"[data-action]"
+);
 
 if(!button)return;
 
 const action=button.dataset.action;
 const id=button.dataset.id;
 
-if(action==="play")playSong(id);
+if(action==="play"){
+playSong(id);
+}
 
-if(action==="download")downloadSong(id);
+if(action==="download"){
+downloadSong(id);
+}
 
-if(action==="favorite")toggleFavorite(id);
+if(action==="favorite"){
+toggleFavorite(id);
+}
 
-if(action==="options")openSongOptions(id);
+if(action==="options"){
+openSongOptions(id);
+}
 
 if(action==="remove-task"){
 
-tasks=tasks.filter(t=>t.task_id!==id);
+tasks=tasks.filter(
+t=>t.task_id!==id
+);
 
 save();
 renderSongs();
@@ -1642,27 +3173,31 @@ renderSongs();
 
 });
 
+// ==========================================
+// INITIALIZE
+// ==========================================
+
 function initialize(){
 
 load();
 
-/*
-Badilisha majina ya nyimbo za jaribio
-zilizokuwa zimehifadhiwa awali.
-*/
-fixExistingSongTitles();
+// Hakuna tena kubadilisha majina
+// ya nyimbo za zamani kiotomatiki.
 
-setupTags("genre-tags");
 setupTags("voice-tags");
 
 let savedLanguage=null;
 
 try{
-savedLanguage=localStorage.getItem("aiMusicLang");
+
+savedLanguage=localStorage.getItem(
+"aiMusicLang"
+);
+
 }catch{}
 
 if(
-savedLanguage &&
+savedLanguage&&
 translations[savedLanguage]
 ){
 
@@ -1670,7 +3205,9 @@ selectLanguage(savedLanguage);
 
 }else{
 
-el("language-page").classList.add("active");
+el("language-page").classList.add(
+"active"
+);
 
 }
 
@@ -1694,4 +3231,4 @@ initialize();
 </script>
 
 </body>
-  </html>
+</html>
