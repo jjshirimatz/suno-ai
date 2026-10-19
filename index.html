@@ -2706,73 +2706,32 @@ updatePlayerButtons();
 // DOWNLOAD
 // ==========================================
 
-function downloadSong(id){
-
-    const song = songs.find(
-        s => s.id === id
-    );
-
+function downloadSong(id) {
+    const song = songs.find(s => s.id === id);
     if (!song) return;
-
     if (downloading.has(id)) return;
 
-    const taskId = String(song.taskId || "");
-
-    // Hakikisha taskId ipo sahihi
-    if (!/^[a-zA-Z0-9_-]{8,150}$/.test(taskId)) {
-        showPopup(
-            "Download",
-            "Task ID ya wimbo haijapatikana."
-        );
+    if (!song.audioUrl) {
+        showPopup("Download", "Wimbo huu hauna URL ya kupakua.");
         return;
     }
 
-    let index = Number(song.trackIndex);
-
-    if (!Number.isInteger(index) || index < 0) {
-        const prefix = taskId + "-";
-        index = Number(
-            String(song.id || "").startsWith(prefix)
-            ? String(song.id).slice(prefix.length)
-            : -1
-        );
-    }
-
-    if (!Number.isInteger(index) || index < 0) {
-        showPopup(
-            "Download",
-            "Track index haijapatikana."
-        );
-        return;
-    }
-
-    // Tunatumia faili letu la download.mjs ambalo lina act kama daraja (proxy)
+    // Tunapitisha URL na Jina la wimbo moja kwa moja kwenda kwenye download.mjs
     const url = DOWNLOAD_URL + 
-                "?task_id=" + encodeURIComponent(taskId) + 
-                "&index=" + encodeURIComponent(index);
+                "?url=" + encodeURIComponent(song.audioUrl) + 
+                "&title=" + encodeURIComponent(song.title);
 
     downloading.add(id);
     updateDownloadButtons();
-
     toast(tr("downloadStart"));
 
-    // Kutumia "a" tag inayoitwa "kimya kimya" kupitia JavaScript kulazimisha download.
-    // Kwa sababu `download.mjs` ina headers za `Content-Disposition: attachment`, 
-    // browser ita-download faili bila kufungua tab mpya na haitasababisha kosa la CORS.
-    const link = document.createElement("a");
-    link.href = url;
-    link.style.display = "none";
-    
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
+    // Hii inaiambia browser iende kwenye link ya backend ambayo italeta wimbo kama attachment
+    window.location.href = url;
 
-    // Ondoa loading state baada ya sekunde kadhaa kuruhusu download ianze
     setTimeout(() => {
         downloading.delete(id);
         updateDownloadButtons();
     }, 3000);
-
 }
 
 function downloadSelectedSong(){
