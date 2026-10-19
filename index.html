@@ -2708,81 +2708,75 @@ updatePlayerButtons();
 
 function downloadSong(id){
 
-const song=songs.find(
-s=>s.id===id
-);
+    const song = songs.find(
+        s => s.id === id
+    );
 
-if(!song)return;
+    if (!song) return;
 
-if(downloading.has(id))return;
+    if (downloading.has(id)) return;
 
-const taskId=String(song.taskId||"");
+    // Badala ya kutumia DOWNLOAD_URL (ambayo inaweza kuwa ina-redirect kwenye file lenyewe
+    // na kufanya browser ifungue wimbo badala ya ku-download), tutatumia 'fetch' moja kwa moja
+    // kwenye audioUrl ili kulazimisha kivinjari i-download kwa kutumia 'Blob'.
+    
+    const audioUrl = song.audioUrl;
+    
+    if (!audioUrl) {
+         showPopup(
+            "Download",
+            "Wimbo huu hauna URL ya kupakua."
+        );
+        return;
+    }
 
-if(!/^[a-zA-Z0-9_-]{8,150}$/.test(taskId)){
+    downloading.add(id);
+    updateDownloadButtons();
 
-showPopup(
-"Download",
-"Task ID ya wimbo haijapatikana."
-);
+    toast(tr("downloadStart"));
 
-return;
-}
-
-let index=Number(song.trackIndex);
-
-if(
-!Number.isInteger(index)||
-index<0
-){
-
-const prefix=taskId+"-";
-
-index=Number(
-String(song.id||"").startsWith(prefix)
-?String(song.id).slice(prefix.length)
-:-1
-);
-
-}
-
-if(
-!Number.isInteger(index)||
-index<0
-){
-
-showPopup(
-"Download",
-"Track index haijapatikana."
-);
-
-return;
-}
-
-const url=
-DOWNLOAD_URL+
-"?task_id="+encodeURIComponent(taskId)+
-"&index="+encodeURIComponent(index);
-
-downloading.add(id);
-updateDownloadButtons();
-
-toast(tr("downloadStart"));
-
-const link=document.createElement("a");
-
-link.href=url;
-link.download=safeFilename(song.title)+".mp3";
-link.style.display="none";
-
-document.body.appendChild(link);
-link.click();
-link.remove();
-
-setTimeout(()=>{
-downloading.delete(id);
-updateDownloadButtons();
-},2500);
-
+    // Fetch the audio file as a Blob
+    fetch(audioUrl)
+        .then(response => {
+            if (!response.ok) {
+                 throw new Error('Network response was not ok');
+            }
+            return response.blob();
+        })
+        .then(blob => {
+            // Tengeneza temporary URL kwa ajili ya hilo faili (blob)
+            const blobUrl = window.URL.createObjectURL(blob);
+            
+            // Tengeneza link element (<a>) kwa ajili ya kudownload
+            const link = document.createElement('a');
+            link.style.display = 'none';
+            link.href = blobUrl;
+            
+            // Set jina la faili (+.mp3)
+            link.download = safeFilename(song.title) + ".mp3";
+            
+            document.body.appendChild(link);
+            link.click();
+            
+            // Safisha memory baada ya kubonyeza
+            setTimeout(() => {
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(blobUrl);
+            }, 100);
+            
+            // Maliza download process kwenye UI
+            downloading.delete(id);
+            updateDownloadButtons();
+        })
+        .catch(error => {
+            console.error('Download failed:', error);
+            showPopup(
+                "Download Error",
+                "Imeshindwa kupakua wimbo moja kwa moja. Inawezekana kuna tatizo la CORS. Tafadhali jaribu tena baadaye."
+            );
+            downloading.delete(id);
+            updateDownloadButtons();
+        });
 }
 
 function downloadSelectedSong(){
@@ -3099,4 +3093,4 @@ initialize();
 </script>
 
 </body>
-   </html>
+</html>
